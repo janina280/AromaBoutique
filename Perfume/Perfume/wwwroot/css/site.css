@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-//cs global din asta merge pt toate
+
 *,
 *::after,
 *::before {
@@ -896,7 +896,7 @@ h2 {
 }
 
 h3 {
-    font-size: 30px;
+    font-size: 20px;
     line-height: 30px;
 }
 
@@ -1103,18 +1103,26 @@ h6 {
     }
 }
 
-.sticky-header.sticky .logo a img {
+.sticky-header.sticky .logo a {
     max-width: 118px;
 }
 
+.logo-color {
+    color: orangered !important;
+}
+
+    .logo-color h3 a:hover {
+        color: white !important;
+}
+
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-    .sticky-header.sticky .logo a img {
+    .sticky-header.sticky .logo a {
         max-width: 100%;
     }
 }
 
 @media only screen and (max-width: 767px) {
-    .sticky-header.sticky .logo a img {
+    .sticky-header.sticky .logo a {
         max-width: 100px;
     }
 }
@@ -1131,7 +1139,7 @@ h6 {
 }
 
 @media only screen and (max-width: 767px) {
-    .logo a img {
+    .logo a  {
         max-width: 110px;
     }
 }
