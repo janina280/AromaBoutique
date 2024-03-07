@@ -1,0 +1,4 @@
+﻿//css isolation din asta merge doar pt tag html
+.test {
+    background-color: red;
+}
