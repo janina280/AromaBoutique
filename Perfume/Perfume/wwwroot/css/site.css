@@ -1114,7 +1114,9 @@ h6 {
     .logo-color h3 a:hover {
         color: white !important;
 }
-
+.logo-color a:hover {
+    color: white !important;
+}
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     .sticky-header.sticky .logo a {
         max-width: 100%;
