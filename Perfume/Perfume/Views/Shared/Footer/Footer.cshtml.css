@@ -223,3 +223,202 @@
     .footer_payment ul li:last-child {
         margin-right: 0;
     }
+
+
+.newsletter_style2 {
+
+    padding: 0;
+}
+
+@media only screen and (max-width: 767px) {
+    .newsletter_style2 {
+        margin-bottom: 0;
+    }
+}
+
+.newsletter_style2 .subscribe_form form {
+    position: relative;
+    width: 100%;
+}
+
+    .newsletter_style2 .subscribe_form form input {
+        width: 100%;
+        padding: 0 60px 0 15px;
+        color: #ffffff;
+        opacity: 0.7;
+    }
+
+    .newsletter_style2 .subscribe_form form button {
+        position: relative;
+        right: 34px;
+        top: 0;
+        background: #f6692a;
+        padding: 0;
+        width: 48px;
+        text-align: center;
+        font-size: 16px;
+        color: #ffffff;
+    }
+
+        .newsletter_style2 .subscribe_form form button:hover {
+            background: #ffffff;
+        }
+
+.newsletter_style2 .newsletter_content {
+    text-align: center;
+    color: #ffffff;
+}
+
+    .newsletter_style2 .newsletter_content p {
+        color: #ffffff;
+        font-size: 14px;
+        line-height: 14px;
+        margin-top: 10px;
+        max-width: 100%;
+    }
+
+.subscribe_form {
+    margin-top: 32px;
+}
+
+@media only screen and (max-width: 767px) {
+    .subscribe_form {
+        margin-top: 24px;
+    }
+}
+
+.subscribe_form form input {
+    width: 448px;
+    border: 1px solid #c4c4c3;
+    background: none;
+    padding: 0 15px;
+    font-size: 13px;
+    height: 52px;
+    color: #ffffff;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .subscribe_form form input {
+        height: 40px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .subscribe_form form input {
+        width: 190px;
+        height: 40px;
+        font-size: 12px;
+    }
+}
+
+.subscribe_form form button {
+    padding: 0 20px;
+    background: #fff;
+    font-size: 13px;
+    font-weight: 100;
+    text-transform: uppercase;
+    line-height: 52px;
+    height: 52px;
+    border: 0;
+    display: block;
+    transition: 0.3s;
+    margin-left: 15px;
+}
+
+    .subscribe_form form button:hover {
+        color: #000000;
+        background: orangered;
+    }
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .subscribe_form form button {
+        line-height: 36px;
+        height: 40px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .subscribe_form form button {
+        line-height: 36px;
+        height: 40px;
+        font-size: 12px;
+        padding: 0 8px;
+        margin-left: 8px;
+        letter-spacing: 0;
+    }
+}
+.section_title {
+    text-align: center;
+    position: relative;
+}
+
+@media only screen and (max-width: 767px) {
+    .section_title {
+        margin-bottom: 25px;
+    }
+}
+
+.section_title::before {
+
+    content: "";
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+@media only screen and (max-width: 767px) {
+    .section_title::before {
+        width: 93%;
+        top: 10px;
+    }
+}
+
+.section_title h2 {
+    font-size: 24px;
+    line-height: 24px;
+    font-weight: 700;
+    display: inline-block;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    color: white;
+    position: relative;
+}
+.section_title p {
+    font-size: 24px;
+    line-height: 24px;
+    font-weight: 400;
+    display: inline-block;
+    margin-bottom: 0;
+    padding: 0 20px;
+    position: relative;
+}
+
+@media only screen and (max-width: 767px) {
+    .section_title h2 {
+        font-size: 20px;
+        line-height: 20px;
+    }
+}
+
+
+.section_title_style2::before {
+    bottom: 0;
+    top: auto;
+    left: 0;
+    right: auto;
+    z-index: 9;
+}
+
+.section_title_style2 h2 {
+    font-size: 20px;
+    line-height: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+    .section_title_style2 h2 {
+        font-size: 18px;
+        line-height: 18px;
+    }
+}
