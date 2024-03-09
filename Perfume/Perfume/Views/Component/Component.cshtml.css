@@ -1,0 +1,8 @@
+﻿span h2 a {
+    text-align-all: center;
+    color: black;
+}
+
+span h2 a:hover {
+    color: orangered;
+}
