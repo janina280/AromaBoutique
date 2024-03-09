@@ -1,0 +1,225 @@
+﻿.logo-color {
+    color: orangered !important;
+}
+
+    .logo-color h3 a:hover {
+        color: white !important;
+    }
+
+    .logo-color a:hover {
+        color: white !important;
+    }
+
+.footer_widgets {
+    background: #1c1d22;
+}
+
+.footer_top {
+    padding: 67px 0 68px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .footer_top {
+        padding: 70px 0 17px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .footer_top {
+        padding: 58px 0 5px;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .widgets_container {
+        margin-bottom: 52px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .widgets_container {
+        margin-bottom: 45px;
+    }
+}
+
+.footer_logo {
+    margin-bottom: 31px;
+}
+
+@media only screen and (max-width: 767px) {
+    .footer_logo a img {
+        max-width: 126px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .contact_us {
+        margin-bottom: 50px;
+    }
+}
+
+.contact_us > p {
+    font-size: 14px;
+    line-height: 20px;
+    color: #bdbdbd;
+    margin-bottom: 10px;
+}
+
+    .contact_us > p a:hover {
+        color: #f6692a;
+    }
+
+.footer_desc {
+    margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+    .footer_desc {
+        margin-bottom: 10px;
+    }
+}
+
+.footer_desc p {
+    font-size: 14px;
+    line-height: 20px;
+    color: #bdbdbd;
+}
+
+@media only screen and (max-width: 767px) {
+    .footer_desc p {
+        line-height: 25px;
+    }
+}
+
+.footer_menu ul li a {
+    display: block;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 32px;
+    color: #bdbdbd;
+}
+
+    .footer_menu ul li a:hover {
+        color: #f6692a;
+    }
+
+@media only screen and (max-width: 767px) {
+    .footer_menu ul li a {
+        line-height: 32px;
+    }
+}
+
+.widgets_container h3 {
+    font-size: 17px;
+    line-height: 26px;
+    margin-bottom: 28px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 2px;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .widgets_container h3 {
+        margin-bottom: 20px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .widgets_container h3 {
+        margin-bottom: 12px;
+        line-height: 22px;
+        font-size: 13px;
+    }
+}
+
+.footer_link {
+    padding: 20px 0;
+}
+
+    .footer_link ul li {
+        display: inline-block;
+        margin-right: 24px;
+        padding-right: 24px;
+        border-right: 1px solid #414141;
+    }
+
+        .footer_link ul li:last-child {
+            margin-right: 0;
+            padding-right: 0;
+            border-right: 0;
+        }
+
+@media only screen and (max-width: 767px) {
+    .footer_link ul li {
+        margin-right: 12px;
+        padding-right: 12px;
+        line-height: 24px;
+    }
+}
+
+.footer_link ul li a {
+    color: #ffffff;
+    font-size: 12px;
+    line-height: 20px;
+    text-transform: uppercase;
+}
+
+    .footer_link ul li a:hover {
+        color: #f6692a;
+    }
+
+@media only screen and (max-width: 767px) {
+    .footer_link ul li a {
+        letter-spacing: 0;
+    }
+}
+
+.copyright_area p {
+    text-transform: capitalize;
+    line-height: 25px;
+    font-size: 14px;
+    color: #bdbdbd;
+}
+
+@media only screen and (max-width: 767px) {
+    .copyright_area p {
+        letter-spacing: 0;
+    }
+}
+
+.copyright_area p a {
+    color: #ffffff;
+}
+
+    .copyright_area p a:hover {
+        text-decoration: underline;
+        color: #f6692a;
+    }
+
+.footer_bottom {
+    padding: 25px 0 25px;
+    background: #15161b;
+}
+
+@media only screen and (max-width: 767px) {
+    .footer_bottom {
+        padding: 20px 0 25px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .footer_payment {
+        text-align: center !important;
+    }
+}
+
+.footer_payment ul li {
+    display: inline-block;
+    margin-right: 13px;
+}
+
+    .footer_payment ul li:last-child {
+        margin-right: 0;
+    }
