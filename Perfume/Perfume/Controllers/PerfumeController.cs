@@ -7,6 +7,10 @@ public class PerfumeController : Controller
 {
     public IActionResult Perfume()
     {
+        return View();
+    }
+    public IActionResult Perfumes()
+    {
         var mockPerfumes = new List<PerfumeModel>()
         {
             new PerfumeModel()
