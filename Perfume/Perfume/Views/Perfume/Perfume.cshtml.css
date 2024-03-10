@@ -1,13 +1,1 @@
-﻿.button-custom-hover {
-    color: grey;
-    z-index: 2;
-    position: relative;
-}
-.button-custom-hover:hover {
-    color: orangered;
-}
-
-.action_links ul li {
-    display: inline;
-
-}
+﻿
