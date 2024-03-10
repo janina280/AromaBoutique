@@ -1,8 +1,23 @@
-﻿span h2 a {
+﻿span h5 a {
     text-align-all: center;
     color: black;
 }
 
-span h2 a:hover {
+span h5 a:hover {
     color: orangered;
+}
+
+a:hover {
+    color: orangered;
+}
+
+li a {
+    color: black;
+}
+
+button {
+    color: aliceblue;
+}
+button:hover {
+    background-color: orangered;
 }

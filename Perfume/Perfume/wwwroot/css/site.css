@@ -195,3 +195,16 @@ h6 {
 .search_widget form button:hover {
     color: #f6692a;
 }
+
+.ratings {
+    margin-right: 10px;
+}
+
+.ratings i {
+    color: #cecece;
+    font-size: 15px;
+}
+
+.rating-color {
+    color: #fbc634 !important;
+}
