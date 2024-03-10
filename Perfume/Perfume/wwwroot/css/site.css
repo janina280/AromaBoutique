@@ -8,6 +8,28 @@ html,
 body {
     height: 100%;
 }
+ .cart_button a {
+    text-transform: uppercase;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 500;
+    display: block;
+    text-align: center;
+    line-height: 20px;
+    margin-bottom: 0;
+    padding: 10px 0;
+    color: #000000;
+    border: 2px solid #000000;
+    text-decoration: none;
+}
+
+.cart_button a:hover {
+    color: orangered;
+    border-color: orangered
+   
+
+}
+
 
 body {
     line-height: 24px;
