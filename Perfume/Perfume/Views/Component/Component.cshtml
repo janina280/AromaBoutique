@@ -25,7 +25,7 @@
     <div class="card border-0 d-flex w-50">
         <div>
             <span class="d-flex flex-row gap-2">
-                <h5><a href="#">VERSACE </a></h5>
+                <h5><a asp-area="" asp-controller="Brands" asp-action="Brand">VERSACE </a></h5>
                 <p><em>Eros Pour Femme </em></p>
             </span>
             <span class="badge bg-dark">Livrare gratuită</span>
@@ -71,9 +71,35 @@
                     </a>
                 </div>
             </div>
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Scrie evaluare
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Rating general</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Inchide"></button>
+                        </div>
+                        <div class="modal-body">
+                            <span class="badge bg-dark">Pentru a putea verifica recenzia autentificați-vă mai întâi.</span>
+                           </div>
+                           
+                            
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Inchide</button>
+                            <button type="button" class="btn btn-dark">Trimite</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div>
 
+                @await Html.PartialAsync("Components/Review")
             </div>
         </div>
     </div>
 </div>
+
