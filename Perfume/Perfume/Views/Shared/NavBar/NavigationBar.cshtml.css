@@ -342,9 +342,14 @@
     .cart_img:hover {
         border-color: #f6692a !important;
     }
+    .cart_img img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+    }
 
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-    .cart_img {
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+        .cart_img {
         width: 70px;
     }
 }

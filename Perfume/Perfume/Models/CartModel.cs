@@ -13,5 +13,7 @@ public class CartModel
 
     public string Currency { get; set; }
 
-    
+    public string Quantity { get; set; } = "1";
+
+
 }

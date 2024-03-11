@@ -1,32 +1,101 @@
 ﻿@model CartModel
 
-<div class="card ">
+@{
+    var options = new List<SelectListItem>();
+    for (var index = 1; index <= 10; index++)
+    {
+        var option = new SelectListItem(index.ToString(), index.ToString());
+        options.Add(option);
+    }
+}
+<div class="card border-0">
     <div class="card-body">
-        <hr/>
-        <div class="d-flex flex-row align-items-center gap-5">
-            <a href="#" class="d-flex flex-row align-items-center gap-xxl-5">
-                <img src="@Url.Content(Model.ImageSource)" alt="Perfume Image"/>
+        <hr />
+        <div class="d-flex flex-row justify-content-between align-items-center">
+            <a asp-area="" asp-controller="Perfume" asp-action="Perfume" class="d-flex flex-row align-items-center">
+                <div class="container" style="height: 150px; width: 150px;">
+                    <img src="@Url.Content(Model.ImageSource)" alt="Perfume Image"> </img>
+                </div>
                 <div class="gap-5" style="color: black;">
                     <h4>@Model.BrandTitle @Model.PerfumeTitle</h4>
                     <h5>@Model.Category</h5>
                 </div>
             </a>
-            <div class="d-flex flex-row align-items-center p-5">
-            <h4><strong>@Model.Price</strong></h4>
-            <h4><strong>@Model.Currency</strong></h4>
-            <select class="select rounded-start gap-5">
-                @for (int i = 1; i <= 10; i++)
-                {
-                    <option value="@i">@i</option>
-                }
-            </select>
+            <div class="d-flex flex-row gap-2 align-items-center">
+                <span class="d-flex flex-row gap-2 p-2">
+                    <h4><strong>@Model.Price</strong></h4>
+                    <h4><strong>@Model.Currency</strong></h4>
+                </span>
+                <select asp-for="Quantity" asp-items="options"></select>
             </div>
-            <div class="d-flex flex-row align-items-center gap-5">
-                <strong>@(Model.Price * 2) </strong>
-                <strong>@Model.Currency</strong>
-                <div class="gap-5">
-                    <a href="#" style="color: black;">Șterge</a>
+            <div class="d-flex flex-row gap-5 align-items-center p-2">
+                <strong>@(Model.Price * int.Parse(Model.Quantity)) @Model.Currency</strong>
+                <a href="#" style="color: black;">Șterge</a>
+            </div>
+        </div>
+        <hr />
+        <div class="container ">
+            <div class="d-flex flex-row justify-content-between">
+                <div class="d-flex flex-row align-items-baseline gap-2">
+                    <input type="checkbox" id="demoCheckbox" name="checkbox" value="1">
+                    <div class="d-flex flex-column">
+                        <label for="demoCheckbox"><b>Împachetați cadou,</b> anumite produse sau toată comanda.</label>
+                        <p class="text-muted"> Ambalăm totul cu drag, în cutii cadou de lux.</p>
+                    </div>
                 </div>
+                <label> 26 RON</label>
+            </div>
+        </div>
+        <hr />
+        <div class="container ">
+            <div class="d-flex flex-row justify-content-between">
+                <div class="d-flex flex-row align-items-baseline gap-2">
+                    <input type="checkbox" id="demoCheckbox" name="checkbox" value="1">
+                    <div class="d-flex flex-column">
+                        <label for="demoCheckbox"><b>Ambalare ecologică</b></label>
+                        <p class="text-muted">Ajutați-ne să protejăm mediul înconjurător, alegând ambalaje din material reciclat, fără plastic.</p>
+                    </div>
+                </div>
+                <label> 5 RON</label>
+            </div>
+        </div>
+        <hr />
+        <div class="container ">
+            <div class="d-flex flex-row justify-content-between">
+                <div class="d-flex flex-row align-items-baseline gap-2">
+                    <input type="checkbox" id="demoCheckbox" name="checkbox" value="1">
+                    <div class="d-flex flex-column">
+                        <label for="demoCheckbox"><b>Asigurare colet</b></label>
+                        <p class="text-muted">În cazul deteriorării sau al pierderii coletului, nu așteptați rezolvarea situației în termenul legal.</p>
+                    </div>
+                </div>
+                <label> 4 RON</label>
+            </div>
+        </div>
+        <hr />
+        <div class="pl-5">
+            <b>Reducere transport 100 %</b>
+        </div>
+        <hr />
+        <div class="pl-5 d-inline-block">
+            <b>Voucher cadou sau codul de reducere</b>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Introdu codul de reducere" aria-label="Introdu codul de reducere" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">OK</button>
+            </div>
+        </div>
+        <div class="card border-0">
+            <div class="card-body border-color">
+                <div class="d-flex flex-row-reverse gap-2 align-items-baseline">
+                    <h3><b>450 RON</b> </h3>
+                    <h4> Pret total inclusiv TVA</h4>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="p-5 d-flex justify-content-between align-items-baseline">
+                <button type="button" class="btn btn-outline-dark">înapoi la cumpărături</button>
+                <button type="button" class="btn btn-secondary">Comandă</button>
             </div>
         </div>
     </div>

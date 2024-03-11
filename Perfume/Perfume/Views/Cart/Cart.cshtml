@@ -4,12 +4,12 @@
 {
     <p>Nu s-au găsit parfumuri!</p>
 }
-
+<div class="container">
+    <div class="title-cart">Coș de cumpărături</div>
+</div>
 <div class="row p-2 g-4">
     @foreach (var perfume in Model)
     {
-        <div class="col col-3">
-            @await Html.PartialAsync("Components/CartCard", perfume)
-        </div>
+        @await Html.PartialAsync("Components/CartCard", perfume)
     }
 </div>
