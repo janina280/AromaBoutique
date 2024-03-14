@@ -57,12 +57,12 @@
                         <option value="9">9</option>
                         <option value="10">10</option>
                     </select>
-                    <button type="button" class="btn btn-dark w-100 rounded-0 rounded-end" title="Adaugă în coș">
+                    <button type="button" class="btn btn-outline-dark w-100 rounded-0 rounded-end" title="Adaugă în coș">
                         Cumpără
                     </button>
                 </div>
                 <div class="d-grid">
-                    <button type="button" class="btn btn-light text-dark btn-outline-dark" title="Rezervă în magazin">
+                    <button type="button" class="btn btn-outline-dark w-100 rounded-0 rounded-end" title="Rezervă în magazin">
                         Ridicare imediată
                     </button>
                 </div>
@@ -72,7 +72,25 @@
                         <span>Adaugă în lista de dorințe</span>
                     </a>
                 </div>
+                <div class="container ">
+                    <div class="d-flex flex-row justify-content-between">
+                        <div class="d-flex flex-row align-items-baseline gap-2">
+                            <input type="checkbox" id="demoCheckbox" name="checkbox" value="1">
+                            <div class="d-flex flex-column">
+                                <label for="demoCheckbox"><b>Gravură personalizată</b></label>
+                                <a class="text-muted" href="#"> Doresc să aflu despre gravură mai multe.</a>
+                            </div>
+                        </div>
+                        <label> 20 RON</label>
+                    </div>
+                </div>
             </div>
+            <br/>
+            <div class="d-flex flex-row gap-3" style="font-size: 1rem;">
+                <i class="bi bi-truck"><b>  Cargus</b></i>
+                <div class="text-muted"> Începând de mâine.</div>
+            </div>
+            <br/>
             <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Scrie evaluare
             </button>

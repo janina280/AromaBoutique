@@ -104,14 +104,14 @@
                                         <div class="cart_gallery">
                                             <div class="cart_item">
                                                 <div class="cart_img">
-                                                    <a href="#">
-                                                        <img src="/images/small-product/mini1.png"
+                                                    <a asp-area="" asp-controller="Perfume" asp-action="Perfume">
+                                                        <img src="/images/new-product/N3.png"
                                                              alt="Parfum">
                                                     </a>
                                                 </div>
                                                 <div class="cart_info">
-                                                    <a href="#">Hugo Boss</a>
-                                                    <p><span>570 RON</span> X 1</p>
+                                                    <a href="#">Versace</a>
+                                                    <p><span>410 RON</span> X 1</p>
                                                 </div>
                                                 <div class="cart_remove">
                                                     <a href="#"><i class="fa fa-times"></i></a>
@@ -125,8 +125,8 @@
                                                     </a>
                                                 </div>
                                                 <div class="cart_info">
-                                                    <a href="#">Bvlgari</a>
-                                                    <p><span>530 RON</span> X 1</p>
+                                                    <a href="#">Bulgari</a>
+                                                    <p><span>749 RON</span> X 1</p>
                                                 </div>
                                                 <div class="cart_remove">
                                                     <a href="#"><i class="fa fa-times"></i></a>
@@ -137,12 +137,12 @@
                                             <div class="cart_table_border">
                                                 <div class="cart_total">
                                                     <span>Sub Total :</span>
-                                                    <span class="price">1 100 RON</span>
+                                                    <span class="price">1 359 RON</span>
                                                 </div>
 
                                                 <div class="cart_total mt-10">
                                                     <span>Total :</span>
-                                                    <span class="price">1 125 RON</span>
+                                                    <span class="price">1 384 RON</span>
                                                 </div>
 
                                             </div>
@@ -152,7 +152,7 @@
                                                 <a asp-area="" asp-controller="Cart" asp-action="Cart">Vezi coș</a>
                                             </div>
                                             <div class="cart_button">
-                                                <a href="#">Comandă</a>
+                                                <a onclick="alert('Comanda a fost înregistrată cu succes'), window.location.href='/'">Comandă</a>
                                             </div>
                                         </div>
                                     </div>
@@ -166,9 +166,9 @@
                                     <a href="#">
                                         <i class="fa fa-user"></i>
                                     </a>
-                                    <ul class="dropdown_links">
-                                        <li><a href="#">Conectare</a></li>
-                                        <li><a href="#">Inregistrare</a></li>
+                                    <ul class="dropdown_links cart_button">
+                                        <li><a asp-area="" asp-controller="Account" asp-action="Login">Conectare</a></li>
+                                        <li><a asp-area="" asp-controller="Account" asp-action="Register">Inregistrare</a></li>
                                     </ul>
                                 </li>
                             </ul>

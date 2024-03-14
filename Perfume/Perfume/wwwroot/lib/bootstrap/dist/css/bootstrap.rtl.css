@@ -859,12 +859,12 @@ progress {
   --bs-gutter-y: 1rem;
 }
 
-.g-4,
+.g-2,
 .gx-4 {
   --bs-gutter-x: 1.5rem;
 }
 
-.g-4,
+.g-2,
 .gy-4 {
   --bs-gutter-y: 1.5rem;
 }
