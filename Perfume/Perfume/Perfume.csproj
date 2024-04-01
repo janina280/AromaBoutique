@@ -1,17 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="wwwroot\images\banner\banner1.jpg" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="wwwroot\images\banner\banner1.jpg" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Constants\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Constants\" />
+	</ItemGroup>
+
+	<ItemGroup>
+
+		<PackageReference Include="AutoMapper" Version="13.0.1" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\DataBaseLayout\DataBaseLayout.csproj" />
+	</ItemGroup>
 
 </Project>

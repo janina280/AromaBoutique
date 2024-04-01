@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Perfume.Controllers
+namespace Perfume.Controllers;
+
+public class MapsController : Controller
 {
-    public class MapsController : Controller
+    public IActionResult Maps()
     {
-        public IActionResult Maps()
-        {
-            return View();
-        }
+        return View();
     }
 }

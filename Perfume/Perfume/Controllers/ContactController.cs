@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Perfume.Controllers
+namespace Perfume.Controllers;
+
+public class ContactController : Controller
 {
-    public class ContactController : Controller
+    public IActionResult Contact()
     {
-        public IActionResult Contact()
-        {
-            return View();
-        }
+        return View();
     }
 }

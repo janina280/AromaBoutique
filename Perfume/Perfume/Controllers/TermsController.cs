@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Perfume.Controllers
+namespace Perfume.Controllers;
+
+public class TermsController : Controller
 {
-    public class TermsController : Controller
+    public IActionResult Terms()
     {
-        public IActionResult Terms()
-        {
-            return View();
-        }
+        return View();
     }
 }

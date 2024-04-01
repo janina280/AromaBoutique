@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Perfume.Controllers
+namespace Perfume.Controllers;
+
+public class ComponentController : Controller
 {
-    public class ComponentController : Controller
-    {
-    }
 }
