@@ -12,12 +12,9 @@
 
 	<ItemGroup>
 		<Folder Include="Constants\" />
+		<Folder Include="Views\Shared\NavBar\" />
 	</ItemGroup>
 
-	<ItemGroup>
-
-		<PackageReference Include="AutoMapper" Version="13.0.1" />
-	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\DataBaseLayout\DataBaseLayout.csproj" />
 	</ItemGroup>

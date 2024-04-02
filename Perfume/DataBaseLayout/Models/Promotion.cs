@@ -5,7 +5,7 @@ namespace DataBaseLayout.Models;
 [PrimaryKey(nameof(Id))]
 public class Promotion
 {
-    public string Id { get; set; }
-    public string Image { get; set; }
+    public Guid Id { get; set; }
+    public string Image { get; set; } = default!;
     public string Description { get; set; }
 }

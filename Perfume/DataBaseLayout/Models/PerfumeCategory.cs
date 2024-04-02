@@ -6,5 +6,5 @@ namespace DataBaseLayout.Models;
 public class PerfumeCategory
 {
     public string Name { get; set; }
-    public ICollection<Perfume> Perfumes { get; } = new List<Perfume>();
+    public ICollection<Perfume> Perfumes { get; set; } = default!;
 }

@@ -1,10 +1,12 @@
-﻿<div class="main_header header-mobile-m">
+﻿@model NavigationBarBrandsModel
+
+<div class="main_header header-mobile-m">
     <div class="header_container sticky-header">
         <div class="container-fluid">
             <div class="row align-items-center">
                 <div class="col-lg-2">
                     <div class="logo">
-                        <div class ="logo-color">
+                        <div class="logo-color">
                             <h3><a href="/">Aroma Boutique</a></h3>
                         </div>
                     </div>
@@ -22,44 +24,40 @@
                                             <li>
                                                 <a href="#">Parfumuri pentru bărbați</a>
                                                 <ul>
-                                                    <li><a href="#">Versace</a></li>
-                                                    <li><a href="#">Hugo Boss</a></li>
-                                                    <li><a href="#">Jaguar</a></li>
-                                                    <li><a href="#">Armani</a></li>
-                                                    <li><a href="#">Paco Rabbane</a></li>
-                                                    <li><a href="#">Ralph Lauren</a></li>
+                                                    @foreach (var brand in Model.MenBrands)
+                                                    {
+                                                        <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li>
+                                                    }
                                                 </ul>
 
                                             </li>
                                             <li>
                                                 <a href="#">Parfumuri pentru femei</a>
                                                 <ul>
-                                                    <li><a href="#">Bvlgari</a></li>
-                                                    <li><a href="#">Coach</a></li>
-                                                    <li><a href="#">Kenzo</a></li>
-                                                    <li><a href="#">D&G</a></li>
-                                                    <li><a href="#">Jean Paul Gaultier</a></li>
+                                                    @foreach (var brand in Model.WomenBrands)
+                                                    {
+                                                        <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li>
+                                                    }
                                                 </ul>
 
                                             </li>
                                             <li>
                                                 <a href="#">Parfumuri Unisex</a>
                                                 <ul>
-                                                    <li><a href="#">Ajmal</a></li>
-                                                    <li><a href="#">Calvin Klein</a></li>
-                                                    <li><a href="#">The Body Shop</a></li>
-                                                    <li><a href="#">Lattafa</a></li>
+                                                    @foreach (var brand in Model.UnisexBrands)
+                                                    {
+                                                        <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li>
+                                                    }
                                                 </ul>
 
                                             </li>
                                             <li>
                                                 <a href="#">Branduri celebre</a>
                                                 <ul>
-                                                    <li><a href="#">DIOR</a></li>
-                                                    <li><a href="#">Hugo Boss</a></li>
-                                                    <li><a href="#">Armani</a></li>
-                                                    <li><a href="#">Rabanne</a></li>
-                                                    <li><a href="#">NOVELLISTA</a></li>
+                                                    @foreach (var brand in Model.BestSellsBrands)
+                                                    {
+                                                        <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li>
+                                                    }
                                                 </ul>
 
                                             </li>

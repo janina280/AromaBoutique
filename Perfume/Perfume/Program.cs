@@ -1,14 +1,12 @@
 using DataBaseLayout;
-using Perfume.Profiler;
+using Perfume;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddAutoMapper(typeof(Profiler));
-
-builder.Services.AddDataLayout(builder.Configuration);
+builder.Services.AddServices(builder.Configuration);
 
 var app = builder.Build();
 

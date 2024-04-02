@@ -6,7 +6,7 @@ namespace DataBaseLayout.Models;
 
 public class Feature
 {
-    public int Name { get; set; }
+    public string Name { get; set; }
     public string HTMLFlag { get; set; }
     public virtual ICollection<Role> Roles { get; set; }
 }
