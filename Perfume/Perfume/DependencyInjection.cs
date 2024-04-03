@@ -10,6 +10,7 @@ public static class DependencyInjection
         services.AddDataLayout(configuration);
 
         services.AddScoped<IBrandRepository, BrandRepository>();
+        services.AddScoped<IShoppingCartPerfumeRepository, ShoppingCartPerfumeRepository>();
         return services;
     }
 }

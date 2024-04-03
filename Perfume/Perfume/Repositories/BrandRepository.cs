@@ -1,4 +1,5 @@
 ﻿using DataBaseLayout;
+using DataBaseLayout.Models;
 using Microsoft.EntityFrameworkCore;
 using Perfume.Models;
 
@@ -13,10 +14,10 @@ public class BrandRepository : IBrandRepository
         _context = context;
     }
 
-    public async Task<List<BrandModel>> GetBrandsAsync()
+    public async Task<List<Brand>> GetBrandsAsync()
     {
         var brands = await _context.Brands.ToListAsync();
-        var brandsDto = brands.Select(b => new BrandModel() { Name = b.Name }).ToList();
-        return brandsDto;
+        //var brandsDto = brands.Select(b => new BrandModel() { Name = b.Name }).ToList();
+        return brands;
     }
 }

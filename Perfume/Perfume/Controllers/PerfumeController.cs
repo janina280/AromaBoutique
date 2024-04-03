@@ -1,13 +1,73 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataBaseLayout.Models;
+using Microsoft.AspNetCore.Mvc;
 using Perfume.Models;
+using Perfume.Repositories;
 
 namespace Perfume.Controllers;
 
 public class PerfumeController : Controller
 {
+    private readonly IShoppingCartPerfumeRepository _perfumeRepository;
+
+    public PerfumeController(IShoppingCartPerfumeRepository perfumeRepository)
+    {
+        _perfumeRepository = perfumeRepository;
+    }
+
     public IActionResult Perfume()
     {
         return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddToShoppingCartAsync(PerfumeModel model)
+    {
+        var entity = new ShoppingCartPerfume()
+        {
+            Id = Guid.NewGuid(),
+            Perfume = new DataBaseLayout.Models.Perfume()
+            {
+                Brand = new Brand()
+                {
+                    Name = Guid.NewGuid().ToString()
+                },
+                Name = "test",
+                Currency = "test",
+                PerfumeCategory = new PerfumeCategory()
+                {
+                    Name = Guid.NewGuid().ToString()
+                },
+                Deliveries = new List<Delivery>(){},
+                Id = Guid.NewGuid(),
+                Price = 4.0,
+                ProfileImage = "test",
+                Rating = 2.0,
+                Stock = 2,
+                RatingAppearance = 2.0,
+                RatingIntension = 2.0,
+                PerfumeImages = new List<PerfumeImage>(),
+                RatingPersistence = 2.0,
+            },
+            User = new User()
+            {
+                Email = "test",
+                FirstName = "test",
+                LastName = "test",
+                Id = Guid.NewGuid(),
+                Password = "test",
+                Role = new Role()
+                {
+                    Name = Guid.NewGuid().ToString(),Features = new List<Feature>(){ new Feature(){Name = Guid.NewGuid().ToString(), HTMLFlag = "test"}}
+                },
+                Reviews = new List<Review>(),
+                ReviewConversations = new List<ReviewConversation>(),
+                Wishes = new List<Wish>()
+            }
+        };
+
+        await _perfumeRepository.CreateShoppingCartPerfumeAsync(entity);
+
+        return RedirectToAction("Perfumes", "Perfume");
     }
     public IActionResult Perfumes()
     {

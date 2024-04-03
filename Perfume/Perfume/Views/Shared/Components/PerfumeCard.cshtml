@@ -12,9 +12,12 @@
             <div class="action_links d-flex justify-content-center">
                 <ul class="list-unstyled d-flex gap-4">
                     <li class="add_to_cart">
-                        <a class="button-custom-hover" href="#" title="Adaugă în coș">
-                            <i class="fa fa-shopping-cart fa-2x"></i>
-                        </a>
+                        @using (Html.BeginForm("AddToShoppingCart", "Perfume", FormMethod.Post))
+                        {
+                            <button class="button-custom-hover" type="submit" title="Adaugă în coș">
+                                <i class="fa fa-shopping-cart fa-2x"></i>
+                            </button>
+                        }
                     </li>
                     <li class="wishlist">
                         <a class="button-custom-hover" href="#" title="Adaugă în lista de dorințe">
@@ -31,6 +34,6 @@
                 <i class="fa fa-star"></i>
             </div>
         </div>
-        <a class="stretched-link" asp-area="" asp-controller="Perfume" asp-action="Perfume"></a>
+        @*<a class="stretched-link" asp-area="" asp-controller="Perfume" asp-action="Perfume"></a>*@
     </div>
 </div>

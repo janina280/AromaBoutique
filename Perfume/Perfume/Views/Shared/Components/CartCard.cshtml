@@ -29,8 +29,13 @@
                 <select asp-for="Quantity" asp-items="options"></select>
             </div>
             <div class="d-flex flex-row gap-5 align-items-center p-2">
-                <strong>@(Model.Price * int.Parse(Model.Quantity)) @Model.Currency</strong>
-                <a href="#" style="color: black;">Șterge</a>
+                <strong>@(Model.Price * Model.Quantity) @Model.Currency</strong>
+                @using (Html.BeginForm("DeleteCart", "Cart", Model, FormMethod.Post))
+                {
+                    <button style="color: black;" type="submit" title="Șterge">
+                         Șterge
+                    </button>
+                }
             </div>
         </div>
       </div>

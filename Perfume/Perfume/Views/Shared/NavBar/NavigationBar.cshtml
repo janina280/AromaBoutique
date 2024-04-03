@@ -1,4 +1,4 @@
-﻿@model NavigationBarBrandsModel
+﻿@* @model NavigationBarBrandsModel *@
 
 <div class="main_header header-mobile-m">
     <div class="header_container sticky-header">
@@ -24,40 +24,40 @@
                                             <li>
                                                 <a href="#">Parfumuri pentru bărbați</a>
                                                 <ul>
-                                                    @foreach (var brand in Model.MenBrands)
-                                                    {
-                                                        <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li>
-                                                    }
+                                                    @* @foreach (var brand in Model.MenBrands) *@
+                                                    @* { *@
+                                                    @*     <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li> *@
+                                                    @* } *@
                                                 </ul>
 
                                             </li>
                                             <li>
                                                 <a href="#">Parfumuri pentru femei</a>
                                                 <ul>
-                                                    @foreach (var brand in Model.WomenBrands)
-                                                    {
-                                                        <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li>
-                                                    }
+                                                    @* @foreach (var brand in Model.WomenBrands) *@
+                                                    @* { *@
+                                                    @*     <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li> *@
+                                                    @* } *@
                                                 </ul>
 
                                             </li>
                                             <li>
                                                 <a href="#">Parfumuri Unisex</a>
                                                 <ul>
-                                                    @foreach (var brand in Model.UnisexBrands)
+                                                    @*@foreach (var brand in Model.UnisexBrands)
                                                     {
                                                         <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li>
-                                                    }
+                                                    }*@
                                                 </ul>
 
                                             </li>
                                             <li>
                                                 <a href="#">Branduri celebre</a>
                                                 <ul>
-                                                    @foreach (var brand in Model.BestSellsBrands)
+                                                    @*@foreach (var brand in Model.BestSellsBrands)
                                                     {
                                                         <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li>
-                                                    }
+                                                    }*@
                                                 </ul>
 
                                             </li>

@@ -2,6 +2,8 @@ namespace Perfume.Models;
 
 public class PerfumeModel
 {
+    public Guid Id { get; set; }
+
     public string ImageSource { get; set; }
 
     public string BrandTitle { get; set; }

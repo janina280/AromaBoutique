@@ -19,4 +19,5 @@ public interface IContext
     DbSet<ShoppingCartPerfume> ShoppingCartPerfumes { get; set; }
     DbSet<User> Users { get; set; }
 
+    Task<int> SaveChangesAsync();
 }
