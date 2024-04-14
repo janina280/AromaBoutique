@@ -1,6 +1,7 @@
-﻿using DataBaseLayout.Models;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+
+namespace DataBaseLayout.Models;
 
 [PrimaryKey(nameof(Id))]
 public class Wish

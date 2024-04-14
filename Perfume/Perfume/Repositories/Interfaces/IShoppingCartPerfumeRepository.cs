@@ -1,9 +1,6 @@
-﻿using DataBaseLayout;
-using DataBaseLayout.Models;
-using Microsoft.EntityFrameworkCore;
-using Perfume.Models;
+﻿using DataBaseLayout.Models;
 
-namespace Perfume.Repositories;
+namespace Perfume.Repositories.Interfaces;
 
 public interface IShoppingCartPerfumeRepository
 {

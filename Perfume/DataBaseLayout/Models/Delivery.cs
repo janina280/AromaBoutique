@@ -1,5 +1,6 @@
-﻿using DataBaseLayout.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace DataBaseLayout.Models;
 
 [PrimaryKey(nameof(Name))]
 

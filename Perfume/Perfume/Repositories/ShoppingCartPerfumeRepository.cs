@@ -2,6 +2,7 @@
 using DataBaseLayout.Models;
 using Microsoft.EntityFrameworkCore;
 using Perfume.Models;
+using Perfume.Repositories.Interfaces;
 
 namespace Perfume.Repositories;
 

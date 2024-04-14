@@ -1,7 +1,7 @@
 ﻿using DataBaseLayout.Models;
 using Microsoft.AspNetCore.Mvc;
 using Perfume.Models;
-using Perfume.Repositories;
+using Perfume.Repositories.Interfaces;
 
 namespace Perfume.Controllers;
 
