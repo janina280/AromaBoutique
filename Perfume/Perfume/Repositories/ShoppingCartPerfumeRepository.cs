@@ -17,9 +17,21 @@ public class ShoppingCartPerfumeRepository : IShoppingCartPerfumeRepository
 
     public async Task<List<ShoppingCartPerfume>> GetShoppingCartPerfumesAsync()
     {
-        var shoppingCartPerfumes = await _context.ShoppingCartPerfumes.ToListAsync();
+        var shoppingCartPerfumes = await _context.ShoppingCartPerfumes
+            .Include(x=>x.User)
+            .Include(x=>x.Perfume)
+            .ToListAsync();
     
         return shoppingCartPerfumes;
+    }
+
+    public async Task<ShoppingCartPerfume> GetShoppingCartPerfumeAsync()
+    {
+        var shoppingCartPerfume = await _context.ShoppingCartPerfumes
+            .Include(x => x.User)
+            .Include(x => x.Perfume)
+            .SingleAsync();
+        return shoppingCartPerfume;
     }
 
     public async Task CreateShoppingCartPerfumeAsync(ShoppingCartPerfume model)

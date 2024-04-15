@@ -1,1 +1,6 @@
-﻿
+﻿.add-button {
+    position: sticky;
+    color: black;
+    bottom: 5rem;
+    right: 5rem;
+}

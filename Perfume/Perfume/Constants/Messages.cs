@@ -24,4 +24,16 @@ public static class Messages
 
     public const string AcceptTermsAndConditions = "Trebuie să fii de acord cu termenii și condițiile!";
 
+    public const string NamePerfumeIsMandatory = "Numele parfumului este obligatoriu!";
+
+    public const string BrandIsMandatory = "Bradul este obligatoriu!";
+
+    public const string DescriptionIsMandatory = "Descrierea este obligatorie!";
+
+    public const string PriceIsMandatory = "Pretul este obligatoriu!";
+
+    public const string CurrencyIsMandatory = "Moneda este obligatorie!";
+
+    public const string ImageIsMandatory = "Imaginea este obligatorie!";
+
 }

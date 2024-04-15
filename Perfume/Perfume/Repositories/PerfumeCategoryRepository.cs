@@ -15,8 +15,14 @@ public class PerfumeCategoryRepository: IPerfumeCategoryRepository
     }
     public async Task<List<PerfumeCategory>> GetPerfumeCategoriesAsync()
     {
-        var perfumeCategory = await _context.PerfumeCategories.ToListAsync();
+        var perfumeCategory = await _context.PerfumeCategories.Include(x=>x.Perfumes).ToListAsync();
 
+        return perfumeCategory;
+    }
+
+    public async Task<PerfumeCategory> GetPerfumeCategoryAsync(string name)
+    {
+        var perfumeCategory = await _context.PerfumeCategories.Include(x => x.Perfumes).SingleAsync();
         return perfumeCategory;
     }
 

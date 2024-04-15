@@ -15,8 +15,25 @@ public class UserRepository: IUserRepository
     }
     public async Task<List<User>> GetUsersAsync()
     {
-        var user = await _context.Users.ToListAsync();
+        var user = await _context.Users.Include(x=>x.Role)
+            .Include(x=>x.Reviews)
+            .Include(x=>x.ReviewConversations)
+            .Include(x=>x.ShoppingCartPerfumes)
+            .Include(x=>x.Wishes)
+            .ToListAsync();
 
+        return user;
+    }
+
+    public async Task<User> GetUserAsync(Guid id)
+    {
+        var user = await _context.Users
+            .Include(x => x.Role)
+            .Include(x => x.Reviews)
+            .Include(x => x.ReviewConversations)
+            .Include(x => x.ShoppingCartPerfumes)
+            .Include(x => x.Wishes)
+            .SingleAsync();
         return user;
     }
 

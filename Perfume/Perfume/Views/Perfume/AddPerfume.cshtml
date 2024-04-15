@@ -1,0 +1,127 @@
+﻿@model AddPerfumeModel
+@{
+    ViewData["Title"] = "AddPerfume";
+    ViewData["HasFooter"] = false;
+}
+
+<section class="custom-container-sm mx-auto px-2 pt-3">
+    <h2 class="text-center mt-3">Adauga un parfum</h2>
+    @using (Html.BeginForm("AddPerfume", "Perfume", FormMethod.Post))
+    {
+        <div class="d-flex flex-column gap-2">
+            @Html.ValidationSummary(true, "", new
+            {
+                @class="text-danger"
+            })
+            <div class="form-group">
+                @Html.LabelFor(model => model.PerfumeName)
+                @Html.EditorFor(model => model.PerfumeName, new
+                {
+                    htmlAttributes = new
+                    {
+                        placeholder = "Introduceți numele parfumului",
+                        @class = "form-control",
+                    }
+                })
+                @Html.ValidationMessageFor(model => model.PerfumeName, "", new
+                {
+                    @class = "text-danger"
+                })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Brand)
+                @Html.EditorFor(model => model.Brand, new
+                {
+                    htmlAttributes = new
+                    {
+                        placeholder = "Introduceți brandul parfumului",
+                        @class = "form-control",
+                    }
+                })
+                @Html.ValidationMessageFor(model => model.Brand, "", new
+                {
+                    @class = "text-danger"
+                })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description)
+                @Html.EditorFor(model => model.Description, new
+                {
+                    htmlAttributes = new
+                    {
+                        placeholder = "Introduceți descrierea parfumului",
+                        @class = "form-control",
+                    }
+                })
+                @Html.ValidationMessageFor(model => model.Description, "", new
+                {
+                    @class = "text-danger"
+                })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Currency)
+                @Html.EditorFor(model => model.Currency, new
+                    {
+                        htmlAttributes = new
+                        {
+                            placeholder = "Introduceti moneda",
+                            @class = "form-control",
+                        }
+                    })
+                @Html.ValidationMessageFor(model => model.Currency, "", new
+                    {
+                        @class = "text-danger"
+                    })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price)
+                @Html.EditorFor(model => model.Price, new
+                {
+                    htmlAttributes = new
+                    {
+                        placeholder = "Introduceți pretul parfumului",
+                        @class = "form-control",
+                    }
+                })
+                @Html.ValidationMessageFor(model => model.Price, "", new
+                {
+                    @class = "text-danger"
+                })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Image)
+                @Html.EditorFor(model => model.Image, new
+                {
+                    htmlAttributes = new
+                    {
+                        placeholder = "Introduceți imaginea",
+                        @class = "form-control",
+                    }
+                })
+                @Html.ValidationMessageFor(model => model.Image, "", new
+                {
+                    @class = "text-danger"
+                })
+            </div>
+            <div class="form-check">
+                @Html.EditorFor(model => model.AgreeWithTermsAndConditions, new
+                {
+                    htmlAttributes = new
+                    {
+                        type = "checkbox",
+                        @class = "form-check-input",
+                    }
+                })
+                <label class="form-check-label" for="@nameof(Model.AgreeWithTermsAndConditions)">Acceptați <a target="_blank" asp-area="" asp-controller="Terms" asp-action="Terms" class="text-danger">Termenii și condițiile</a></label>
+                <br/>
+                @Html.ValidationMessageFor(model => model.AgreeWithTermsAndConditions, "", new
+                {
+                    @class = "text-danger"
+                })
+            </div>
+
+            <button type="submit" class="btn btn-outline-dark text-black rounded-pill">Adauga in lista de parfumuri</button>
+        </div>
+    }
+</section>  

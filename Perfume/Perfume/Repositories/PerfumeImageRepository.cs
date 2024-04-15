@@ -15,8 +15,14 @@ public class PerfumeImageRepository: IPerfumeImageRepository
     }
     public async Task<List<PerfumeImage>> GetPerfumeImagesAsync()
     {
-        var perfumeImage = await _context.PerfumeImages.ToListAsync();
+        var perfumeImage = await _context.PerfumeImages.Include(x=>x.Perfume).ToListAsync();
 
+        return perfumeImage;
+    }
+
+    public async Task<PerfumeImage> GetPerfumeImageAsync(Guid id)
+    {
+        var perfumeImage = await _context.PerfumeImages.Include(x => x.Perfume).SingleAsync();
         return perfumeImage;
     }
 

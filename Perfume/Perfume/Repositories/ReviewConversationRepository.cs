@@ -16,8 +16,14 @@ public class ReviewConversationRepository: IReviewConversationRepository
     }
     public async Task<List<ReviewConversation>> GetReviewConversationsAsync()
     {
-        var reviewConversation = await _context.ReviewConversations.ToListAsync();
+        var reviewConversation = await _context.ReviewConversations.Include(x=>x.User).ToListAsync();
 
+        return reviewConversation;
+    }
+
+    public async Task<ReviewConversation> GetReviewConversationAsync(Guid id)
+    {
+        var reviewConversation = await _context.ReviewConversations.Include(x => x.User).SingleAsync();
         return reviewConversation;
     }
 

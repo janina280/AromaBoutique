@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Perfume", "Perfume\Perfume.csproj", "{FF203190-A907-4A1D-9A59-F158C02D821A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseLayout", "DataBaseLayout\DataBaseLayout.csproj", "{21E63AAD-0CCA-4E3F-BA85-5F80EAD54C4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseLayout", "DataBaseLayout\DataBaseLayout.csproj", "{21E63AAD-0CCA-4E3F-BA85-5F80EAD54C4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

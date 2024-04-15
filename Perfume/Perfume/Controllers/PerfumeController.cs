@@ -18,6 +18,14 @@ public class PerfumeController : Controller
     {
         return View();
     }
+    public IActionResult AddPerfume()
+    {
+        return View();
+    }
+    public IActionResult AddBrand()
+    {
+        return View();
+    }
 
     [HttpPost]
     public async Task<IActionResult> AddToShoppingCartAsync(PerfumeModel model)

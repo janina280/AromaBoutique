@@ -20,6 +20,12 @@ public class PromotionRepository: IPromotionRepository
         return promotion;
     }
 
+    public async Task<Promotion> GetPromotionAsync(Guid id)
+    {
+        var promotion = await _context.Promotions.SingleAsync();
+        return promotion;
+    }
+
     public async Task CreatePromotionAsync(Promotion model)
     {
         await _context.Promotions.AddAsync(model);

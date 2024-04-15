@@ -15,8 +15,22 @@ public class ReviewRepository: IReviewRepository
         }
         public async Task<List<Review>> GetReviewsAsync()
         {
-            var review = await _context.Reviews.ToListAsync();
+            var review = await _context.Reviews
+                .Include(x=>x.User)
+                .Include(x=>x.Perfume)
+                .Include(x=>x.ReviewConversations)
+                .ToListAsync();
 
+            return review;
+        }
+
+        public async Task<Review> GetReviewAsync(Guid id)
+        {
+            var review = await _context.Reviews
+                .Include(x => x.User)
+                .Include(x => x.Perfume)
+                .Include(x => x.ReviewConversations)
+                .SingleAsync();
             return review;
         }
 

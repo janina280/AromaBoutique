@@ -15,8 +15,14 @@ public class DeliveryRepository: IDeliveryRepository
     }
     public async Task<List<Delivery>> GetDeliveriesAsync()
     {
-        var delivery = await _context.Deliveries.ToListAsync();
+        var delivery = await _context.Deliveries.Include(x=>x.Perfumes).ToListAsync();
 
+        return delivery;
+    }
+
+    public async Task<Delivery> getDeliveryTaskAsync(string name)
+    {
+        var delivery = await _context.Deliveries.Include(x => x.Perfumes).SingleAsync();
         return delivery;
     }
 

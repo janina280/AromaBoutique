@@ -15,8 +15,20 @@ public class WishRepository: IWishRepository
     }
     public async Task<List<Wish>> GetWishListAsync()
     {
-        var wish = await _context.WishList.ToListAsync();
+        var wish = await _context.WishList
+            .Include(x=>x.Perfume)
+            .Include(x=>x.User)
+            .ToListAsync();
 
+        return wish;
+    }
+
+    public async Task<Wish> GetWishAsync(Guid id)
+    {
+        var wish = await _context.WishList
+            .Include(x => x.Perfume)
+            .Include(x => x.User)
+            .SingleAsync();
         return wish;
     }
 

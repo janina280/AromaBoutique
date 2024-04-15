@@ -31,9 +31,16 @@ public class BrandRepository : IBrandRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task<Brand> GetBrandAsync(string name)
+    {
+        var brand = await _context.Brands.Include(x => x.Perfumes).SingleAsync();
+        return brand;
+
+    }
+
     public async Task<List<Brand>> GetBrandsAsync()
     {
-        var brands = await _context.Brands.ToListAsync();
+        var brands = await _context.Brands.Include(x=>x.Perfumes).ToListAsync();
         //var brandsDto = brands.Select(b => new BrandModel() { Name = b.Name }).ToList();
         return brands;
     }

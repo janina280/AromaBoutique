@@ -5,7 +5,7 @@ using Perfume.Repositories.Interfaces;
 
 namespace Perfume.Repositories;
 
-public class FeatureRepository:IFeatureRepository
+public class FeatureRepository : IFeatureRepository
 {
     private readonly IContext _context;
 
@@ -15,8 +15,14 @@ public class FeatureRepository:IFeatureRepository
     }
     public async Task<List<Feature>> GetFeaturesAsync()
     {
-        var feature = await _context.Features.ToListAsync();
+        var feature = await _context.Features.Include(x=>x.Roles).ToListAsync();
 
+        return feature;
+    }
+
+    public async Task<Feature> GetFeatureAsync(string name)
+    {
+        var feature = await _context.Features.Include(x => x.Roles).SingleAsync();
         return feature;
     }
 

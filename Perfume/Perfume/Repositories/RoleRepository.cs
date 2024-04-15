@@ -15,8 +15,20 @@ public class RoleRepository : IRoleRepository
     }
     public async Task<List<Role>> GetRolesAsync()
     {
-        var role = await _context.Roles.ToListAsync();
+        var role = await _context.Roles
+            .Include(x=>x.Users)
+            .Include(x=>x.Features)
+            .ToListAsync();
 
+        return role;
+    }
+
+    public async Task<Role> GetRoleAsync(string name)
+    {
+        var role = await _context.Roles
+            .Include(x => x.Users)
+            .Include(x => x.Features)
+            .SingleAsync();
         return role;
     }
 

@@ -15,8 +15,29 @@ public class PerfumeRepository: IPerfumeRepository
     }
     public async Task<List<DataBaseLayout.Models.Perfume>> GetPerfumesAsync()
     {
-        var perfume = await _context.Perfumes.ToListAsync();
+        var perfume = await _context.Perfumes
+            .Include(x=>x.Brand)
+            .Include(x=>x.PerfumeCategory)
+            .Include(x=>x.Wishes)
+            .Include(x => x.Reviews)
+            .Include(x => x.ShoppingCartPerfumes)
+            .Include(x=>x.PerfumeImages)
+            .Include(x=>x.Deliveries)
+            .ToListAsync();
 
+        return perfume;
+    }
+
+    public async Task<DataBaseLayout.Models.Perfume> GetPerfumeAsync(Guid id)
+    {
+        var perfume= await _context.Perfumes.Include(x => x.Brand)
+            .Include(x => x.PerfumeCategory)
+            .Include(x => x.Wishes)
+            .Include(x => x.Reviews)
+            .Include(x => x.ShoppingCartPerfumes)
+            .Include(x => x.PerfumeImages)
+            .Include(x => x.Deliveries)
+            .SingleAsync();
         return perfume;
     }
 
