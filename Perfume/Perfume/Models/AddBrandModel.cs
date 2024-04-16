@@ -16,8 +16,5 @@ namespace Perfume.Models
         [Display(Name = Names.Image)]
         [Required(ErrorMessage = Messages.ImageIsMandatory)]
         public string Image { get; set; }
-
-        [Range(typeof(bool), Values.BooleanTrueValue, Values.BooleanTrueValue, ErrorMessage = Messages.AcceptTermsAndConditions)]
-        public bool AgreeWithTermsAndConditions { get; set; }
     }
 }

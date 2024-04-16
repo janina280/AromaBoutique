@@ -22,7 +22,7 @@ public class PerfumeImageRepository: IPerfumeImageRepository
 
     public async Task<PerfumeImage> GetPerfumeImageAsync(Guid id)
     {
-        var perfumeImage = await _context.PerfumeImages.Include(x => x.Perfume).SingleAsync();
+        var perfumeImage = await _context.PerfumeImages.Include(x => x.Perfume).SingleAsync(pi => pi.Id == id);
         return perfumeImage;
     }
 

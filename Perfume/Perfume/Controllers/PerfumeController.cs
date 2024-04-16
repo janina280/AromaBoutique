@@ -1,26 +1,62 @@
 ﻿using DataBaseLayout.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Perfume.Models;
 using Perfume.Repositories.Interfaces;
+using Perfume.Services.Interfaces;
 
 namespace Perfume.Controllers;
 
 public class PerfumeController : Controller
 {
-    private readonly IShoppingCartPerfumeRepository _perfumeRepository;
+    private readonly IShoppingCartPerfumeRepository _shoppingCartPerfumeRepository;
+    private readonly IPerfumeRepository _perfumeRepository;
+    private readonly IBrandRepository _brandRepository;
+    private readonly IPerfumeService _perfumeService;
+    private readonly IBrandService _brandService;
+    private readonly IPerfumeDetailsService _perfumeDetailsService;
+    private readonly IPerfumeCategoryRepository _perfumeCategoryRepository;
 
-    public PerfumeController(IShoppingCartPerfumeRepository perfumeRepository)
+    public PerfumeController(
+        IShoppingCartPerfumeRepository shoppingCartPerfumeRepository, 
+        IBrandRepository brandRepository, 
+        IPerfumeService perfumeService, 
+        IPerfumeDetailsService perfumeDetailsService, 
+        IPerfumeRepository perfumeRepository, IBrandService brandService, IPerfumeCategoryRepository perfumeCategoryRepository)
     {
+        _shoppingCartPerfumeRepository = shoppingCartPerfumeRepository;
+        _brandRepository = brandRepository;
+        _perfumeService = perfumeService;
+        _perfumeDetailsService = perfumeDetailsService;
         _perfumeRepository = perfumeRepository;
+        _brandService = brandService;
+        _perfumeCategoryRepository = perfumeCategoryRepository;
     }
 
-    public IActionResult Perfume()
+    [HttpGet]
+    public async Task<IActionResult> PerfumeAsync(string id)
     {
+        var perfume = await _perfumeDetailsService.GetPerfumeDetailsAsync(Guid.Parse(id));
+     
+        return View(perfume);
+    }
+    [HttpGet]
+    public async Task<IActionResult> AddPerfumeAsync()
+    {
+        await SetViewBagForBrandsAsync();
+        await SetViewBagForCategoriesAsync();
+
         return View();
     }
-    public IActionResult AddPerfume()
+    [HttpPost]
+    public async Task<IActionResult> AddPerfumeAsync(AddPerfumeModel model)
     {
-        return View();
+        await SetViewBagForBrandsAsync();
+        await SetViewBagForCategoriesAsync();
+
+
+        await _perfumeService.AddPerfumeAsync(model);
+        return RedirectToAction("Perfumes", "Perfume");
     }
     public IActionResult AddBrand()
     {
@@ -28,35 +64,22 @@ public class PerfumeController : Controller
     }
 
     [HttpPost]
+    public async Task<IActionResult> AddBrandAsync(AddBrandModel model)
+    {
+        await _brandService.AddBrandAsync(model);
+        return RedirectToAction("Perfumes", "Perfume");
+    }
+
+    [HttpPost]
     public async Task<IActionResult> AddToShoppingCartAsync(PerfumeModel model)
     {
+        var perfume = await _perfumeRepository.GetPerfumeAsync(model.Id);
+        //todo: getuser
         var entity = new ShoppingCartPerfume()
         {
             Id = Guid.NewGuid(),
-            Perfume = new DataBaseLayout.Models.Perfume()
-            {
-                Brand = new Brand()
-                {
-                    Name = Guid.NewGuid().ToString()
-                },
-                Name = "test",
-                Currency = "test",
-                PerfumeCategory = new PerfumeCategory()
-                {
-                    Name = Guid.NewGuid().ToString()
-                },
-                Deliveries = new List<Delivery>(){},
-                Id = Guid.NewGuid(),
-                Price = 4.0,
-                ProfileImage = "test",
-                Rating = 2.0,
-                Stock = 2,
-                RatingAppearance = 2.0,
-                RatingIntension = 2.0,
-                PerfumeImages = new List<PerfumeImage>(),
-                RatingPersistence = 2.0,
-            },
-            User = new User()
+            Perfume = perfume,
+            User =
             {
                 Email = "test",
                 FirstName = "test",
@@ -73,88 +96,33 @@ public class PerfumeController : Controller
             }
         };
 
-        await _perfumeRepository.CreateShoppingCartPerfumeAsync(entity);
+        await _shoppingCartPerfumeRepository.CreateShoppingCartPerfumeAsync(entity);
 
         return RedirectToAction("Perfumes", "Perfume");
     }
-    public IActionResult Perfumes()
+    public async Task<IActionResult> Perfumes()
     {
-        var mockPerfumes = new List<PerfumeModel>()
-        {
-            new PerfumeModel()
-            {
-                BrandTitle = "Versace",
-                Currency = "RON",
-                ImageSource = "~/images/new-product/N3.png",
-                PerfumeTitle = "Eros Pour Femme",
-                Price = 410,
-                Rating = 5
-            },
-            new PerfumeModel()
-            {
-                BrandTitle = "Ralph Lauren",
-                Currency = "RON",
-                ImageSource = "~/images/Deals/D2-2.png",
-                PerfumeTitle = "Polo Blue Parfum",
-                Price = 402,
-                Rating = 5
-            },
-            new PerfumeModel()
-            {
-                BrandTitle = "BULGARI",
-                Currency = "RON",
-                ImageSource = "~/images/Deals/D3-2.png",
-                PerfumeTitle = "Bvlgari Man In Black",
-                Price = 533,
-                Rating = 5
-            },
-            new PerfumeModel()
-            {
-                BrandTitle = "Hugo Boss",
-                Currency = "RON",
-                ImageSource = "~/images/Deals/D1-2.png",
-                PerfumeTitle = "BOSS Bottled Infinite",
-                Price = 476,
-                Rating = 4
-            },
-            new PerfumeModel()
-            {
-                BrandTitle = "Rabanne",
-                Currency = "RON",
-                ImageSource = "~/images/Deals/D4-2.png",
-                PerfumeTitle = "Lady Million",
-                Price = 524,
-                Rating = 5
-            },
-            new PerfumeModel()
-            {
-                BrandTitle = "Narciso Rodriguez",
-                Currency = "RON",
-                ImageSource = "~/images/Deals/D6-1.png",
-                PerfumeTitle = "for him Bleu Noir",
-                Price = 385,
-                Rating = 5
-            },
-            new PerfumeModel()
-            {
-                BrandTitle = "Nina Ricci",
-                Currency = "RON",
-                ImageSource = "~/images/Deals/D7-2.png",
-                PerfumeTitle = "L'Extase",
-                Price = 395,
-                Rating = 5
-            },
-            new PerfumeModel()
-            {
-                BrandTitle = "Chopard",
-                Currency = "RON",
-                ImageSource = "~/images/Deals/D9-2.png",
-                PerfumeTitle = "Wish",
-                Price = 110,
-                Rating = 5
-            }
-        };
+        var perfumes =await _perfumeService.GetPerfumesAsync();
 
-        return View(mockPerfumes);
+        return View(perfumes);
+    }
+
+    private async Task SetViewBagForBrandsAsync()
+    {
+        var brands = await _brandRepository.GetBrandsAsync();
+        ViewBag.Brands = brands.Select(h => new SelectListItem()
+        {
+            Text = h.Name,
+            Value = h.Name,
+        });
+    }
+    private async Task SetViewBagForCategoriesAsync()
+    {
+        var categories = await _perfumeCategoryRepository.GetPerfumeCategoriesAsync();
+        ViewBag.Categories = categories.Select(h => new SelectListItem()
+        {
+            Text = h.Name,
+            Value = h.Name,
+        });
     }
 }

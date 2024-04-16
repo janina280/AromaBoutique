@@ -1,5 +1,4 @@
-﻿using DataBaseLayout.Models;
-using DataBaseLayout;
+﻿using DataBaseLayout;
 using Microsoft.EntityFrameworkCore;
 using Perfume.Repositories.Interfaces;
 
@@ -37,7 +36,7 @@ public class PerfumeRepository: IPerfumeRepository
             .Include(x => x.ShoppingCartPerfumes)
             .Include(x => x.PerfumeImages)
             .Include(x => x.Deliveries)
-            .SingleAsync();
+            .SingleAsync(p => p.Id == id);
         return perfume;
     }
 

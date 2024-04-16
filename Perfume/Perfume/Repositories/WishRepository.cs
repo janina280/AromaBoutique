@@ -28,7 +28,7 @@ public class WishRepository: IWishRepository
         var wish = await _context.WishList
             .Include(x => x.Perfume)
             .Include(x => x.User)
-            .SingleAsync();
+            .SingleAsync(w => w.Id == id);
         return wish;
     }
 

@@ -8,6 +8,8 @@ public static class Messages
 
     public const string PasswordIsMandatory = "Parola este obligatorie!";
 
+    public const string StockIsMandatory = "Stocul este obligatoriu!";
+
     public const string PasswordAndPasswordConfirmationDismatch = "Parolele nu se potrivesc. Mai încearcă!";
 
     public const string PasswordConfirmationIsMandatory = "Confirmarea parolei este obligatorie!";
@@ -35,5 +37,7 @@ public static class Messages
     public const string CurrencyIsMandatory = "Moneda este obligatorie!";
 
     public const string ImageIsMandatory = "Imaginea este obligatorie!";
+
+    public const string CategoryIsMandatory = "Categoria este obligatorie!";
 
 }

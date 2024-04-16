@@ -6,6 +6,8 @@ public static class Names
 
     public const string Password = "Parolă";
 
+    public const string Stock = "Stoc";
+
     public const string FirstName = "Prenume";
 
     public const string LastName = "Nume";
@@ -25,4 +27,6 @@ public static class Names
     public const string Description ="Descriere";
 
     public const string Image = "Imagine";
+
+    public const string Category = "Categorie";
 }

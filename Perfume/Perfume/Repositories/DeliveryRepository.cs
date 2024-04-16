@@ -22,7 +22,7 @@ public class DeliveryRepository: IDeliveryRepository
 
     public async Task<Delivery> getDeliveryTaskAsync(string name)
     {
-        var delivery = await _context.Deliveries.Include(x => x.Perfumes).SingleAsync();
+        var delivery = await _context.Deliveries.Include(x => x.Perfumes).SingleAsync(d => d.Name == name);
         return delivery;
     }
 

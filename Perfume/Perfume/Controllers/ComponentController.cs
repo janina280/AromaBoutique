@@ -2,6 +2,4 @@
 
 namespace Perfume.Controllers;
 
-public class ComponentController : Controller
-{
-}
+public class ComponentController : Controller;

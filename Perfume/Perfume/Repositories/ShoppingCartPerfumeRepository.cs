@@ -1,7 +1,6 @@
 ﻿using DataBaseLayout;
 using DataBaseLayout.Models;
 using Microsoft.EntityFrameworkCore;
-using Perfume.Models;
 using Perfume.Repositories.Interfaces;
 
 namespace Perfume.Repositories;
@@ -25,12 +24,12 @@ public class ShoppingCartPerfumeRepository : IShoppingCartPerfumeRepository
         return shoppingCartPerfumes;
     }
 
-    public async Task<ShoppingCartPerfume> GetShoppingCartPerfumeAsync()
+    public async Task<ShoppingCartPerfume> GetShoppingCartPerfumeAsync(Guid id)
     {
         var shoppingCartPerfume = await _context.ShoppingCartPerfumes
             .Include(x => x.User)
             .Include(x => x.Perfume)
-            .SingleAsync();
+            .SingleAsync(scp => scp.Id == id);
         return shoppingCartPerfume;
     }
 

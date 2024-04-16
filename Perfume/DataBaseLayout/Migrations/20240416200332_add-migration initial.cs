@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataBaseLayout.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class addmigrationinitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -91,7 +91,7 @@ namespace DataBaseLayout.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rating = table.Column<double>(type: "float", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RatingAppearance = table.Column<double>(type: "float", nullable: false),
                     RatingIntension = table.Column<double>(type: "float", nullable: false),

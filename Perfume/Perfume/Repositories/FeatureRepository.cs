@@ -22,7 +22,7 @@ public class FeatureRepository : IFeatureRepository
 
     public async Task<Feature> GetFeatureAsync(string name)
     {
-        var feature = await _context.Features.Include(x => x.Roles).SingleAsync();
+        var feature = await _context.Features.Include(x => x.Roles).SingleAsync(f => f.Name == name);
         return feature;
     }
 

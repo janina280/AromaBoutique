@@ -1,7 +1,6 @@
 ﻿using DataBaseLayout;
 using DataBaseLayout.Models;
 using Microsoft.EntityFrameworkCore;
-using Perfume.Models;
 using Perfume.Repositories.Interfaces;
 
 namespace Perfume.Repositories;
@@ -33,7 +32,7 @@ public class BrandRepository : IBrandRepository
 
     public async Task<Brand> GetBrandAsync(string name)
     {
-        var brand = await _context.Brands.Include(x => x.Perfumes).SingleAsync();
+        var brand = await _context.Brands.Include(x => x.Perfumes).SingleAsync(b => b.Name == name);
         return brand;
 
     }
@@ -41,7 +40,6 @@ public class BrandRepository : IBrandRepository
     public async Task<List<Brand>> GetBrandsAsync()
     {
         var brands = await _context.Brands.Include(x=>x.Perfumes).ToListAsync();
-        //var brandsDto = brands.Select(b => new BrandModel() { Name = b.Name }).ToList();
         return brands;
     }
 }

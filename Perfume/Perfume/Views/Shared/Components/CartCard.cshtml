@@ -12,7 +12,7 @@
     <div class="card-body">
         <hr />
         <div class="d-flex flex-row justify-content-between align-items-center">
-            <a asp-area="" asp-controller="Perfume" asp-action="Perfume" class="d-flex flex-row align-items-center">
+            <a asp-area="" asp-controller="Perfume" asp-action="Perfume" asp-route-id="@Model.Id.ToString()" class="d-flex flex-row align-items-center">
                 <div class="container" style="height: 150px; width: 150px;">
                     <img src="@Url.Content(Model.ImageSource)" alt="Perfume Image"> </img>
                 </div>

@@ -11,7 +11,7 @@ public class Perfume
     public string? Description { get; set; }
     public double Rating { get; set; } = 0;
     public int Stock { get; set; }
-    public double Price { get; set; }
+    public int Price { get; set; }
     public string Currency { get; set; }
     public double RatingAppearance { get; set; } = 0;
     public double RatingIntension { get; set; } = 0;

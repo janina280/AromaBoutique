@@ -28,7 +28,7 @@ public class RoleRepository : IRoleRepository
         var role = await _context.Roles
             .Include(x => x.Users)
             .Include(x => x.Features)
-            .SingleAsync();
+            .SingleAsync(r => r.Name == name);
         return role;
     }
 

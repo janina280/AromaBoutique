@@ -1,24 +1,12 @@
-﻿<div class="d-flex flex-row justify-content-between mt-4">
+﻿@model PerfumeDetailsModel
+
+<div class="d-flex flex-row justify-content-between mt-4">
     <div class="d-flex flex-column w-50">
-        <img src="~/images/new-product/N3.png" class="rounded mx-auto d-block" alt="img">
+        <img src="@Model.ImageSource" class="rounded mx-auto d-block" alt="img">
         <div>
-            <h5>Descriere Versace Eros Pour Femme</h5><br />
+            <h5>Descriere @Model.BrandTitle @Model.PerfumeTitle</h5><br />
             <p>
-                Ascultați povestea femeii frumoase și puternice, care l-a fermecat pe însuși zeul dragostei, Eros. Emoția acestei iubiri este ascunsă în apa de toaletă pentru femei Versace Eros Pour Femme, datorită căreia veți străluci la orice întâlnire romantică.
-                Parfumul Versace Eros răcorește arșița zilelor de vară. Acum, nimic nu mai stă în calea iubirilor estivale, pline de dorințe și de pasiuni arzătoare.
-                un parfum citric cu fructe pentru femeile care visează la o vară plină de pasiune perfect pentru primăvară și pentru zilele fierbinți de vară
-            </p>
-            <br />
-            <h5>Compoziția parfumului</h5>
-            <p>
-                Lămâia și mandarina, în combinație cu zmeura dulce și coacăzele albe, răcoresc arșița zilei. Inima este compusă din tonuri florale atrăgătoare: frezie, magnolie, iasomie și floare de portocal.
-                Atractivitatea dvs. este accentuată de aroma exotică de paciuli, cu tonuri lemnoase și o notă deosebită, de mosc
-            </p>
-            <br />
-            <h5> Povestea parfumului</h5>
-            <p>
-                Apa de toaletă Eros Pour Femme a fost lansată pe piață în anul 2016. Este inspirată de apa de parfum cu același nume. păstrând originalitatea acesteia și fiind la fel de ușor de recunoscut.
-                Și flaconul rămâne identic, cu excepția părții centrale, pe care designerii au lăsat-o transparentă
+                @Model.Description
             </p>
         </div>
     </div>
@@ -26,8 +14,8 @@
         <div>
             <a asp-area="" asp-controller="Brands" asp-action="Brand" class="text-decoration-none">
                 <span class="d-flex flex-row align-items-baseline gap-2 text-black">
-                    <h3>VERSACE</h3>
-                    <p><em>Eros Pour Femme </em></p>
+                    <h3>@Model.BrandTitle</h3>
+                    <p><em>@Model.PerfumeTitle</em></p>
                 </span>
             </a>
             <span class="badge bg-dark">Livrare gratuită</span>
@@ -40,7 +28,7 @@
             </div><br />
             <div class="d-flex justify-content-between">
                 <p>100 ml</p>
-                <h3><strong>410 RON</strong></h3>
+                <h3><strong>@Model.Price @Model.Currency</strong></h3>
             </div>
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center  pb-1 mb-2 border-bottom"></div>
             <div class="d-flex flex-column gap-2">

@@ -23,7 +23,7 @@ public class ReviewConversationRepository: IReviewConversationRepository
 
     public async Task<ReviewConversation> GetReviewConversationAsync(Guid id)
     {
-        var reviewConversation = await _context.ReviewConversations.Include(x => x.User).SingleAsync();
+        var reviewConversation = await _context.ReviewConversations.Include(x => x.User).SingleAsync(rc => rc.Id == id);
         return reviewConversation;
     }
 

@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataBaseLayout.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240403195355_test")]
-    partial class test
+    [Migration("20240416200332_add-migration initial")]
+    partial class addmigrationinitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -39,6 +39,16 @@ namespace DataBaseLayout.Migrations
                     b.HasKey("Name");
 
                     b.ToTable("Brands");
+                });
+
+            modelBuilder.Entity("DataBaseLayout.Models.Delivery", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Deliveries");
                 });
 
             modelBuilder.Entity("DataBaseLayout.Models.Feature", b =>
@@ -80,8 +90,8 @@ namespace DataBaseLayout.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
                     b.Property<string>("ProfileImage")
                         .IsRequired()
@@ -209,6 +219,16 @@ namespace DataBaseLayout.Migrations
                     b.ToTable("ReviewConversations");
                 });
 
+            modelBuilder.Entity("DataBaseLayout.Models.Role", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("DataBaseLayout.Models.ShoppingCartPerfume", b =>
                 {
                     b.Property<Guid>("Id")
@@ -230,57 +250,7 @@ namespace DataBaseLayout.Migrations
                     b.ToTable("ShoppingCartPerfumes");
                 });
 
-            modelBuilder.Entity("Delivery", b =>
-                {
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Name");
-
-                    b.ToTable("Deliveries");
-                });
-
-            modelBuilder.Entity("DeliveryPerfume", b =>
-                {
-                    b.Property<string>("DeliveriesName")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid>("PerfumesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("DeliveriesName", "PerfumesId");
-
-                    b.HasIndex("PerfumesId");
-
-                    b.ToTable("DeliveryPerfume");
-                });
-
-            modelBuilder.Entity("FeatureRole", b =>
-                {
-                    b.Property<string>("FeaturesName")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RolesName")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("FeaturesName", "RolesName");
-
-                    b.HasIndex("RolesName");
-
-                    b.ToTable("FeatureRole");
-                });
-
-            modelBuilder.Entity("Role", b =>
-                {
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Name");
-
-                    b.ToTable("Roles");
-                });
-
-            modelBuilder.Entity("User", b =>
+            modelBuilder.Entity("DataBaseLayout.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -316,7 +286,7 @@ namespace DataBaseLayout.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Wish", b =>
+            modelBuilder.Entity("DataBaseLayout.Models.Wish", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -335,6 +305,36 @@ namespace DataBaseLayout.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("WishList");
+                });
+
+            modelBuilder.Entity("DeliveryPerfume", b =>
+                {
+                    b.Property<string>("DeliveriesName")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("PerfumesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("DeliveriesName", "PerfumesId");
+
+                    b.HasIndex("PerfumesId");
+
+                    b.ToTable("DeliveryPerfume");
+                });
+
+            modelBuilder.Entity("FeatureRole", b =>
+                {
+                    b.Property<string>("FeaturesName")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RolesName")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("FeaturesName", "RolesName");
+
+                    b.HasIndex("RolesName");
+
+                    b.ToTable("FeatureRole");
                 });
 
             modelBuilder.Entity("DataBaseLayout.Models.Perfume", b =>
@@ -375,7 +375,7 @@ namespace DataBaseLayout.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("User", "User")
+                    b.HasOne("DataBaseLayout.Models.User", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -392,7 +392,7 @@ namespace DataBaseLayout.Migrations
                         .WithMany("ReviewConversations")
                         .HasForeignKey("ReviewId");
 
-                    b.HasOne("User", "User")
+                    b.HasOne("DataBaseLayout.Models.User", "User")
                         .WithMany("ReviewConversations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -409,8 +409,38 @@ namespace DataBaseLayout.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("User", "User")
+                    b.HasOne("DataBaseLayout.Models.User", "User")
                         .WithMany("ShoppingCartPerfumes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Perfume");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DataBaseLayout.Models.User", b =>
+                {
+                    b.HasOne("DataBaseLayout.Models.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("DataBaseLayout.Models.Wish", b =>
+                {
+                    b.HasOne("DataBaseLayout.Models.Perfume", "Perfume")
+                        .WithMany("Wishes")
+                        .HasForeignKey("PerfumeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataBaseLayout.Models.User", "User")
+                        .WithMany("Wishes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -422,7 +452,7 @@ namespace DataBaseLayout.Migrations
 
             modelBuilder.Entity("DeliveryPerfume", b =>
                 {
-                    b.HasOne("Delivery", null)
+                    b.HasOne("DataBaseLayout.Models.Delivery", null)
                         .WithMany()
                         .HasForeignKey("DeliveriesName")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -443,41 +473,11 @@ namespace DataBaseLayout.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Role", null)
+                    b.HasOne("DataBaseLayout.Models.Role", null)
                         .WithMany()
                         .HasForeignKey("RolesName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("User", b =>
-                {
-                    b.HasOne("Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleName")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("Wish", b =>
-                {
-                    b.HasOne("DataBaseLayout.Models.Perfume", "Perfume")
-                        .WithMany("Wishes")
-                        .HasForeignKey("PerfumeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("User", "User")
-                        .WithMany("Wishes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Perfume");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DataBaseLayout.Models.Brand", b =>
@@ -506,12 +506,12 @@ namespace DataBaseLayout.Migrations
                     b.Navigation("ReviewConversations");
                 });
 
-            modelBuilder.Entity("Role", b =>
+            modelBuilder.Entity("DataBaseLayout.Models.Role", b =>
                 {
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("User", b =>
+            modelBuilder.Entity("DataBaseLayout.Models.User", b =>
                 {
                     b.Navigation("ReviewConversations");
 

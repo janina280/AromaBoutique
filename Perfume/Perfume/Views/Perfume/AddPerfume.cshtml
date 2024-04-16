@@ -30,18 +30,40 @@
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.Brand)
-                @Html.EditorFor(model => model.Brand, new
+                @Html.DropDownListFor(model => model.Brand, new SelectList(ViewBag.Brands, "Value", "Text"), new
                 {
-                    htmlAttributes = new
-                    {
-                        placeholder = "Introduceți brandul parfumului",
-                        @class = "form-control",
-                    }
+                    @class = "form-control"
                 })
                 @Html.ValidationMessageFor(model => model.Brand, "", new
                 {
                     @class = "text-danger"
                 })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Category)
+                @Html.DropDownListFor(model => model.Category, new SelectList(ViewBag.Categories, "Value", "Text"), new
+                    {
+                        @class = "form-control"
+                    })
+                @Html.ValidationMessageFor(model => model.Category, "", new
+                    {
+                        @class = "text-danger"
+                    })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Stock)
+                @Html.EditorFor(model => model.Stock, new
+                    {
+                        htmlAttributes = new
+                        {
+                            placeholder = "Introduceți stocul parfumului",
+                            @class = "form-control",
+                        }
+                    })
+                @Html.ValidationMessageFor(model => model.Stock, "", new
+                    {
+                        @class = "text-danger"
+                    })
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.Description)
@@ -100,22 +122,6 @@
                     }
                 })
                 @Html.ValidationMessageFor(model => model.Image, "", new
-                {
-                    @class = "text-danger"
-                })
-            </div>
-            <div class="form-check">
-                @Html.EditorFor(model => model.AgreeWithTermsAndConditions, new
-                {
-                    htmlAttributes = new
-                    {
-                        type = "checkbox",
-                        @class = "form-check-input",
-                    }
-                })
-                <label class="form-check-label" for="@nameof(Model.AgreeWithTermsAndConditions)">Acceptați <a target="_blank" asp-area="" asp-controller="Terms" asp-action="Terms" class="text-danger">Termenii și condițiile</a></label>
-                <br/>
-                @Html.ValidationMessageFor(model => model.AgreeWithTermsAndConditions, "", new
                 {
                     @class = "text-danger"
                 })

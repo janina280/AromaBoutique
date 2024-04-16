@@ -22,7 +22,7 @@ public class PromotionRepository: IPromotionRepository
 
     public async Task<Promotion> GetPromotionAsync(Guid id)
     {
-        var promotion = await _context.Promotions.SingleAsync();
+        var promotion = await _context.Promotions.SingleAsync(p => p.Id == id);
         return promotion;
     }
 

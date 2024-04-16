@@ -30,7 +30,7 @@ public class ReviewRepository: IReviewRepository
                 .Include(x => x.User)
                 .Include(x => x.Perfume)
                 .Include(x => x.ReviewConversations)
-                .SingleAsync();
+                .SingleAsync(r => r.Id == id);
             return review;
         }
 

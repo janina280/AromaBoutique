@@ -1,6 +1,6 @@
 ﻿@model AddBrandModel
 @{
-    ViewData["Title"] = "AddPerfume";
+    ViewData["Title"] = "AddBrand";
     ViewData["HasFooter"] = false;
 }
 
@@ -54,22 +54,6 @@
                         }
                     })
                 @Html.ValidationMessageFor(model => model.Image, "", new
-                    {
-                        @class = "text-danger"
-                    })
-            </div>
-            <div class="form-check">
-                @Html.EditorFor(model => model.AgreeWithTermsAndConditions, new
-                    {
-                        htmlAttributes = new
-                        {
-                            type = "checkbox",
-                            @class = "form-check-input",
-                        }
-                    })
-                <label class="form-check-label" for="@nameof(Model.AgreeWithTermsAndConditions)">Acceptați <a target="_blank" asp-area="" asp-controller="Terms" asp-action="Terms" class="text-danger">Termenii și condițiile</a></label>
-                <br />
-                @Html.ValidationMessageFor(model => model.AgreeWithTermsAndConditions, "", new
                     {
                         @class = "text-danger"
                     })

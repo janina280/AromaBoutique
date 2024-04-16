@@ -33,7 +33,7 @@ public class UserRepository: IUserRepository
             .Include(x => x.ReviewConversations)
             .Include(x => x.ShoppingCartPerfumes)
             .Include(x => x.Wishes)
-            .SingleAsync();
+            .SingleAsync(u => u.Id == id);
         return user;
     }
 

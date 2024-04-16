@@ -8,9 +8,17 @@ namespace Perfume.Models
         [Required(ErrorMessage = Messages.NamePerfumeIsMandatory)]
         public string PerfumeName { get; set; }
 
+        [Display(Name = Names.Category)]
+        [Required(ErrorMessage = Messages.CategoryIsMandatory)]
+        public string Category { get; set; }
+
         [Display(Name = Names.Brand)]
         [Required(ErrorMessage = Messages.BrandIsMandatory)]
         public string Brand { get; set; }
+
+        [Display(Name = Names.Stock)]
+        [Required(ErrorMessage = Messages.StockIsMandatory)]
+        public int Stock { get; set; }
 
         [Display(Name = Names.Description)]
         [Required(ErrorMessage = Messages.DescriptionIsMandatory)]
@@ -22,13 +30,10 @@ namespace Perfume.Models
 
         [Display(Name = Names.Price)]
         [Required(ErrorMessage = Messages.PriceIsMandatory)]
-        public string Price { get; set; }
+        public int Price { get; set; }
 
         [Display(Name = Names.Image)]
         [Required(ErrorMessage = Messages.ImageIsMandatory)]
         public string Image { get; set; }
-
-        [Range(typeof(bool), Values.BooleanTrueValue, Values.BooleanTrueValue, ErrorMessage = Messages.AcceptTermsAndConditions)]
-        public bool AgreeWithTermsAndConditions { get; set; }
     }
 }
