@@ -27,7 +27,8 @@ namespace Perfume.Services
                 BrandTitle = p.Brand.Name,
                 PerfumeTitle = p.Name,
                 Rating = p.Rating,
-                ImageSource = p.ProfileImage
+                ImageSource = p.ProfileImage,
+                Id = p.Id
 
             }).ToList();
             return perfumesDto;
@@ -72,6 +73,11 @@ namespace Perfume.Services
                 
             };
             await _perfumeRepository.CreatePerfumeAsync(perfume);
+        }
+
+        public async Task DeletePerfumeAsync(Guid id)
+        {
+            await _perfumeRepository.DeletePerfumeAsync(id);
         }
     }
 }

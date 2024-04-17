@@ -1,13 +1,5 @@
-﻿@model CartModel
+﻿@model WishModel
 
-@{
-    var options = new List<SelectListItem>();
-    for (var index = 1; index <= 10; index++)
-    {
-        var option = new SelectListItem(index.ToString(), index.ToString());
-        options.Add(option);
-    }
-}
 <div class="card border-0">
     <div class="card-body">
         <hr />
@@ -21,16 +13,9 @@
                     <h5>@Model.Category</h5>
                 </div>
             </a>
-            <div class="d-flex flex-row gap-2 align-items-center">
-                <span class="d-flex flex-row gap-2 p-2">
-                    <h4><strong>@Model.Price</strong></h4>
-                    <h4><strong>@Model.Currency</strong></h4>
-                </span>
-                <select asp-for="@Model.Quantity" asp-items="options"></select>
-            </div>
             <div class="d-flex flex-row gap-5 align-items-center p-2">
-                <strong>@(Model.Price * Model.Quantity) @Model.Currency</strong>
-                @using (Html.BeginForm("DeleteCart", "Cart", Model, FormMethod.Post))
+                <strong>@(Model.Price) @Model.Currency</strong>
+                @using (Html.BeginForm("DeleteWish", "Wish", Model, FormMethod.Post))
                 {
                     <button style="color: black;" type="submit" title="Șterge">
                         Șterge

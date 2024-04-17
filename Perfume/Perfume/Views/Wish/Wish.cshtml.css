@@ -1,0 +1,15 @@
+﻿.title-cart {
+    font-size: 1.5rem;
+    color: #333;
+    font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
+    display: inline-block;
+    padding: 14px 21px;
+}
+
+.container {
+    text-align: center;
+}
+
+.border-color {
+    background-color: #f5f5f5
+}

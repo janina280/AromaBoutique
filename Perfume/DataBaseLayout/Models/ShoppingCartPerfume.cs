@@ -11,4 +11,6 @@ public class ShoppingCartPerfume
     public User User { get; set; }
     [Required]
     public Perfume Perfume { get; set; }
+
+    //todo: save perfume quantity
 }

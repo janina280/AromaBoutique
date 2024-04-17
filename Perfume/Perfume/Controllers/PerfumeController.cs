@@ -16,13 +16,17 @@ public class PerfumeController : Controller
     private readonly IBrandService _brandService;
     private readonly IPerfumeDetailsService _perfumeDetailsService;
     private readonly IPerfumeCategoryRepository _perfumeCategoryRepository;
+    private readonly IWishRepository _wishRepository;
 
     public PerfumeController(
         IShoppingCartPerfumeRepository shoppingCartPerfumeRepository, 
         IBrandRepository brandRepository, 
         IPerfumeService perfumeService, 
         IPerfumeDetailsService perfumeDetailsService, 
-        IPerfumeRepository perfumeRepository, IBrandService brandService, IPerfumeCategoryRepository perfumeCategoryRepository)
+        IPerfumeRepository perfumeRepository,
+        IBrandService brandService,
+        IPerfumeCategoryRepository perfumeCategoryRepository, 
+        IWishRepository wishRepository)
     {
         _shoppingCartPerfumeRepository = shoppingCartPerfumeRepository;
         _brandRepository = brandRepository;
@@ -31,6 +35,7 @@ public class PerfumeController : Controller
         _perfumeRepository = perfumeRepository;
         _brandService = brandService;
         _perfumeCategoryRepository = perfumeCategoryRepository;
+        _wishRepository = wishRepository;
     }
 
     [HttpGet]
@@ -58,6 +63,8 @@ public class PerfumeController : Controller
         await _perfumeService.AddPerfumeAsync(model);
         return RedirectToAction("Perfumes", "Perfume");
     }
+
+
     public IActionResult AddBrand()
     {
         return View();
@@ -67,6 +74,38 @@ public class PerfumeController : Controller
     public async Task<IActionResult> AddBrandAsync(AddBrandModel model)
     {
         await _brandService.AddBrandAsync(model);
+        return RedirectToAction("Perfumes", "Perfume");
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> AddToWishListAsync(PerfumeModel model)
+    {
+        var perfume = await _perfumeRepository.GetPerfumeAsync(model.Id);
+        //todo: getuser
+        var entity = new Wish()
+        {
+            Id = Guid.NewGuid(),
+            Perfume = perfume,
+            User =
+            new() {
+                Email = "test",
+                FirstName = "test",
+                LastName = "test",
+                Id = Guid.NewGuid(),
+                Password = "test",
+                Role = new Role()
+                {
+                    Name = Guid.NewGuid().ToString(),Features = new List<Feature>(){ new Feature(){Name = Guid.NewGuid().ToString(), HTMLFlag = "test"}}
+                },
+                Reviews = new List<Review>(),
+                ReviewConversations = new List<ReviewConversation>(),
+                Wishes = new List<Wish>()
+            }
+        };
+
+        await _wishRepository.CreateWishAsync(entity);
+
         return RedirectToAction("Perfumes", "Perfume");
     }
 
@@ -80,7 +119,7 @@ public class PerfumeController : Controller
             Id = Guid.NewGuid(),
             Perfume = perfume,
             User =
-            {
+            new (){
                 Email = "test",
                 FirstName = "test",
                 LastName = "test",
@@ -105,6 +144,14 @@ public class PerfumeController : Controller
         var perfumes =await _perfumeService.GetPerfumesAsync();
 
         return View(perfumes);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeletePerfumeAsync(PerfumeModel model)
+    {
+        await _perfumeRepository.DeletePerfumeAsync(model.Id);
+
+        return RedirectToAction("Perfumes", "Perfume");
     }
 
     private async Task SetViewBagForBrandsAsync()

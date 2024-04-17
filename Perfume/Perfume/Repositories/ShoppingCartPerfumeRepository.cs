@@ -19,6 +19,13 @@ public class ShoppingCartPerfumeRepository : IShoppingCartPerfumeRepository
         var shoppingCartPerfumes = await _context.ShoppingCartPerfumes
             .Include(x=>x.User)
             .Include(x=>x.Perfume)
+            .Include(x => x.Perfume.Brand)
+            .Include(x => x.Perfume.PerfumeCategory)
+            .Include(x => x.Perfume.Wishes)
+            .Include(x => x.Perfume.Reviews)
+            .Include(x => x.Perfume.ShoppingCartPerfumes)
+            .Include(x => x.Perfume.PerfumeImages)
+            .Include(x => x.Perfume.Deliveries)
             .ToListAsync();
     
         return shoppingCartPerfumes;
@@ -29,12 +36,26 @@ public class ShoppingCartPerfumeRepository : IShoppingCartPerfumeRepository
         var shoppingCartPerfume = await _context.ShoppingCartPerfumes
             .Include(x => x.User)
             .Include(x => x.Perfume)
+            .Include(x => x.Perfume.Brand)
+            .Include(x => x.Perfume.PerfumeCategory)
+            .Include(x => x.Perfume.Wishes)
+            .Include(x => x.Perfume.Reviews)
+            .Include(x => x.Perfume.ShoppingCartPerfumes)
+            .Include(x => x.Perfume.PerfumeImages)
+            .Include(x => x.Perfume.Deliveries)
             .SingleAsync(scp => scp.Id == id);
         return shoppingCartPerfume;
     }
 
     public async Task CreateShoppingCartPerfumeAsync(ShoppingCartPerfume model)
     {
+        var cart = await _context.ShoppingCartPerfumes.SingleOrDefaultAsync(w => w.Perfume.Id == model.Perfume.Id);
+        if (cart != null)
+        {
+            //todo: increase the quantity
+            //cart.Perfume.
+            return;
+        }
         await _context.ShoppingCartPerfumes.AddAsync(model);
 
         await _context.SaveChangesAsync();

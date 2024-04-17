@@ -9,5 +9,7 @@ namespace Perfume.Services.Interfaces
         Task<PerfumeModel> GetPerfumeAsync(Guid id);
 
         Task AddPerfumeAsync(AddPerfumeModel model);
+
+        Task DeletePerfumeAsync(Guid id);
     }
 }

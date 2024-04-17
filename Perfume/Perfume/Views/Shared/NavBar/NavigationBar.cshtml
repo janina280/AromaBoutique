@@ -46,7 +46,7 @@
                                                 <ul>
                                                     @*@foreach (var brand in Model.UnisexBrands)
                                                     {
-                                                        <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li>
+                                                    <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li>
                                                     }*@
                                                 </ul>
 
@@ -56,7 +56,7 @@
                                                 <ul>
                                                     @*@foreach (var brand in Model.BestSellsBrands)
                                                     {
-                                                        <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li>
+                                                    <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li>
                                                     }*@
                                                 </ul>
 
@@ -87,13 +87,15 @@
                                 </li>
                                 <li class="header_wishlist">
                                     <a href="#">
-                                        <i class="fa fa-heart-o"></i>
+                                        <a asp-area="" asp-controller="Wish" asp-action="Wish"><i class="fa fa-heart-o"></i></a>
                                         <span class="item_count">4</span>
                                     </a>
                                 </li>
                                 <li class="mini_cart_wrapper">
                                     <a href="javascript:void(0)">
-                                        <i class="fa fa-shopping-cart"></i>
+                                        <a asp-area="" asp-controller="Cart" asp-action="Cart">
+                                            <i class="fa fa-shopping-cart"></i>
+                                        </a>
                                         <span class="item_count">2</span>
                                     </a>
 

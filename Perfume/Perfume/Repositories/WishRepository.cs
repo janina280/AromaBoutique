@@ -18,6 +18,13 @@ public class WishRepository: IWishRepository
         var wish = await _context.WishList
             .Include(x=>x.Perfume)
             .Include(x=>x.User)
+            .Include(x => x.Perfume.Brand)
+            .Include(x => x.Perfume.PerfumeCategory)
+            .Include(x => x.Perfume.Wishes)
+            .Include(x => x.Perfume.Reviews)
+            .Include(x => x.Perfume.ShoppingCartPerfumes)
+            .Include(x => x.Perfume.PerfumeImages)
+            .Include(x => x.Perfume.Deliveries)
             .ToListAsync();
 
         return wish;
@@ -28,12 +35,24 @@ public class WishRepository: IWishRepository
         var wish = await _context.WishList
             .Include(x => x.Perfume)
             .Include(x => x.User)
+            .Include(x => x.Perfume.Brand)
+            .Include(x => x.Perfume.PerfumeCategory)
+            .Include(x => x.Perfume.Wishes)
+            .Include(x => x.Perfume.Reviews)
+            .Include(x => x.Perfume.ShoppingCartPerfumes)
+            .Include(x => x.Perfume.PerfumeImages)
+            .Include(x => x.Perfume.Deliveries)
             .SingleAsync(w => w.Id == id);
         return wish;
     }
 
     public async Task CreateWishAsync(Wish model)
     {
+        var wish = await _context.WishList.SingleOrDefaultAsync(w => w.Perfume.Id == model.Perfume.Id);
+        if (wish != null)
+        {
+            return;
+        }
         await _context.WishList.AddAsync(model);
 
         await _context.SaveChangesAsync();
