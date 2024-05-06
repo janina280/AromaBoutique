@@ -1,15 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataBaseLayout.Models;
+using Microsoft.AspNetCore.Mvc;
 using Perfume.Models;
+using Perfume.Repositories.Interfaces;
+using Perfume.Services.Interfaces;
 
 namespace Perfume.Controllers;
 
 public class AccountController : Controller
 {
     private readonly ILogger<AccountController> _logger;
+    private readonly IUserRepository _userRepository;
+    private readonly IImageConvertorService _imageConvertorService;
 
-    public AccountController(ILogger<AccountController> logger)
+    public AccountController(ILogger<AccountController> logger,
+        IUserRepository userRepository,
+        IImageConvertorService imageConvertorService
+    )
     {
         _logger = logger;
+        _imageConvertorService= imageConvertorService;
+        _userRepository= userRepository;
     }
 
     public IActionResult Login()
@@ -18,21 +28,20 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public IActionResult Login(LoginModel login)
+    public async Task <IActionResult> LoginAsync(LoginModel login)
     {
         if (!ModelState.IsValid)
         {
             return View(login);
         }
-
-        //get token
-        //save token
+        await _userRepository.SignInAsync(login.Email, login.Password);
 
         return RedirectToAction("Index", "Home");
     }
-    public IActionResult Logout()
+    public async Task<IActionResult> LogoutAsync()
     {
-        //todo: logout
+        await _userRepository.SignOutAsync();
+        
         return RedirectToAction("Login", "Account");
     }
 
@@ -42,14 +51,27 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public IActionResult Register(RegisterModel register)
+    public async Task< IActionResult> RegisterAsync(RegisterModel register)
     {
         if (!ModelState.IsValid)
         {
             return View(register);
         }
 
-        //save account
+        await _userRepository.CreateUserAsync(new User()
+        {
+            Id = Guid.NewGuid(),
+            ProfileImage = await _imageConvertorService.ConvertFileFormToByteArrayAsync(register.ProfileImage),
+            LastName = register.LastName,
+            Email = register.Email,
+            FileName = register.ProfileImage.FileName,
+            PhoneNumber = register.PhoneNumber,
+            TwoFactorEnabled = false,
+            EmailConfirmed = true,
+            PhoneNumberConfirmed = true,
+            ImageName = register.ProfileImage.Name,
+            FirstName = register.FirstName,
+        });
 
         return RedirectToAction("Login", "Account");
     }

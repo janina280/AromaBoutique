@@ -38,6 +38,5 @@ public class RegisterModel
     [Range(typeof(bool), Values.BooleanTrueValue, Values.BooleanTrueValue, ErrorMessage = Messages.AcceptTermsAndConditions)]
     public bool AgreeWithTermsAndConditions { get; set; }
 
-    //todo: add image
-   // public byte[] ProfileImage { get; set; }
+    public IFormFile ProfileImage { get; set; }
 }

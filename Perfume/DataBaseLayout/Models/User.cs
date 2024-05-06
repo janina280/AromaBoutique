@@ -1,26 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataBaseLayout.Models;
 
-[PrimaryKey(nameof(Id))]
-public class User
+public class User: IdentityUser<Guid>
 {
-    public Guid Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public string Email { get; set; }
-    public string Password { get; set; }
-    public string? Phone { get; set; }
-    [Required]
-    public Role Role { get; set; }
+    public byte[] ProfileImage { get; set; }
+    public string FileName { get; set; }
+    public string ImageName { get; set; }
 
     public ICollection<ReviewConversation> ReviewConversations { get; set; }
 
-    public ICollection<Review> Reviews { get; set; }
+    public ICollection<Review> Reviews { get; set; } = new List<Review>();
 
-    public ICollection<ShoppingCartPerfume> ShoppingCartPerfumes { get; set; }
+    public ICollection<ShoppingCartPerfume> ShoppingCartPerfumes { get; set; } = new List<ShoppingCartPerfume>();
 
-    public ICollection<Wish> Wishes { get; set; }
+    public ICollection<Wish> Wishes { get; set; } = new List<Wish>();
 
 }

@@ -1,14 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataBaseLayout.Models;
 
 [PrimaryKey(nameof(Name))]
 
-public class Role
+public class Role: IdentityRole<Guid>
 {
-    public string Name { get; set; }
-    public ICollection<User> Users { get; set; }
-    [Required]
-    public virtual ICollection<Feature> Features { get; set; }
+    
 }

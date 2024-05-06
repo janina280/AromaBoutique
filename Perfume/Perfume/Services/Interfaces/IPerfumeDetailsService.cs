@@ -1,9 +1,8 @@
 ﻿using Perfume.Models;
 
-namespace Perfume.Services.Interfaces
+namespace Perfume.Services.Interfaces;
+
+public interface IPerfumeDetailsService
 {
-    public interface IPerfumeDetailsService
-    {
-        Task<PerfumeDetailsModel> GetPerfumeDetailsAsync(Guid id);
-    }
+    Task<PerfumeDetailsModel> GetPerfumeDetailsAsync(Guid id);
 }

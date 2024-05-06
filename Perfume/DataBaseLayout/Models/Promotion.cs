@@ -6,6 +6,8 @@ namespace DataBaseLayout.Models;
 public class Promotion
 {
     public Guid Id { get; set; }
-    public string Image { get; set; } = default!;
+    public byte[] Image { get; set; } = default!;
+    public string ImageName { get; set; }
+    public string FileName { get; set; }
     public string Description { get; set; }
 }

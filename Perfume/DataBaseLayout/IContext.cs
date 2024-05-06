@@ -10,7 +10,6 @@ public interface IContext
     DbSet<PerfumeCategory> PerfumeCategories { get; set; }
     DbSet<Perfume> Perfumes { get; set; }
     DbSet<Delivery> Deliveries { get; set; }
-    DbSet<Feature> Features { get; set; }
     DbSet<PerfumeImage> PerfumeImages { get; set; }
     DbSet<Wish> WishList { get; set; }
     DbSet<Review> Reviews { get; set; }

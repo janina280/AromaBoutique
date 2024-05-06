@@ -1,7 +1,6 @@
-﻿namespace Perfume.Models
+﻿namespace Perfume.Models;
+
+public class PerfumeDetailsModel : PerfumeModel
 {
-    public class PerfumeDetailsModel : PerfumeModel
-    {
-        public string Description { get; set; }
-    }
+    public string Description { get; set; }
 }

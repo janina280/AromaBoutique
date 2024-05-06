@@ -1,3 +1,6 @@
+using DataBaseLayout;
+using DataBaseLayout.Models;
+using Microsoft.AspNetCore.Identity;
 using Perfume;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +9,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddServices(builder.Configuration);
+
+builder.Services.AddIdentity<User, Role>(options =>
+    {
+        options.Password.RequireDigit = true;
+
+        options.Password.RequireLowercase = true;
+
+        options.Password.RequireUppercase = true;
+
+        options.User.RequireUniqueEmail = true;
+
+        options.Password.RequiredLength = 8;
+
+    }).AddEntityFrameworkStores<Context>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 

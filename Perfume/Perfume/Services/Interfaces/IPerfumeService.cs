@@ -1,15 +1,14 @@
 ﻿using Perfume.Models;
 
-namespace Perfume.Services.Interfaces
+namespace Perfume.Services.Interfaces;
+
+public interface IPerfumeService
 {
-    public interface IPerfumeService
-    {
-        Task<List<PerfumeModel>> GetPerfumesAsync();
+    Task<List<PerfumeModel>> GetPerfumesAsync();
 
-        Task<PerfumeModel> GetPerfumeAsync(Guid id);
+    Task<PerfumeModel> GetPerfumeAsync(Guid id);
 
-        Task AddPerfumeAsync(AddPerfumeModel model);
+    Task AddPerfumeAsync(AddPerfumeModel model);
 
-        Task DeletePerfumeAsync(Guid id);
-    }
+    Task DeletePerfumeAsync(Guid id);
 }

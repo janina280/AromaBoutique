@@ -16,7 +16,9 @@ public class Perfume
     public double RatingAppearance { get; set; } = 0;
     public double RatingIntension { get; set; } = 0;
     public double RatingPersistence { get; set; } = 0;
-    public string ProfileImage { get; set; } = default!;
+    public byte[] ProfileImage { get; set; } = default!;
+    public string ImageName { get; set; }
+    public string FileName { get; set; }
 
     [Required]
     public Brand Brand { get; set; }
