@@ -45,6 +45,7 @@ public class PerfumeController : Controller
      
         return View(perfume);
     }
+
     [HttpGet]
     public async Task<IActionResult> AddPerfumeAsync()
     {
@@ -53,6 +54,7 @@ public class PerfumeController : Controller
 
         return View();
     }
+
     [HttpPost]
     public async Task<IActionResult> AddPerfumeAsync(AddPerfumeModel model)
     {
@@ -93,11 +95,6 @@ public class PerfumeController : Controller
                 FirstName = "test",
                 LastName = "test",
                 Id = Guid.NewGuid(),
-                Password = "test",
-                Role = new Role()
-                {
-                    Name = Guid.NewGuid().ToString(),Features = new List<Feature>(){ new Feature(){Name = Guid.NewGuid().ToString(), HTMLFlag = "test"}}
-                },
                 Reviews = new List<Review>(),
                 ReviewConversations = new List<ReviewConversation>(),
                 Wishes = new List<Wish>()
@@ -124,11 +121,6 @@ public class PerfumeController : Controller
                 FirstName = "test",
                 LastName = "test",
                 Id = Guid.NewGuid(),
-                Password = "test",
-                Role = new Role()
-                {
-                    Name = Guid.NewGuid().ToString(),Features = new List<Feature>(){ new Feature(){Name = Guid.NewGuid().ToString(), HTMLFlag = "test"}}
-                },
                 Reviews = new List<Review>(),
                 ReviewConversations = new List<ReviewConversation>(),
                 Wishes = new List<Wish>()

@@ -1,5 +1,13 @@
-﻿@* @model NavigationBarBrandsModel *@
+﻿@using Perfume.Repositories.Interfaces
+@inject IPerfumeRepository PerfumeRepository
+@inject IPerfumeCategoryRepository PerfumeCategoryRepository
 
+@{
+    var perfumes = await PerfumeRepository.GetPerfumesAsync();
+    var perfumeCategories = await PerfumeCategoryRepository.GetPerfumeCategoriesAsync();
+
+}
+@* @model NavigationBarBrandsModel *@
 <div class="main_header header-mobile-m">
     <div class="header_container sticky-header">
         <div class="container-fluid">
@@ -21,46 +29,19 @@
                                     <a href="/Perfume/Perfumes">Parfumuri <i class="fa fa-angle-down"></i></a>
                                     <div class="mega_menu">
                                         <ul class="mega_menu_inner">
-                                            <li>
-                                                <a href="#">Parfumuri pentru bărbați</a>
-                                                <ul>
-                                                    @* @foreach (var brand in Model.MenBrands) *@
-                                                    @* { *@
-                                                    @*     <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li> *@
-                                                    @* } *@
-                                                </ul>
-
-                                            </li>
-                                            <li>
-                                                <a href="#">Parfumuri pentru femei</a>
-                                                <ul>
-                                                    @* @foreach (var brand in Model.WomenBrands) *@
-                                                    @* { *@
-                                                    @*     <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li> *@
-                                                    @* } *@
-                                                </ul>
-
-                                            </li>
-                                            <li>
-                                                <a href="#">Parfumuri Unisex</a>
-                                                <ul>
-                                                    @*@foreach (var brand in Model.UnisexBrands)
-                                                    {
-                                                    <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li>
-                                                    }*@
-                                                </ul>
-
-                                            </li>
-                                            <li>
-                                                <a href="#">Branduri celebre</a>
-                                                <ul>
-                                                    @*@foreach (var brand in Model.BestSellsBrands)
-                                                    {
-                                                    <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li>
-                                                    }*@
-                                                </ul>
-
-                                            </li>
+                                            @foreach (var perfumeCategory in perfumeCategories)
+                                            {
+                                                var brands = perfumes.Where(p => p.PerfumeCategory.Name == perfumeCategory.Name).Select(p => p.Brand);
+                                                <li>
+                                                    <a href="#">Parfumuri pentru @perfumeCategory.Name</a>
+                                                    <ul>
+                                                        @foreach (var brand in brands)
+                                                        {
+                                                            <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes">@brand.Name</a></li>
+                                                        }
+                                                    </ul>
+                                                </li>
+                                            }
                                         </ul>
                                     </div>
                                 </li>
@@ -85,79 +66,82 @@
                                         </form>
                                     </div>
                                 </li>
-                                <li class="header_wishlist">
-                                    <a href="#">
-                                        <a asp-area="" asp-controller="Wish" asp-action="Wish"><i class="fa fa-heart-o"></i></a>
-                                        <span class="item_count">4</span>
-                                    </a>
-                                </li>
-                                <li class="mini_cart_wrapper">
-                                    <a href="javascript:void(0)">
-                                        <a asp-area="" asp-controller="Cart" asp-action="Cart">
-                                            <i class="fa fa-shopping-cart"></i>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li class="header_wishlist">
+                                        <a href="#">
+                                            <a asp-area="" asp-controller="Wish" asp-action="Wish"><i class="fa fa-heart-o"></i></a>
+                                            <span class="item_count">4</span>
                                         </a>
-                                        <span class="item_count">2</span>
-                                    </a>
-
-                                    <!-- mini cart  -->
-                                    <div class="mini_cart mini_cart2">
-                                        <div class="cart_gallery">
-                                            <div class="cart_item">
-                                                <div class="cart_img">
-                                                    <a asp-area="" asp-controller="Perfume" asp-action="Perfume">
-                                                        <img src="/images/new-product/N3.png"
-                                                             alt="Parfum">
-                                                    </a>
+                                    </li>
+                                    <li class="mini_cart_wrapper">
+                                        <a href="javascript:void(0)">
+                                            <a asp-area="" asp-controller="Cart" asp-action="Cart">
+                                                <i class="fa fa-shopping-cart"></i>
+                                            </a>
+                                            <span class="item_count">2</span>
+                                        </a>
+                                        <!-- mini cart  -->
+                                        <div class="mini_cart mini_cart2">
+                                            <div class="cart_gallery">
+                                                <div class="cart_item">
+                                                    <div class="cart_img">
+                                                        <a asp-area="" asp-controller="Perfume" asp-action="Perfume">
+                                                            <img src="/images/new-product/N3.png"
+                                                                 alt="Parfum">
+                                                        </a>
+                                                    </div>
+                                                    <div class="cart_info">
+                                                        <a href="#">Versace</a>
+                                                        <p><span>410 RON</span> X 1</p>
+                                                    </div>
+                                                    <div class="cart_remove">
+                                                        <a href="#"><i class="fa fa-times"></i></a>
+                                                    </div>
                                                 </div>
-                                                <div class="cart_info">
-                                                    <a href="#">Versace</a>
-                                                    <p><span>410 RON</span> X 1</p>
-                                                </div>
-                                                <div class="cart_remove">
-                                                    <a href="#"><i class="fa fa-times"></i></a>
+                                                <div class="cart_item">
+                                                    <div class="cart_img">
+                                                        <a href="#">
+                                                            <img src="/images/small-product/mini2.png"
+                                                                 alt="Parfum">
+                                                        </a>
+                                                    </div>
+                                                    <div class="cart_info">
+                                                        <a href="#">Bulgari</a>
+                                                        <p><span>749 RON</span> X 1</p>
+                                                    </div>
+                                                    <div class="cart_remove">
+                                                        <a href="#"><i class="fa fa-times"></i></a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="cart_item">
-                                                <div class="cart_img">
-                                                    <a href="#">
-                                                        <img src="/images/small-product/mini2.png"
-                                                             alt="Parfum">
-                                                    </a>
+                                            <div class="mini_cart_table">
+                                                <div class="cart_table_border">
+                                                    <div class="cart_total">
+                                                        <span>Sub Total :</span>
+                                                        <span class="price">1 359 RON</span>
+                                                    </div>
+
+                                                    <div class="cart_total mt-10">
+                                                        <span>Total :</span>
+                                                        <span class="price">1 384 RON</span>
+                                                    </div>
+
                                                 </div>
-                                                <div class="cart_info">
-                                                    <a href="#">Bulgari</a>
-                                                    <p><span>749 RON</span> X 1</p>
+                                            </div>
+                                            <div class="mini_cart_footer">
+                                                <div class="cart_button">
+                                                    <a asp-area="" asp-controller="Cart" asp-action="Cart">Vezi coș</a>
                                                 </div>
-                                                <div class="cart_remove">
-                                                    <a href="#"><i class="fa fa-times"></i></a>
+                                                <div class="cart_button">
+                                                    <a onclick="alert('Comanda a fost înregistrată cu succes'), window.location.href = '/'">Comandă</a>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mini_cart_table">
-                                            <div class="cart_table_border">
-                                                <div class="cart_total">
-                                                    <span>Sub Total :</span>
-                                                    <span class="price">1 359 RON</span>
-                                                </div>
+                                        <!-- mini cart ends -->
 
-                                                <div class="cart_total mt-10">
-                                                    <span>Total :</span>
-                                                    <span class="price">1 384 RON</span>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="mini_cart_footer">
-                                            <div class="cart_button">
-                                                <a asp-area="" asp-controller="Cart" asp-action="Cart">Vezi coș</a>
-                                            </div>
-                                            <div class="cart_button">
-                                                <a onclick="alert('Comanda a fost înregistrată cu succes'), window.location.href='/'">Comandă</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- mini cart ends -->
-                                </li>
+                                    </li>
+                                }
                             </ul>
                         </div>
                         <div class="header_account">
@@ -167,8 +151,16 @@
                                         <i class="fa fa-user"></i>
                                     </a>
                                     <ul class="dropdown_links cart_button">
-                                        <li><a asp-area="" asp-controller="Account" asp-action="Login">Conectare</a></li>
-                                        <li><a asp-area="" asp-controller="Account" asp-action="Register">Inregistrare</a></li>
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <li><a asp-area="" asp-controller="Account" asp-action="Details">Contul meu</a></li>
+                                        }
+                                        else
+                                        {
+
+                                            <li><a asp-area="" asp-controller="Account" asp-action="Login">Conectare</a></li>
+                                            <li><a asp-area="" asp-controller="Account" asp-action="Register">Inregistrare</a></li>
+                                        }
                                     </ul>
                                 </li>
                             </ul>

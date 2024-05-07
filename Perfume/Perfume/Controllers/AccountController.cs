@@ -1,8 +1,11 @@
 ﻿using DataBaseLayout.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Perfume.Models;
 using Perfume.Repositories.Interfaces;
 using Perfume.Services.Interfaces;
+using System.Data;
+using Perfume.Constants;
 
 namespace Perfume.Controllers;
 
@@ -11,15 +14,17 @@ public class AccountController : Controller
     private readonly ILogger<AccountController> _logger;
     private readonly IUserRepository _userRepository;
     private readonly IImageConvertorService _imageConvertorService;
+    private readonly IUserService _userService;
+    
 
     public AccountController(ILogger<AccountController> logger,
         IUserRepository userRepository,
-        IImageConvertorService imageConvertorService
-    )
+        IImageConvertorService imageConvertorService, IUserService userService)
     {
         _logger = logger;
-        _imageConvertorService= imageConvertorService;
-        _userRepository= userRepository;
+        _imageConvertorService = imageConvertorService;
+        _userService = userService;
+        _userRepository = userRepository;
     }
 
     public IActionResult Login()
@@ -28,20 +33,24 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public async Task <IActionResult> LoginAsync(LoginModel login)
+    public async Task<IActionResult> LoginAsync(LoginModel login)
     {
         if (!ModelState.IsValid)
         {
             return View(login);
         }
-        await _userRepository.SignInAsync(login.Email, login.Password);
-
-        return RedirectToAction("Index", "Home");
+        var result = await _userRepository.SignInAsync(login.Email, login.Password);
+        if (result)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        ModelState.AddModelError("", "The password or email are incorrect!");
+        return View(login);
     }
     public async Task<IActionResult> LogoutAsync()
     {
         await _userRepository.SignOutAsync();
-        
+
         return RedirectToAction("Login", "Account");
     }
 
@@ -51,62 +60,70 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public async Task< IActionResult> RegisterAsync(RegisterModel register)
+    public async Task<IActionResult> RegisterAsync(RegisterModel register)
     {
         if (!ModelState.IsValid)
         {
             return View(register);
         }
 
-        await _userRepository.CreateUserAsync(new User()
-        {
-            Id = Guid.NewGuid(),
-            ProfileImage = await _imageConvertorService.ConvertFileFormToByteArrayAsync(register.ProfileImage),
-            LastName = register.LastName,
-            Email = register.Email,
-            FileName = register.ProfileImage.FileName,
-            PhoneNumber = register.PhoneNumber,
-            TwoFactorEnabled = false,
-            EmailConfirmed = true,
-            PhoneNumberConfirmed = true,
-            ImageName = register.ProfileImage.Name,
-            FirstName = register.FirstName,
-        });
+        var result = await _userService.RegisterAsync(register);
 
-        return RedirectToAction("Login", "Account");
+        if (result.Succeeded)
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        foreach (var identityError in result.Errors)
+        {
+            ModelState.AddModelError(identityError.Code, identityError.Description);
+        }
+
+        return View(register);
     }
 
-    public IActionResult Details()
+    [HttpGet]
+    [Authorize(Roles = Roles.User)]
+    public async Task<IActionResult> DetailsAsync()
     {
-        //get user details
-
-        var user = new UpdateUserModel()
-        {
-            Email = "janina@yahoo.com",
-            PhoneNumber = "0765956330",
-            FirstName = "Janina",
-            LastName = "Cocei"
-        };
+        var user = await _userService.GetUserDetailAsync(User.Identity?.Name);
 
         return View(user);
     }
 
     [HttpPost]
-    public IActionResult Details(UpdateUserModel model)
+    [Authorize(Roles = Roles.User)]
+    public async Task<IActionResult> DetailsAsync(UpdateUserModel model)
     {
-        //HttpPostedFileBase file = Request.Files["ImageData"];
         if (!ModelState.IsValid)
         {
             return View(model);
         }
+        var result = await _userService.UpdateUserAsync(model);
 
-        //todo: save
+        foreach (var identityError in result.Errors)
+        {
+            ModelState.AddModelError(identityError.Code, identityError.Description);
+        }
+
         return View(model);
     }
 
-    public IActionResult DeleteAccount(UpdateUserModel model)
+    [HttpPost]
+    [Authorize(Roles = Roles.User)]
+    public async Task <IActionResult> DeleteAccountAsync()
     {
-        //todo: delete user
-        return RedirectToAction("Logout", "Account");
+        var result = await _userRepository.DeleteUserAsync(User.Identity.Name);
+        if (result.Succeeded)
+        {
+            return RedirectToAction("Logout", "Account");
+        }
+
+        foreach (var identityError in result.Errors)
+        {
+            ModelState.AddModelError(identityError.Code, identityError.Description);
+        }
+
+        return RedirectToAction("Details", "Account");
     }
 }

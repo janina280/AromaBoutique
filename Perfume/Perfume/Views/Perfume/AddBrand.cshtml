@@ -6,7 +6,7 @@
 
 <section class="custom-container-sm mx-auto px-2 pt-3">
     <h2 class="text-center mt-3">Adauga un brand</h2>
-    @using (Html.BeginForm("AddBrand", "Perfume", FormMethod.Post))
+    @using (Html.BeginForm("AddBrand", "Perfume", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <div class="d-flex flex-column gap-2">
             @Html.ValidationSummary(true, "", new

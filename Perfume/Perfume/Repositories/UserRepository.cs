@@ -6,7 +6,7 @@ using Perfume.Repositories.Interfaces;
 
 namespace Perfume.Repositories;
 
-public class UserRepository: IUserRepository
+public class UserRepository : IUserRepository
 {
     private readonly SignInManager<User> _signInManager;
     private readonly UserManager<User> _userManager;
@@ -15,18 +15,14 @@ public class UserRepository: IUserRepository
         SignInManager<User> signInManager,
             UserManager<User> userManager)
     {
-        _signInManager=signInManager;
-        _userManager=userManager;
+        _signInManager = signInManager;
+        _userManager = userManager;
     }
 
-    public async Task SignInAsync(User user)
+    public async Task<bool> SignInAsync(string userName, string password)
     {
-        await _signInManager.SignInAsync(user, false);
-    }
-
-    public async Task SignInAsync(string userName, string password)
-    {
-        await _signInManager.PasswordSignInAsync(userName, password, false, false);
+        var isLogged = await _signInManager.PasswordSignInAsync(userName, password, false, false);
+        return isLogged.Succeeded;
     }
 
     public async Task SignOutAsync()
@@ -37,23 +33,67 @@ public class UserRepository: IUserRepository
     public async Task<List<User>> GetUsersAsync()
     {
         var users = await _userManager.Users.ToListAsync();
+
         return users;
     }
 
     public async Task<User> GetUserAsync(Guid id)
     {
-        var users = await _userManager.Users.FirstAsync(s => s.Id == id);
-        return users;
+        var user = await _userManager.Users.FirstAsync(s => s.Id == id);
+
+        return user;
     }
 
-    public async Task CreateUserAsync(User model)
+    public async Task<User> GetUserAsync(string name)
     {
-        await _userManager.CreateAsync(model);
+        var user = await _userManager.Users.FirstAsync(u => u.UserName == name || u.Email == name);
+
+        return user;
     }
 
-    public async Task DeleteUserAsync(Guid id)
+    public async Task<IdentityResult> DeleteUserAsync(Guid id)
     {
         var user = await _userManager.Users.FirstAsync(s => s.Id == id);
-        await _userManager.DeleteAsync(user);
+
+        return await _userManager.DeleteAsync(user);
+    }
+
+    public async Task<IdentityResult> UpdateUserAsync(User user)
+    {
+        var result = await _userManager.UpdateAsync(user);
+
+        return result;
+    }
+
+    public async Task<IdentityResult> UpdateUserEmailAsync(User user, string newEmail, string token)
+    {
+        var result = await _userManager.ChangeEmailAsync(user, newEmail, token);
+        return result;
+    }
+
+    public async Task<IdentityResult> UpdateUserPasswordAsync(User user, string oldPassword, string newPassword)
+    {
+        var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        return result;
+    }
+
+    public async Task<IdentityResult> UpdateUserPhoneNumberAsync(User user, string newPhoneNumber, string token)
+    {
+        var result = await _userManager.ChangePhoneNumberAsync(user, newPhoneNumber, token);
+        return result;
+    }
+
+    public async Task<IdentityResult> DeleteUserAsync(string name)
+    {
+        var user = await _userManager.Users.FirstAsync(s => s.UserName == name || s.Email == name);
+
+        return await _userManager.DeleteAsync(user);
+    }
+
+    public async Task<IdentityResult> CreateUserAsync(User model, string password)
+    {
+        var result = await _userManager.CreateAsync(model, password);
+
+        return result;
     }
 }

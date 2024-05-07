@@ -4,7 +4,7 @@ namespace Perfume.Services.Interfaces;
 
 public interface IBrandService
 {
-    Task<List<AddBrandModel>> GetBrandsAsync();
+    Task<List<BrandModel>> GetBrandsAsync();
 
     Task AddBrandAsync(AddBrandModel model);
 }

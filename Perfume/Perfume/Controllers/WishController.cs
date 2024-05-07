@@ -1,15 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net.Security;
+using DataBaseLayout.Models;
+using Microsoft.AspNetCore.Mvc;
 using Perfume.Models;
 using Perfume.Repositories.Interfaces;
+using Perfume.Services.Interfaces;
 
 namespace Perfume.Controllers;
 
 public class WishController: Controller
 {
     private readonly IWishRepository _wishRepository;
-    public WishController(IWishRepository wishRepository)
+    private readonly IImageConvertorService _imageConvertorService;
+    public WishController(IWishRepository wishRepository, IImageConvertorService imageConvertorService)
     {
         _wishRepository = wishRepository;
+        _imageConvertorService = imageConvertorService;
     }
     [HttpPost]
     public async Task<IActionResult> DeleteWishAsync(CartModel model)
@@ -22,16 +27,27 @@ public class WishController: Controller
     public async Task<IActionResult> WishAsync()
     {
         var wishes = await _wishRepository.GetWishListAsync();
-        var wishesDto = wishes.Select(scp => new WishModel()
+        var wishesDto = new List<WishModel>();
+        foreach (var wish in wishes)
         {
-            BrandTitle = scp.Perfume?.Brand.Name,
-            Category = scp.Perfume?.PerfumeCategory.Name,
-            Currency = scp.Perfume?.Currency,
-            Price = scp.Perfume?.Price ?? 0,
-            PerfumeTitle = scp.Perfume?.Name,
-            ImageSource = scp.Perfume?.ProfileImage,
-            Id = scp.Id
-        }).ToList();
+            var img = await _imageConvertorService.ConvertByteArrayToFileFormAsync(new ImageDto()
+            {
+                FileName = wish.Perfume.FileName,
+                Image = wish.Perfume.ProfileImage,
+                ImageName = wish.Perfume.ImageName
+            });
+            wishesDto.Add(new WishModel()
+            {
+                BrandTitle = wish.Perfume?.Brand.Name,
+                Category = wish.Perfume?.PerfumeCategory.Name,
+                Currency = wish.Perfume?.Currency,
+                Price = wish.Perfume?.Price ?? 0,
+                PerfumeTitle = wish.Perfume?.Name,
+                Id = wish.Perfume.Id,
+                ImageSource = await _imageConvertorService.ConvertFormFileToImageAsync(img)
+            });
+        }
+        
 
         /*
         var mockCart = new List<CartModel>()

@@ -8,21 +8,35 @@ namespace Perfume.Services;
 public class BrandService: IBrandService
 {
     private readonly IBrandRepository _brandRepository;
+    private readonly IImageConvertorService _imageConvertorService;
 
-    public BrandService(IBrandRepository brandRepository)
+    public BrandService(IBrandRepository brandRepository, IImageConvertorService imageConvertorService)
     {
         _brandRepository = brandRepository;
+        _imageConvertorService = imageConvertorService;
     }
 
-    public async Task<List<AddBrandModel>> GetBrandsAsync()
+    public async Task<List<BrandModel>> GetBrandsAsync()
     {
         var brands = await _brandRepository.GetBrandsAsync();
-        var brandsDto=brands.Select(b=>new AddBrandModel()
+        var brandsDto = new List<BrandModel>();
+        foreach (var brand in brands)
         {
-            Brand = b.Name,
-            Description = b.Description,
-            Image = b.Image
-        }).ToList();
+            var img = await _imageConvertorService.ConvertByteArrayToFileFormAsync(new ImageDto()
+            {
+                FileName = brand.FileName,
+                Image = brand.Image,
+                ImageName = brand.ImageName
+            });
+            brandsDto.Add(new BrandModel()
+            {
+                Name = brand.Name,
+                Description = brand.Description,
+                Image = await _imageConvertorService.ConvertFormFileToImageAsync(img),
+            });
+        }
+            
+            
 
         return brandsDto;
     }
@@ -33,7 +47,9 @@ public class BrandService: IBrandService
         {
             Name = model.Brand,
             Description = model.Description,
-            Image = model.Image,
+            Image = await _imageConvertorService.ConvertFileFormToByteArrayAsync(model.Image),
+            FileName = model.Image.FileName,
+            ImageName = model.Image.Name
         };
         await _brandRepository.CreateBrandAsync(brand);
     }

@@ -1,4 +1,5 @@
-﻿using Perfume.Models;
+﻿using DataBaseLayout.Models;
+using Perfume.Models;
 using Perfume.Repositories.Interfaces;
 using Perfume.Services.Interfaces;
 
@@ -9,34 +10,52 @@ public class PerfumeService : IPerfumeService
     private readonly IPerfumeRepository _perfumeRepository;
     private readonly IBrandRepository _brandRepository;
     private readonly IPerfumeCategoryRepository _perfumeCategoryRepository;
+    private readonly IImageConvertorService _imageConvertorService;
 
-    public PerfumeService(IPerfumeRepository perfumeRepository, IPerfumeCategoryRepository perfumeCategoryRepository, IBrandRepository brandRepository)
+    public PerfumeService(IPerfumeRepository perfumeRepository, IPerfumeCategoryRepository perfumeCategoryRepository, IBrandRepository brandRepository, IImageConvertorService imageConvertorService)
     {
         _perfumeRepository = perfumeRepository;
         _perfumeCategoryRepository = perfumeCategoryRepository;
         _brandRepository = brandRepository;
+        _imageConvertorService = imageConvertorService;
     }
 
     public async Task<List<PerfumeModel>> GetPerfumesAsync()
     {
         var perfumes = await _perfumeRepository.GetPerfumesAsync();
-        var perfumesDto = perfumes.Select(p => new PerfumeModel()
+        var perfumesDto = new List<PerfumeModel>();
+        foreach (var perfume in perfumes)
         {
-            Currency = p.Currency,
-            Price = p.Price,
-            BrandTitle = p.Brand.Name,
-            PerfumeTitle = p.Name,
-            Rating = p.Rating,
-            ImageSource = p.ProfileImage,
-            Id = p.Id
-
-        }).ToList();
+            var img = await _imageConvertorService.ConvertByteArrayToFileFormAsync(new ImageDto()
+            {
+                FileName = perfume.FileName,
+                Image = perfume.ProfileImage,
+                ImageName = perfume.ImageName,
+            });
+            perfumesDto.Add(new PerfumeModel()
+            {
+                BrandTitle = perfume.Brand.Name,
+                Currency = perfume.Currency,
+                Id = perfume.Id,
+                ImageSource = await _imageConvertorService.ConvertFormFileToImageAsync(img),
+                PerfumeTitle = perfume.Name,
+                Price = perfume.Price,
+                Rating = perfume.Rating
+            });
+        }
         return perfumesDto;
+
     }
 
     public async Task<PerfumeModel> GetPerfumeAsync(Guid id)
     {
         var perfume = await _perfumeRepository.GetPerfumeAsync(id);
+        var conv = await _imageConvertorService.ConvertByteArrayToFileFormAsync(new ImageDto()
+        {
+            FileName = perfume.FileName,
+            Image = perfume.ProfileImage,
+            ImageName = perfume.ImageName
+        });
         var perfumeDto = new PerfumeDetailsModel()
         {
             Description = perfume.Description,
@@ -45,7 +64,7 @@ public class PerfumeService : IPerfumeService
             BrandTitle = perfume.Brand.Name,
             PerfumeTitle = perfume.Name,
             Rating = perfume.Rating,
-            ImageSource = perfume.ProfileImage
+            ImageSource = await _imageConvertorService.ConvertFormFileToImageAsync(conv),
         };
         return perfumeDto;
     }
@@ -62,7 +81,7 @@ public class PerfumeService : IPerfumeService
             Description = model.Description,
             Price = model.Price,
             Name = model.PerfumeName,
-            ProfileImage = model.Image,
+            ProfileImage = await _imageConvertorService.ConvertFileFormToByteArrayAsync(model.Image),
             Brand = brand,
             PerfumeCategory = category,
             Rating = 0,

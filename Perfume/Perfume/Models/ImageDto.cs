@@ -1,9 +1,8 @@
-﻿namespace Perfume.Models
+﻿namespace Perfume.Models;
+
+public class ImageDto
 {
-    public class ImageDto
-    {
-        public byte[] Image { get; set; }
-        public string ImageName { get; set; }
-        public string FileName { get; set; }
-    }
+    public byte[] Image { get; set; }
+    public string ImageName { get; set; }
+    public string FileName { get; set; }
 }
