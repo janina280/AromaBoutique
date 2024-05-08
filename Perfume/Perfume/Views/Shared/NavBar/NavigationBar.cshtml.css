@@ -91,7 +91,7 @@
     font-size: 12px;
     display: inline-block;
     font-weight: 400;
-    color: #999999;
+    color: orangered
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -461,6 +461,7 @@ img {
 
 .cart_button:first-child {
     margin-bottom: 15px;
+
 }
 
 .cart_button a {
@@ -476,6 +477,7 @@ img {
     color: #000000;
     border: 2px solid #000000;
     text-decoration: none;
+    
 }
 
     .cart_button a:hover {

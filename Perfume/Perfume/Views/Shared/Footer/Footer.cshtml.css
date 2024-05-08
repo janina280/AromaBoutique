@@ -92,12 +92,15 @@
     }
 }
 
-.footer_menu ul li a {
+.footer_menu ul li {
     display: block;
     font-weight: 400;
     font-size: 14px;
     line-height: 32px;
     color: #bdbdbd;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
     .footer_menu ul li a:hover {
@@ -105,7 +108,7 @@
     }
 
 @media only screen and (max-width: 767px) {
-    .footer_menu ul li a {
+    .footer_menu ul li {
         line-height: 32px;
     }
 }

@@ -25,5 +25,8 @@ public class UpdateUserModel
     [RegularExpression(Values.PhoneNumberRegex, ErrorMessage = Messages.PhoneNumberNotValidMessage)]
     public string PhoneNumber { get; set; }
 
-    public IFormFile ProfileImage { get; set; }
+    [Display(Name = Names.Image)]
+    [Required(ErrorMessage = Messages.ImageIsMandatory)]
+    public IFormFile ProfileImage { get; set; } = default!;
+    public string ProfileImageDisplay { get; set; }
 }

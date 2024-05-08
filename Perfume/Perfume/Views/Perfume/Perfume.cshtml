@@ -12,7 +12,7 @@
     </div>
     <div class="card border-0 d-flex w-50">
         <div>
-            <a asp-area="" asp-controller="Brands" asp-action="Brand" class="text-decoration-none">
+            <a asp-area="" asp-controller="Brands" asp-action="Brand" asp-route-name="@Model.BrandTitle" class="text-decoration-none">
                 <span class="d-flex flex-row align-items-baseline gap-2 text-black">
                     <h3>@Model.BrandTitle</h3>
                     <p><em>@Model.PerfumeTitle</em></p>

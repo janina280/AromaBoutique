@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Perfume.Constants;
 using Perfume.Models;
 using Perfume.Repositories.Interfaces;
 using Perfume.Services.Interfaces;
@@ -17,6 +19,7 @@ public class CartController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = Roles.User)]
     public async Task<IActionResult> DeleteCartAsync(CartModel model)
     {
         await _perfumeRepository.DeleteShoppingCartPerfumeAsync(model.Id);
@@ -24,6 +27,7 @@ public class CartController : Controller
         return RedirectToAction("Cart", "Cart");
     }
 
+    [HttpGet]
     public async Task<IActionResult> CartAsync()
     {
         var shoppingCartPerfumes = await _perfumeRepository.GetShoppingCartPerfumesAsync();

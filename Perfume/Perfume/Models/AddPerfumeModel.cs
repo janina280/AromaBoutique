@@ -35,4 +35,5 @@ public class AddPerfumeModel
     [Display(Name = Names.Image)]
     [Required(ErrorMessage = Messages.ImageIsMandatory)]
     public IFormFile Image { get; set; }
+
 }

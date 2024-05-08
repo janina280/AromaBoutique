@@ -1,6 +1,8 @@
 ﻿using DataBaseLayout.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Perfume.Constants;
 using Perfume.Models;
 using Perfume.Repositories.Interfaces;
 using Perfume.Services.Interfaces;
@@ -55,7 +57,9 @@ public class PerfumeController : Controller
         return View();
     }
 
+    
     [HttpPost]
+    [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> AddPerfumeAsync(AddPerfumeModel model)
     {
         await SetViewBagForBrandsAsync();
@@ -66,13 +70,14 @@ public class PerfumeController : Controller
         return RedirectToAction("Perfumes", "Perfume");
     }
 
-
+    [HttpGet]
     public IActionResult AddBrand()
     {
         return View();
     }
 
     [HttpPost]
+    [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> AddBrandAsync(AddBrandModel model)
     {
         await _brandService.AddBrandAsync(model);
@@ -139,6 +144,7 @@ public class PerfumeController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> DeletePerfumeAsync(PerfumeModel model)
     {
         await _perfumeRepository.DeletePerfumeAsync(model.Id);

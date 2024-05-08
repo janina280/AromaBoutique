@@ -128,7 +128,7 @@
                         @class = "form-check-input",
                     }
                 })
-                <label class="form-check-label" for="@nameof(Model.AgreeWithTermsAndConditions)">Acceptați <a target="_blank" asp-area="" asp-controller="Information" asp-action="TermsAndConditions">Termenii și condițiile</a></label>
+                <label class="form-check-label" for="@nameof(Model.AgreeWithTermsAndConditions)">Acceptați <a target="_blank" asp-area="" asp-controller="Terms" asp-action="Terms" style="color:orangered">Termenii și condițiile</a></label>
                 <br/>
                 @Html.ValidationMessageFor(model => model.AgreeWithTermsAndConditions, "", new
                 {
@@ -136,8 +136,8 @@
                 })
             </div>
 
-            <button type="submit" class="btn btn-outline-dark rounded-pill">Înregistrare</button>
-            <label>Ai deja cont? <a asp-area="" asp-Scontroller="Account" asp-action="Login" style="color: black">Intră în cont</a></label>
+            <button type="submit" class="btn btn-outline-dark rounded-pill ">Înregistrare</button>
+            <label>Ai deja cont? <a asp-area="" asp-Scontroller="Account" asp-action="Login" style="color: orangered">Intră în cont</a></label>
         </div>
     }
 </section>  
