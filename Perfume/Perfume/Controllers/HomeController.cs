@@ -10,44 +10,30 @@ namespace Perfume.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly IPromotionRepository _promotionRepository;
+  
     private readonly IImageConvertorService _imageConvertorService;
+    private readonly IPromotionService _promotionService;
 
-    public HomeController(ILogger<HomeController> logger, IPromotionRepository promotionRepository, IImageConvertorService imageConvertorService)
+    public HomeController(ILogger<HomeController> logger,  IImageConvertorService imageConvertorService, IPromotionService promotionService)
     {
         _logger = logger;
-        _promotionRepository = promotionRepository;
+        
         _imageConvertorService = imageConvertorService;
+        _promotionService = promotionService;
     }
 
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var promotions = await _promotionRepository.GetPromotionsAsync();
-        var promotionDto = new List<PromotionModel>();
-        foreach (var promotion in promotions)
-        {
-            var img = await _imageConvertorService.ConvertByteArrayToFileFormAsync(new ImageDto()
-            {
-                FileName = promotion.FileName,
-                Image = promotion.Image,
-                ImageName = promotion.ImageName
+        var promotions = await _promotionService.GetPromotionsAsync();
 
-            });
-            promotionDto.Add(new PromotionModel()
-            {
-                Description = promotion.Description,
-                Image = await _imageConvertorService.ConvertFormFileToImageAsync(img)
-                
-            });
-        }
-
-        return View(promotionDto);
+        return View(promotions);
     }
 
-    public async Task<IActionResult> AddPromotion()
+    public async Task<IActionResult> AddPromotionAsync(AddPromotionModel model)
     {
-
+         await _promotionService.AddPromotionAsync(model);
+        return RedirectToAction("AddPromotion", "Home");
     }
     public IActionResult Privacy()
     {

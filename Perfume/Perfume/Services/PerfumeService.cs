@@ -37,10 +37,11 @@ public class PerfumeService : IPerfumeService
                 BrandTitle = perfume.Brand.Name,
                 Currency = perfume.Currency,
                 Id = perfume.Id,
-                ImageSource = await _imageConvertorService.ConvertFormFileToImageAsync(img),
+                ImageSource = img,
                 PerfumeTitle = perfume.Name,
                 Price = perfume.Price,
-                Rating = perfume.Rating
+                Rating = perfume.Rating,
+                DisplayImage = await _imageConvertorService.ConvertFormFileToImageAsync(img)
             });
         }
         return perfumesDto;
@@ -50,7 +51,7 @@ public class PerfumeService : IPerfumeService
     public async Task<PerfumeModel> GetPerfumeAsync(Guid id)
     {
         var perfume = await _perfumeRepository.GetPerfumeAsync(id);
-        var conv = await _imageConvertorService.ConvertByteArrayToFileFormAsync(new ImageDto()
+        var img = await _imageConvertorService.ConvertByteArrayToFileFormAsync(new ImageDto()
         {
             FileName = perfume.FileName,
             Image = perfume.ProfileImage,
@@ -64,7 +65,9 @@ public class PerfumeService : IPerfumeService
             BrandTitle = perfume.Brand.Name,
             PerfumeTitle = perfume.Name,
             Rating = perfume.Rating,
-            ImageSource = await _imageConvertorService.ConvertFormFileToImageAsync(conv),
+            ImageSource =img,
+            Id = perfume.Id,
+            DisplayImage = await _imageConvertorService.ConvertFormFileToImageAsync(img)
         };
         return perfumeDto;
     }
@@ -89,7 +92,8 @@ public class PerfumeService : IPerfumeService
             RatingIntension = 0,
             RatingPersistence = 0,
             Stock = model.Stock,
-                
+            FileName = model.Image.FileName,
+            ImageName = model.Image.Name
         };
         await _perfumeRepository.CreatePerfumeAsync(perfume);
     }

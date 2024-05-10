@@ -28,6 +28,7 @@ public static class DependencyInjection
         services.AddScoped<IBrandService, BrandService>();
         services.AddScoped<IPerfumeDetailsService, PerfumeDetailsService>();
         services.AddScoped<IPerfumeService, PerfumeService>();
+        services.AddScoped<IPromotionService, PromotionService>();
 
         services.AddScoped<IImageConvertorService, ImageConvertorService>();
 

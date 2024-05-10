@@ -1,10 +1,16 @@
+using Perfume.Constants;
+using System.ComponentModel.DataAnnotations;
+
 namespace Perfume.Models;
 
 public class PerfumeModel
 {
     public Guid Id { get; set; }
 
-    public string ImageSource { get; set; }
+    [Display(Name = Names.Image)]
+    [Required(ErrorMessage = Messages.ImageIsMandatory)]
+
+    public IFormFile ImageSource { get; set; }
 
     public string BrandTitle { get; set; }
 
@@ -15,4 +21,5 @@ public class PerfumeModel
     public string Currency { get; set; }
 
     public double Rating { get; set; }
+    public string DisplayImage { get; set; }
 }

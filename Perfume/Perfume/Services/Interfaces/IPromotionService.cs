@@ -6,5 +6,7 @@ namespace Perfume.Services.Interfaces
     {
         Task<List<PromotionModel>> GetPromotionsAsync();
         Task AddPromotionAsync(AddPromotionModel model);
+        Task<PromotionModel> GetPromotionAsync(Guid id);
+        Task DeletePromotionAsync(Guid id);
     }
 }

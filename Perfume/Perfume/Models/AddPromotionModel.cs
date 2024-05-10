@@ -13,5 +13,7 @@ namespace Perfume.Models
         [Display(Name = Names.Image)]
         [Required(ErrorMessage = Messages.ImageIsMandatory)]
         public IFormFile Image { get; set; }
+        public string ImageDisplay { get; set; }
+
     }
 }

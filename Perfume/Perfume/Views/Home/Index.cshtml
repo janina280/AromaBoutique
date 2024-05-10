@@ -1,4 +1,6 @@
-﻿@model List<PromotionModel>
+﻿@using Perfume.Constants
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<PromotionModel>
 
 <div id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
     <div class="carousel-inner">
@@ -14,12 +16,12 @@
             <span>@promotion.Description</span>
         }
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
+    
+    @if (User.IsInRole(Roles.Administrator))
+    {
+        <div class="position-absolute add-button">
+            <a class="btn btn-danger rounded-pill fs-3" asp-area="" asp-controller="Home" asp-action="AddPromotion"><i class="bi bi-plus"></i></a>
+           
+        </div>
+    }
 </div>

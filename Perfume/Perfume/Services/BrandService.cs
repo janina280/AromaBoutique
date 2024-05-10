@@ -35,8 +35,6 @@ public class BrandService: IBrandService
                 Image = await _imageConvertorService.ConvertFormFileToImageAsync(img),
             });
         }
-            
-            
 
         return brandsDto;
     }
@@ -52,5 +50,29 @@ public class BrandService: IBrandService
             ImageName = model.Image.Name
         };
         await _brandRepository.CreateBrandAsync(brand);
+    }
+
+    public async Task<BrandModel> GetBrandAsync(string name)
+    {
+        var brand = await _brandRepository.GetBrandAsync(name);
+        var img = await _imageConvertorService.ConvertByteArrayToFileFormAsync(new ImageDto()
+        {
+            FileName = brand.FileName,
+            Image = brand.Image,
+            ImageName = brand.ImageName
+        });
+        var brandDto = new BrandModel()
+        {
+            Description = brand.Description,
+            Image = await _imageConvertorService.ConvertFormFileToImageAsync(img),
+            Name = brand.FileName,
+            ImageDisplay = await _imageConvertorService.ConvertFormFileToImageAsync(img)
+        };
+        return brandDto;
+    }
+
+    public async Task DeleteBrandAsync(string name)
+    {
+        await _brandRepository.DeleteBrandAsync(name);
     }
 }

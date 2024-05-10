@@ -41,4 +41,5 @@ public class RegisterModel
     [Display(Name = Names.Image)]
     [Required(ErrorMessage = Messages.ImageIsMandatory)]
     public IFormFile ProfileImage { get; set; } = default!;
+    public string ProfileImageDisplay { get; set; }
 }

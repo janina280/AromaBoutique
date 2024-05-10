@@ -107,7 +107,8 @@ public class UserService: IUserService
             PhoneNumber = user.PhoneNumber,
             Id = user.Id,
             ProfileImage = profileImageFileForm,
-            LastName = user.LastName
+            LastName = user.LastName,
+            ProfileImageDisplay = await _imageConvertorService.ConvertFormFileToImageAsync(profileImageFileForm)
         };
 
         return userDto;

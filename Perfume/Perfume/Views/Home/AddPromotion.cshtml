@@ -1,1 +1,51 @@
-﻿
+﻿@model AddPromotionModel
+@{
+    ViewData["Title"] = "AddPromotion";
+    ViewData["HasFooter"] = false;
+}
+
+
+<section class="custom-container-sm mx-auto px-2 pt-3">
+    <h2 class="text-center mt-3">Adauga un brand</h2>
+    @using (Html.BeginForm("AddPromotion", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="d-flex flex-column gap-2">
+            @Html.ValidationSummary(true, "", new
+                {
+                    @class = "text-danger"
+                })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description)
+                @Html.EditorFor(model => model.Description, new
+                    {
+                        htmlAttributes = new
+                        {
+                            placeholder = "Introduceți descrierea brandului",
+                            @class = "form-control",
+                        }
+                    })
+                @Html.ValidationMessageFor(model => model.Description, "", new
+                    {
+                        @class = "text-danger"
+                    })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Image)
+                @Html.EditorFor(model => model.Image, new
+                    {
+                        htmlAttributes = new
+                        {
+                            placeholder = "Introduceți imaginea",
+                            @class = "form-control",
+                        }
+                    })
+                @Html.ValidationMessageFor(model => model.Image, "", new
+                    {
+                        @class = "text-danger"
+                    })
+            </div>
+
+            <button type="submit" class="btn btn-outline-dark text-black rounded-pill">Adauga promotie</button>
+        </div>
+    }
+</section>

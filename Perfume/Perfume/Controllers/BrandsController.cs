@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Perfume.Constants;
 using Perfume.Models;
 using Perfume.Repositories.Interfaces;
 using Perfume.Services.Interfaces;
@@ -7,33 +9,35 @@ namespace Perfume.Controllers;
 
 public class BrandsController : Controller
 {
-    private readonly IBrandRepository _brandRepository;
+   private readonly IBrandService _brandService;
     private readonly IImageConvertorService _imageConvertorService;
 
-    public BrandsController(IBrandRepository brandRepository, IImageConvertorService imageConvertorService)
+    public BrandsController( IImageConvertorService imageConvertorService, IBrandService brandService)
     {
-        _brandRepository = brandRepository;
         _imageConvertorService = imageConvertorService;
+        _brandService = brandService;
     }
+
     [HttpGet]
     public async Task<IActionResult> Brand(string name)
     {
-       var brand = await _brandRepository.GetBrandAsync(name);
-       var img= await _imageConvertorService.ConvertByteArrayToFileFormAsync(new ImageDto()
-       {
-           FileName = brand.FileName,
-           Image = brand.Image,
-           ImageName = brand.ImageName
+        var brand = await _brandService.GetBrandAsync(name);
 
-       });
-        var brandDto = new BrandModel()
-       {
-           Description = brand.Description,
-           Name = brand.Name,
-           Image = await _imageConvertorService.ConvertFormFileToImageAsync(img)
-          
-       };
-        return View(brandDto);
+        return View(brand);
+    }
+
+        [HttpPost] 
+        [Authorize(Roles = Roles.Administrator)]
+    public async Task<IActionResult> AddBrandAsync(AddBrandModel model)
+    {
+        await _brandService.AddBrandAsync(model);
+        return RedirectToAction("Perfumes", "Perfume");
+    }
+
+    public async Task<IActionResult> DeleteBrandAsync(BrandModel model)
+    {
+        await _brandService.DeleteBrandAsync(model.Name);
+        return RedirectToAction("Perfumes", "Perfume");
     }
 
 
