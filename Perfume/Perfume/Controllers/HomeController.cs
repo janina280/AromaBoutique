@@ -29,11 +29,16 @@ public class HomeController : Controller
 
         return View(promotions);
     }
-
+    [HttpGet]
+    public async Task<IActionResult> AddPromotionAsync()
+    {
+        return View();
+    }
+    [HttpPost]
     public async Task<IActionResult> AddPromotionAsync(AddPromotionModel model)
     {
          await _promotionService.AddPromotionAsync(model);
-        return RedirectToAction("AddPromotion", "Home");
+        return RedirectToAction("Index", "Home");
     }
     public IActionResult Privacy()
     {

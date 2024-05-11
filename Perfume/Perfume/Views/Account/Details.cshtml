@@ -14,13 +14,14 @@
         </div>
     </div>
     <div class="d-flex flex-column">
-        @using (Html.BeginForm("Details", "Account", FormMethod.Post))
+        @using (Html.BeginForm("Details", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <div class="d-flex flex-column  justify-content-center align-items-center gap-2">
                 @Html.ValidationSummary(true, "", new
                 {
                     @class = "text-danger"
                 })
+                @Html.HiddenFor(model=> model.Id)
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.ProfileImage)

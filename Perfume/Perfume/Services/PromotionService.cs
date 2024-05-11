@@ -44,6 +44,8 @@ namespace Perfume.Services
             {
                 Description = model.Description,
                 Image = await _imageConvertorService.ConvertFileFormToByteArrayAsync(model.Image),
+                FileName = model.Image.FileName,
+                ImageName = model.Image.Name
 
             };
             await _promotionRepository.CreatePromotionAsync(promotion);
@@ -51,18 +53,17 @@ namespace Perfume.Services
 
         public async Task<PromotionModel> GetPromotionAsync(Guid id)
         {
-            var brand = await _promotionRepository.GetPromotionAsync(id);
+            var promotion = await _promotionRepository.GetPromotionAsync(id);
             var img = await _imageConvertorService.ConvertByteArrayToFileFormAsync(new ImageDto()
             {
-                FileName = brand.FileName,
-                Image = brand.Image,
-                ImageName = brand.ImageName
+                FileName = promotion.FileName,
+                Image = promotion.Image,
+                ImageName = promotion.ImageName
             });
             var brandDto = new PromotionModel()
             {
-                Description = brand.Description,
-                Image = await _imageConvertorService.ConvertFormFileToImageAsync(img),
-               
+                Description = promotion.Description,
+                Image = await _imageConvertorService.ConvertFormFileToImageAsync(img)
             };
             return brandDto;
         }

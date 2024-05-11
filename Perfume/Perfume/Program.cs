@@ -91,7 +91,7 @@ async Task DefaultDataAsync()
             FirstName = "admin",
             PhoneNumberConfirmed = true,
             UserName = "admin@admin.ro",
-            PhoneNumber = "admin",
+            PhoneNumber = "0763511111",
             ImageName = "admin",
             FileName = "admin.jpg"
         };

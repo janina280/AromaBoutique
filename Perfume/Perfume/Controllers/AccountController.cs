@@ -5,6 +5,7 @@ using Perfume.Models;
 using Perfume.Repositories.Interfaces;
 using Perfume.Services.Interfaces;
 using System.Data;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Perfume.Constants;
 
 namespace Perfume.Controllers;
@@ -95,6 +96,8 @@ public class AccountController : Controller
     [Authorize(Roles = Roles.User)]
     public async Task<IActionResult> DetailsAsync(UpdateUserModel model)
     {
+        ModelState["ProfileImageDisplay"].ValidationState = ModelValidationState.Valid; 
+
         if (!ModelState.IsValid)
         {
             return View(model);
@@ -106,7 +109,7 @@ public class AccountController : Controller
             ModelState.AddModelError(identityError.Code, identityError.Description);
         }
 
-        return View(model);
+        return RedirectToAction("Details", "Account");
     }
 
     [HttpPost]

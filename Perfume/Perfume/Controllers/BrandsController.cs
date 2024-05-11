@@ -9,10 +9,10 @@ namespace Perfume.Controllers;
 
 public class BrandsController : Controller
 {
-   private readonly IBrandService _brandService;
+    private readonly IBrandService _brandService;
     private readonly IImageConvertorService _imageConvertorService;
 
-    public BrandsController( IImageConvertorService imageConvertorService, IBrandService brandService)
+    public BrandsController(IImageConvertorService imageConvertorService, IBrandService brandService)
     {
         _imageConvertorService = imageConvertorService;
         _brandService = brandService;
@@ -25,9 +25,14 @@ public class BrandsController : Controller
 
         return View(brand);
     }
+    [HttpGet]
+    public IActionResult AddBrand()
+    {
+        return View();
+    }
 
-        [HttpPost] 
-        [Authorize(Roles = Roles.Administrator)]
+    [HttpPost]
+    [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> AddBrandAsync(AddBrandModel model)
     {
         await _brandService.AddBrandAsync(model);

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Perfume.Constants;
 using Perfume.Models;
 using Perfume.Repositories.Interfaces;
+using Perfume.Services;
 using Perfume.Services.Interfaces;
 
 namespace Perfume.Controllers;
@@ -49,6 +50,14 @@ public class PerfumeController : Controller
     }
 
     [HttpGet]
+    public async Task<IActionResult> PerfumesAsync()
+    {
+        var perfumes = await _perfumeService.GetPerfumesAsync();
+
+        return View(perfumes);
+    }
+
+    [HttpGet]
     public async Task<IActionResult> AddPerfumeAsync()
     {
         await SetViewBagForBrandsAsync();
@@ -69,20 +78,7 @@ public class PerfumeController : Controller
         await _perfumeService.AddPerfumeAsync(model);
         return RedirectToAction("Perfumes", "Perfume");
     }
-
-    [HttpGet]
-    public IActionResult AddBrand()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    [Authorize(Roles = Roles.Administrator)]
-    public async Task<IActionResult> AddBrandAsync(AddBrandModel model)
-    {
-        await _brandService.AddBrandAsync(model);
-        return RedirectToAction("Perfumes", "Perfume");
-    }
+    
 
 
     [HttpPost]
