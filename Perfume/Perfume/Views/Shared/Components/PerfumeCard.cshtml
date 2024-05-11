@@ -1,4 +1,5 @@
-﻿@model PerfumeModel
+﻿@using Perfume.Constants
+@model PerfumeModel
 
 <div class="card shadow bg-white rounded-end border-0">
     <div class="card-body">
@@ -29,23 +30,28 @@
                             </button>
                         }
                     </li>
-                    <li class="edit">
-                        @using (Html.BeginForm("AddPerfume", "Perfume", FormMethod.Post))
-                        {
-                            <button class="button-custom-hover border-0" type="submit" title="Editeaza">
-                                <i class="fa fa-edit fa-2x"></i>
-                            </button>
-                        }
-                    </li>
-                    <li class="delete">
-                        @using (Html.BeginForm("DeletePerfume", "Perfume", FormMethod.Post))
-                        {
-                            @Html.HiddenFor(x => x.Id)
-                            <button class="button-custom-hover border-0" type="submit" title="Sterge parfumul">
-                                <i class="fa fa-trash fa-2x"></i>
-                            </button>
-                        }
-                    </li>
+                    
+                    @if (User.IsInRole(Roles.Administrator))
+                    {
+                        <li class="edit">
+                            @using (Html.BeginForm("AddPerfume", "Perfume", FormMethod.Post))
+                            {
+                                @Html.HiddenFor(x=> x.Id)
+                                <button class="button-custom-hover border-0" type="submit" title="Editeaza">
+                                    <i class="fa fa-edit fa-2x"></i>
+                                </button>
+                            }
+                        </li>
+                        <li class="delete">
+                            @using (Html.BeginForm("DeletePerfume", "Perfume", FormMethod.Post))
+                            {
+                                @Html.HiddenFor(x => x.Id)
+                                <button class="button-custom-hover border-0" type="submit" title="Sterge parfumul">
+                                    <i class="fa fa-trash fa-2x"></i>
+                                </button>
+                            }
+                        </li>
+                    }
                 </ul>
             </div>
             <div class="ratings d-flex justify-content-between align-items-center">

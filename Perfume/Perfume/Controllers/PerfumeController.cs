@@ -84,12 +84,12 @@ public class PerfumeController : Controller
     [HttpPost]
     public async Task<IActionResult> AddToWishListAsync(PerfumeModel model)
     {
-        var perfume = await _perfumeRepository.GetPerfumeAsync(model.Id);
+        var perfume = await _perfumeService.GetPerfumeAsync(model.Id);
         //todo: getuser
         var entity = new Wish()
         {
             Id = Guid.NewGuid(),
-            Perfume = perfume,
+         //   Perfume = ,
             User =
             new() {
                 Email = "test",

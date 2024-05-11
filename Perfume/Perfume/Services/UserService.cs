@@ -7,7 +7,7 @@ using Perfume.Services.Interfaces;
 
 namespace Perfume.Services;
 
-public class UserService: IUserService
+public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly UserManager<User> _userManager;
@@ -53,39 +53,33 @@ public class UserService: IUserService
 
     public async Task<IdentityResult> UpdateUserAsync(UpdateUserModel model)
     {
-        var result = new IdentityResult();
+        IdentityResult result;
         var currentUser = await _userRepository.GetUserAsync(model.Id);
         if (currentUser.Email != model.Email)
         {
             result = await _userRepository.UpdateUserEmailAsync(currentUser, model.Email, "TODO");
+            if (!result.Succeeded)
+            {
+                return result;
+            }
         }
-        if (currentUser.PhoneNumber != model.PhoneNumber && result.Succeeded)
+        if (currentUser.PhoneNumber != model.PhoneNumber)
         {
             result = await _userRepository.UpdateUserPhoneNumberAsync(currentUser, model.PhoneNumber, "TODO");
+            if (!result.Succeeded)
+            {
+                return result;
+            }
         }
 
-        if (!result.Succeeded)
-        {
-            return result;
-        }
+        currentUser.ProfileImage = await _imageConvertorService.ConvertFileFormToByteArrayAsync(model.ProfileImage);
+        currentUser.LastName = model.LastName;
+        currentUser.FirstName = model.FirstName;
+        currentUser.ImageName = model.ProfileImage.Name;
+        currentUser.FileName = model.ProfileImage.FileName;
+        currentUser.UserName = model.Email;
 
-        var user = new User()
-        {
-            Id = Guid.NewGuid(),
-            ProfileImage = await _imageConvertorService.ConvertFileFormToByteArrayAsync(model.ProfileImage),
-            LastName = model.LastName,
-            Email = model.Email,
-            FirstName = model.FirstName,
-            PhoneNumber = model.PhoneNumber,
-            TwoFactorEnabled = false,
-            EmailConfirmed = true,
-            PhoneNumberConfirmed = true,
-            ImageName = model.ProfileImage.Name,
-            FileName = model.ProfileImage.FileName,
-            UserName = model.Email
-        };
-
-        result = await _userRepository.UpdateUserAsync(user);
+        result = await _userRepository.UpdateUserAsync(currentUser);
         return result;
     }
 

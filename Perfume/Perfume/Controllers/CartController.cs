@@ -19,7 +19,6 @@ public class CartController : Controller
     }
 
     [HttpPost]
-    [Authorize(Roles = Roles.User)]
     public async Task<IActionResult> DeleteCartAsync(CartModel model)
     {
         await _perfumeRepository.DeleteShoppingCartPerfumeAsync(model.Id);
@@ -54,28 +53,6 @@ public class CartController : Controller
             });
         }
 
-        /*
-        var mockCart = new List<CartModel>()
-        {
-            new CartModel()
-            {
-                BrandTitle = "Versace",
-                Category = "Femei",
-                Currency = "RON",
-                ImageSource = "~/images/new-product/N3.png",
-                PerfumeTitle = "Eros Pour Femme",
-                Price = 410
-            },
-            new CartModel()
-            {
-                BrandTitle = "BULGARI",
-                Category = "Femei",
-                Currency = "RON",
-                ImageSource = "~/images/small-product/mini2.png",
-                PerfumeTitle = "Rose Goldea Eau de Parfum",
-                Price = 749
-            }
-        };*/
         return View(shoppingCartPerfumesDto);
     }
 }

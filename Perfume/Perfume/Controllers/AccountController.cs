@@ -63,10 +63,6 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> RegisterAsync(RegisterModel register)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(register);
-        }
 
         var result = await _userService.RegisterAsync(register);
 
@@ -84,7 +80,6 @@ public class AccountController : Controller
     }
 
     [HttpGet]
-    [Authorize(Roles = Roles.User)]
     public async Task<IActionResult> DetailsAsync()
     {
         var user = await _userService.GetUserDetailAsync(User.Identity?.Name);
@@ -93,7 +88,6 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    [Authorize(Roles = Roles.User)]
     public async Task<IActionResult> DetailsAsync(UpdateUserModel model)
     {
         ModelState["ProfileImageDisplay"].ValidationState = ModelValidationState.Valid; 
@@ -113,7 +107,6 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    [Authorize(Roles = Roles.User)]
     public async Task <IActionResult> DeleteAccountAsync()
     {
         var result = await _userRepository.DeleteUserAsync(User.Identity.Name);
