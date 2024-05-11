@@ -8,4 +8,4 @@ public class Delivery
 {
     public string Name { get; set; }
     public virtual ICollection<Perfume> Perfumes { get; set; }
-}
+} 
