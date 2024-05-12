@@ -6,7 +6,7 @@
 
 
 <section class="custom-container-sm mx-auto px-2 pt-3">
-    <h2 class="text-center mt-3">Adauga un brand</h2>
+    <h2 class="text-center mt-3">Adauga o promotie</h2>
     @using (Html.BeginForm("AddPromotion", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <div class="d-flex flex-column gap-2">
@@ -20,7 +20,7 @@
                     {
                         htmlAttributes = new
                         {
-                            placeholder = "Introduceți descrierea brandului",
+                            placeholder = "Introduceți descrierea promotiei",
                             @class = "form-control",
                         }
                     })

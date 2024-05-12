@@ -48,7 +48,7 @@ public class WishRepository: IWishRepository
 
     public async Task CreateWishAsync(Wish model)
     {
-        var wish = await _context.WishList.SingleOrDefaultAsync(w => w.Perfume.Id == model.Perfume.Id);
+        var wish = await _context.WishList.SingleOrDefaultAsync(w => w.Perfume.Id == model.PerfumeId);
         if (wish != null)
         {
             return;

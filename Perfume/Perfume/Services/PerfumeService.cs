@@ -1,5 +1,4 @@
-﻿using DataBaseLayout.Models;
-using Perfume.Models;
+﻿using Perfume.Models;
 using Perfume.Repositories.Interfaces;
 using Perfume.Services.Interfaces;
 
@@ -37,11 +36,10 @@ public class PerfumeService : IPerfumeService
                 BrandTitle = perfume.Brand.Name,
                 Currency = perfume.Currency,
                 Id = perfume.Id,
-                ImageSource = img,
                 PerfumeTitle = perfume.Name,
                 Price = perfume.Price,
                 Rating = perfume.Rating,
-                DisplayImage = await _imageConvertorService.ConvertFormFileToImageAsync(img)
+                DisplayImage = await _imageConvertorService.ConvertFormFileToImageAsync(img),
             });
         }
         return perfumesDto;
@@ -57,7 +55,7 @@ public class PerfumeService : IPerfumeService
             Image = perfume.ProfileImage,
             ImageName = perfume.ImageName
         });
-        var perfumeDto = new PerfumeDetailsModel()
+        var perfumeDto = new PerfumeModel()
         {
             Description = perfume.Description,
             Currency = perfume.Currency,
@@ -65,7 +63,6 @@ public class PerfumeService : IPerfumeService
             BrandTitle = perfume.Brand.Name,
             PerfumeTitle = perfume.Name,
             Rating = perfume.Rating,
-            ImageSource =img,
             Id = perfume.Id,
             DisplayImage = await _imageConvertorService.ConvertFormFileToImageAsync(img)
         };

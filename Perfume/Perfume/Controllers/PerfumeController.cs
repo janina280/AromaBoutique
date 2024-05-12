@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Perfume.Constants;
 using Perfume.Models;
 using Perfume.Repositories.Interfaces;
-using Perfume.Services;
 using Perfume.Services.Interfaces;
 
 namespace Perfume.Controllers;
@@ -16,35 +15,31 @@ public class PerfumeController : Controller
     private readonly IPerfumeRepository _perfumeRepository;
     private readonly IBrandRepository _brandRepository;
     private readonly IPerfumeService _perfumeService;
-    private readonly IBrandService _brandService;
-    private readonly IPerfumeDetailsService _perfumeDetailsService;
     private readonly IPerfumeCategoryRepository _perfumeCategoryRepository;
     private readonly IWishRepository _wishRepository;
+  private readonly IUserRepository _userRepository;
 
     public PerfumeController(
         IShoppingCartPerfumeRepository shoppingCartPerfumeRepository, 
         IBrandRepository brandRepository, 
         IPerfumeService perfumeService, 
-        IPerfumeDetailsService perfumeDetailsService, 
         IPerfumeRepository perfumeRepository,
-        IBrandService brandService,
         IPerfumeCategoryRepository perfumeCategoryRepository, 
-        IWishRepository wishRepository)
+        IWishRepository wishRepository, IUserRepository userRepository)
     {
         _shoppingCartPerfumeRepository = shoppingCartPerfumeRepository;
         _brandRepository = brandRepository;
         _perfumeService = perfumeService;
-        _perfumeDetailsService = perfumeDetailsService;
         _perfumeRepository = perfumeRepository;
-        _brandService = brandService;
         _perfumeCategoryRepository = perfumeCategoryRepository;
         _wishRepository = wishRepository;
+        _userRepository = userRepository;
     }
 
     [HttpGet]
     public async Task<IActionResult> PerfumeAsync(string id)
     {
-        var perfume = await _perfumeDetailsService.GetPerfumeDetailsAsync(Guid.Parse(id));
+        var perfume = await _perfumeService.GetPerfumeAsync(Guid.Parse(id));
      
         return View(perfume);
     }
@@ -84,52 +79,28 @@ public class PerfumeController : Controller
     [HttpPost]
     public async Task<IActionResult> AddToWishListAsync(PerfumeModel model)
     {
-        var perfume = await _perfumeService.GetPerfumeAsync(model.Id);
-        //todo: getuser
-        var entity = new Wish()
+        var user = await _userRepository.GetUserAsync(User.Identity.Name);
+        await _wishRepository.CreateWishAsync(new Wish()
         {
             Id = Guid.NewGuid(),
-         //   Perfume = ,
-            User =
-            new() {
-                Email = "test",
-                FirstName = "test",
-                LastName = "test",
-                Id = Guid.NewGuid(),
-                Reviews = new List<Review>(),
-                ReviewConversations = new List<ReviewConversation>(),
-                Wishes = new List<Wish>()
-            }
-        };
-
-        await _wishRepository.CreateWishAsync(entity);
-
-        return RedirectToAction("Perfumes", "Perfume");
+            UserId = user.Id,
+            PerfumeId = model.Id,
+        });
+        return RedirectToAction("Wish", "Wish");
     }
 
     [HttpPost]
     public async Task<IActionResult> AddToShoppingCartAsync(PerfumeModel model)
     {
-        var perfume = await _perfumeRepository.GetPerfumeAsync(model.Id);
-        //todo: getuser
-        var entity = new ShoppingCartPerfume()
-        {
-            Id = Guid.NewGuid(),
-            Perfume = perfume,
-            User =
-            new (){
-                Email = "test",
-                FirstName = "test",
-                LastName = "test",
-                Id = Guid.NewGuid(),
-                Reviews = new List<Review>(),
-                ReviewConversations = new List<ReviewConversation>(),
-                Wishes = new List<Wish>()
+        var user = await _userRepository.GetUserAsync(User.Identity.Name);
+        await _shoppingCartPerfumeRepository.CreateShoppingCartPerfumeAsync(new ShoppingCartPerfume()
+            {
+                PerfumeId = model.Id,
+                UserId = user.Id,
+                Id = Guid.NewGuid()
             }
-        };
-
-        await _shoppingCartPerfumeRepository.CreateShoppingCartPerfumeAsync(entity);
-
+        );
+        
         return RedirectToAction("Perfumes", "Perfume");
     }
     public async Task<IActionResult> Perfumes()
@@ -151,19 +122,19 @@ public class PerfumeController : Controller
     private async Task SetViewBagForBrandsAsync()
     {
         var brands = await _brandRepository.GetBrandsAsync();
-        ViewBag.Brands = brands.Select(h => new SelectListItem()
+        ViewBag.Brands = brands.Select(b => new SelectListItem()
         {
-            Text = h.Name,
-            Value = h.Name,
+            Text = b.Name,
+            Value = b.Name,
         });
     }
     private async Task SetViewBagForCategoriesAsync()
     {
         var categories = await _perfumeCategoryRepository.GetPerfumeCategoriesAsync();
-        ViewBag.Categories = categories.Select(h => new SelectListItem()
+        ViewBag.Categories = categories.Select(c => new SelectListItem()
         {
-            Text = h.Name,
-            Value = h.Name,
+            Text = c.Name,
+            Value = c.Name,
         });
     }
 }

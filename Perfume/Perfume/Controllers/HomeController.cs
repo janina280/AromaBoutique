@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Perfume.Models;
 using System.Diagnostics;
-using DataBaseLayout.Models;
-using Perfume.Repositories.Interfaces;
 using Perfume.Services.Interfaces;
 
 namespace Perfume.Controllers;

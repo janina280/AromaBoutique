@@ -17,8 +17,8 @@ public class ShoppingCartPerfumeRepository : IShoppingCartPerfumeRepository
     public async Task<List<ShoppingCartPerfume>> GetShoppingCartPerfumesAsync()
     {
         var shoppingCartPerfumes = await _context.ShoppingCartPerfumes
-            .Include(x=>x.User)
-            .Include(x=>x.Perfume)
+            .Include(x => x.User)
+            .Include(x => x.Perfume)
             .Include(x => x.Perfume.Brand)
             .Include(x => x.Perfume.PerfumeCategory)
             .Include(x => x.Perfume.Wishes)
@@ -27,7 +27,24 @@ public class ShoppingCartPerfumeRepository : IShoppingCartPerfumeRepository
             .Include(x => x.Perfume.PerfumeImages)
             .Include(x => x.Perfume.Deliveries)
             .ToListAsync();
-    
+
+        return shoppingCartPerfumes;
+    }
+
+    public async Task<List<ShoppingCartPerfume>> GetShoppingCartPerfumesByUserIdAsync(Guid userId)
+    {
+        var shoppingCartPerfumes = await _context.ShoppingCartPerfumes
+            .Include(x => x.User)
+            .Include(x => x.Perfume)
+            .Include(x => x.Perfume.Brand)
+            .Include(x => x.Perfume.PerfumeCategory)
+            .Include(x => x.Perfume.Wishes)
+            .Include(x => x.Perfume.Reviews)
+            .Include(x => x.Perfume.ShoppingCartPerfumes)
+            .Include(x => x.Perfume.PerfumeImages)
+            .Include(x => x.Perfume.Deliveries)
+            .Where(scp => scp.UserId == userId)
+            .ToListAsync();
         return shoppingCartPerfumes;
     }
 
@@ -49,11 +66,11 @@ public class ShoppingCartPerfumeRepository : IShoppingCartPerfumeRepository
 
     public async Task CreateShoppingCartPerfumeAsync(ShoppingCartPerfume model)
     {
-        var cart = await _context.ShoppingCartPerfumes.SingleOrDefaultAsync(w => w.Perfume.Id == model.Perfume.Id);
+        var cart = await _context.ShoppingCartPerfumes.SingleOrDefaultAsync(w => w.PerfumeId == model.PerfumeId);
         if (cart != null)
         {
-            //todo: increase the quantity
-            //cart.Perfume.
+            cart.Quantity++;
+            await _context.SaveChangesAsync();
             return;
         }
         await _context.ShoppingCartPerfumes.AddAsync(model);

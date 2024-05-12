@@ -1,5 +1,4 @@
 ﻿using DataBaseLayout.Models;
-using DataBaseLayout;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Perfume.Repositories.Interfaces;

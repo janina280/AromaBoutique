@@ -1,12 +1,8 @@
-﻿using DataBaseLayout.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Perfume.Models;
 using Perfume.Repositories.Interfaces;
 using Perfume.Services.Interfaces;
-using System.Data;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Perfume.Constants;
 
 namespace Perfume.Controllers;
 
@@ -28,6 +24,7 @@ public class AccountController : Controller
         _userRepository = userRepository;
     }
 
+    [HttpGet]
     public IActionResult Login()
     {
         return View();

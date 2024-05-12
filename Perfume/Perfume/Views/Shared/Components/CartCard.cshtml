@@ -1,20 +1,12 @@
 ﻿@model CartModel
 
-@{
-    var options = new List<SelectListItem>();
-    for (var index = 1; index <= 10; index++)
-    {
-        var option = new SelectListItem(index.ToString(), index.ToString());
-        options.Add(option);
-    }
-}
 <div class="card border-0">
     <div class="card-body">
         <hr />
         <div class="d-flex flex-row justify-content-between align-items-center">
             <a asp-area="" asp-controller="Perfume" asp-action="Perfume" asp-route-id="@Model.Id.ToString()" class="d-flex flex-row align-items-center">
                 <div class="container" style="height: 150px; width: 150px;">
-                    <img src="@Url.Content(Model.ImageSource)" alt="Perfume Image"> </img>
+                    <img src="@Url.Content(Model.ImageSource)" alt="Perfume Image" height="150px" width="150px"> </img>
                 </div>
                 <div class="gap-5" style="color: black;">
                     <h4>@Model.BrandTitle @Model.PerfumeTitle</h4>
@@ -26,12 +18,13 @@
                     <h4><strong>@Model.Price</strong></h4>
                     <h4><strong>@Model.Currency</strong></h4>
                 </span>
-                <select asp-for="@Model.Quantity" asp-items="options"></select>
+                <p>@Model.Quantity</p>
             </div>
             <div class="d-flex flex-row gap-5 align-items-center p-2">
                 <strong>@(Model.Price * Model.Quantity) @Model.Currency</strong>
-                @using (Html.BeginForm("DeleteCart", "Cart", Model, FormMethod.Post))
+                @using (Html.BeginForm("DeleteCart", "Cart", FormMethod.Post))
                 {
+                    @Html.HiddenFor(m=>m.Id)
                     <button style="color: black;" type="submit" title="Șterge">
                         Șterge
                     </button>

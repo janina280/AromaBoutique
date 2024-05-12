@@ -1,11 +1,19 @@
 ﻿@using Perfume.Repositories.Interfaces
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Perfume.Services.Interfaces
+
+@model Model
+
 @inject IPerfumeRepository PerfumeRepository
 @inject IPerfumeCategoryRepository PerfumeCategoryRepository
+@inject IShoppingCartPerfumeRepository ShoppingCartPerfumeRepository
+@inject IWishRepository WishRepository
+@inject IImageConvertorService ImageConvertorService
+@inject IUserRepository UserRepository
 
 @{
     var perfumes = await PerfumeRepository.GetPerfumesAsync();
     var perfumeCategories = await PerfumeCategoryRepository.GetPerfumeCategoriesAsync();
-
 }
 @* @model NavigationBarBrandsModel *@
 <div class="main_header header-mobile-m">
@@ -76,49 +84,64 @@
                                             <span class="item_count">4</span>
                                         </a>
                                         <!-- mini cart  -->
+                                        @{
+                                            var user = await UserRepository.GetUserAsync(User.Identity.Name);
+                                            var carts = await ShoppingCartPerfumeRepository.GetShoppingCartPerfumesByUserIdAsync(user.Id);
+                                        }
                                         <div class="mini_cart mini_cart2">
                                             <div class="cart_gallery">
-                                                <div class="cart_item">
-                                                    <div class="cart_img">
-                                                        <a asp-area="" asp-controller="Perfume" asp-action="Perfume">
-                                                            <img src="/images/new-product/N3.png"
-                                                                 alt="Parfum">
-                                                        </a>
+                                                @if (!carts.Any())
+                                                {
+                                                    <p>Coșul este gol!</p>
+                                                }
+                                                @foreach (var cart in carts)
+                                                {
+                                                    var imgFormFile = await ImageConvertorService.ConvertByteArrayToFileFormAsync(new ImageDto()
+                    {
+                        FileName = cart.Perfume.FileName,
+                        Image = cart.Perfume.ProfileImage,
+                        ImageName = cart.Perfume.Name
+                    });
+                                                    var imgString = await ImageConvertorService.ConvertFormFileToImageAsync(imgFormFile);
+                                                    <div class="cart_item">
+                                                        <div class="cart_img">
+                                                            <a asp-area="" asp-controller="Perfume" asp-action="Perfume" asp-route-id="@cart.PerfumeId">
+                                                                <img src="@imgString"
+                                                                     alt="Parfum">
+                                                            </a>
+                                                        </div>
+                                                        <div class="cart_info">
+                                                            <a asp-area="" asp-controller="Brands" asp-action="Brand" asp-route-name="@cart.Perfume.Brand.Name" class="text-decoration-none text-black">
+                                                                @cart.Perfume.Brand.Name
+                                                            </a>
+                                                            <p><span>@(cart.Quantity * cart.Perfume.Price) @cart.Perfume.Currency</span> X 1</p>
+                                                        </div>
+                                                        <div class="cart_remove">
+                                                            @using (Html.BeginForm("DeleteCart", "Cart", FormMethod.Post))
+                                                            {
+                                                                @Html.HiddenFor(m => m.Id)
+                                                                <button style="color: black; background-color: transparent" type="submit" title="Șterge">
+                                                                    <i class="fa fa-times"></i>
+                                                                </button>
+                                                            }
+                                                        </div>
                                                     </div>
-                                                    <div class="cart_info">
-                                                        <a href="#">Versace</a>
-                                                        <p><span>410 RON</span> X 1</p>
-                                                    </div>
-                                                    <div class="cart_remove">
-                                                        <a href="#"><i class="fa fa-times"></i></a>
-                                                    </div>
-                                                </div>
-                                                <div class="cart_item">
-                                                    <div class="cart_img">
-                                                        <a href="#">
-                                                            <img src="/images/small-product/mini2.png"
-                                                                 alt="Parfum">
-                                                        </a>
-                                                    </div>
-                                                    <div class="cart_info">
-                                                        <a href="#">Bulgari</a>
-                                                        <p><span>749 RON</span> X 1</p>
-                                                    </div>
-                                                    <div class="cart_remove">
-                                                        <a href="#"><i class="fa fa-times"></i></a>
-                                                    </div>
-                                                </div>
+                                                }
                                             </div>
                                             <div class="mini_cart_table">
+                                                @{
+                                                    var subtotal = carts.Sum(c => c.Quantity * c.Perfume.Price);
+                                                }
                                                 <div class="cart_table_border">
                                                     <div class="cart_total">
                                                         <span>Sub Total :</span>
-                                                        <span class="price">1 359 RON</span>
+                                                        <span class="price">@subtotal @(carts.FirstOrDefault()?.Perfume.Currency ?? "RON")</span>
                                                     </div>
 
                                                     <div class="cart_total mt-10">
                                                         <span>Total :</span>
-                                                        <span class="price">1 384 RON</span>
+                                                        @*todo: replace '10' with the cost for the transport*@
+                                                        <span class="price">@(subtotal + 10) @(carts.FirstOrDefault()?.Perfume.Currency ?? "RON")</span>
                                                     </div>
 
                                                 </div>
@@ -128,6 +151,7 @@
                                                     <a asp-area="" asp-controller="Cart" asp-action="Cart">Vezi coș</a>
                                                 </div>
                                                 <div class="cart_button">
+                                                    @*todo: remove from cart after this!*@
                                                     <a onclick="alert('Comanda a fost înregistrată cu succes'), window.location.href = '/'">Comandă</a>
                                                 </div>
                                             </div>

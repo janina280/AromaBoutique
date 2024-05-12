@@ -1,9 +1,7 @@
 ﻿namespace Perfume.Models;
 
-public class WishModel
+public class WishModel : Model
 {
-    public Guid Id { get; set; }
-
     public string ImageSource { get; set; }
 
     public string BrandTitle { get; set; }

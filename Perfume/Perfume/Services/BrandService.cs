@@ -65,8 +65,7 @@ public class BrandService: IBrandService
         {
             Description = brand.Description,
             Image = await _imageConvertorService.ConvertFormFileToImageAsync(img),
-            Name = brand.FileName,
-            ImageDisplay = await _imageConvertorService.ConvertFormFileToImageAsync(img)
+            Name = brand.Name,
         };
         return brandDto;
     }

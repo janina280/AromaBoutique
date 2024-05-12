@@ -1,9 +1,5 @@
-﻿using Humanizer.Bytes;
-using Microsoft.AspNetCore.Http;
-using Perfume.Models;
+﻿using Perfume.Models;
 using Perfume.Services.Interfaces;
-using System.IO;
-using System.Reflection.PortableExecutable;
 
 namespace Perfume.Services;
 

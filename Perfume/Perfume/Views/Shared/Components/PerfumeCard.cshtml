@@ -3,40 +3,56 @@
 
 <div class="card shadow bg-white rounded-end border-0">
     <div class="card-body">
-        <div class="container">
-            <img src="@Url.Content(Model.DisplayImage)" alt="Perfume Image"></img>
+        <div class="container" style="height: 150px; width: 150px;">
+            <img src="@Url.Content(Model.DisplayImage)" alt="Perfume Image" style="height: 150px; width: 150px;"></img>
         </div>
-        <div class="d-flex flex-column">
-            <h5 class="card-title">@Model.BrandTitle</h5>
+        <div class="d-flex flex-column align-items-center">
+            <h5 class="card-title font-weight-bold">@Model.BrandTitle</h5>
             <h6 class="">@Model.PerfumeTitle</h6>
             <h6 class="font-weight-bold">@Model.Price @Model.Currency</h6>
+
             <div class="action_links d-flex justify-content-center">
                 <ul class="list-unstyled d-flex gap-4">
-                    <li class="add_to_cart">
-                        @using (Html.BeginForm("AddToShoppingCart", "Perfume", FormMethod.Post))
-                        {
-                            @Html.HiddenFor(x=> x.Id)
-                            <button class="button-custom-hover border-0" type="submit" title="Adaugă în coș">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="add_to_cart">
+                            @using (Html.BeginForm("AddToShoppingCart", "Perfume", FormMethod.Post))
+                            {
+                                @Html.HiddenFor(x => x.Id)
+                                <button class="button-custom-hover border-0" type="submit" title="Adaugă în coș">
+                                    <i class="fa fa-shopping-cart fa-2x"></i>
+                                </button>
+                            }
+                        </li>
+                        <li class="wishlist">
+                            @using (Html.BeginForm("AddToWishList", "Perfume", FormMethod.Post))
+                            {
+                                @Html.HiddenFor(x => x.Id)
+                                <button class="button-custom-hover border-0" type="submit" title="Adauga in lista de dorinte">
+                                    <i class="fa fa-heart-o fa-2x"></i>
+                                </button>
+                            }
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="add_to_cart">
+                            <a class="button-custom-hover border-0" asp-area="" asp-controller="Account" asp-action="Login" title="Adaugă în coș">
                                 <i class="fa fa-shopping-cart fa-2x"></i>
-                           </button>
-                        }
-                    </li>
-                    <li class="wishlist">
-                        @using (Html.BeginForm("AddToWishList", "Perfume", FormMethod.Post))
-                        {
-                            @Html.HiddenFor(x=> x.Id)
-                            <button class="button-custom-hover border-0" type="submit" title="Adauga in lista de dorinte">
+                            </a>
+                        </li>
+                        <li class="wishlist">
+                            <a class="button-custom-hover border-0" asp-area="" asp-controller="Account" asp-action="Login" title="Adauga in lista de dorinte">
                                 <i class="fa fa-heart-o fa-2x"></i>
-                            </button>
-                        }
-                    </li>
-                    
+                            </a>
+                        </li>
+                    }
                     @if (User.IsInRole(Roles.Administrator))
                     {
                         <li class="edit">
                             @using (Html.BeginForm("AddPerfume", "Perfume", FormMethod.Post))
                             {
-                                @Html.HiddenFor(x=> x.Id)
+                                @Html.HiddenFor(x => x.Id)
                                 <button class="button-custom-hover border-0" type="submit" title="Editeaza">
                                     <i class="fa fa-edit fa-2x"></i>
                                 </button>

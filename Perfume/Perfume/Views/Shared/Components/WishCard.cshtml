@@ -15,8 +15,9 @@
             </a>
             <div class="d-flex flex-row gap-5 align-items-center p-2">
                 <strong>@(Model.Price) @Model.Currency</strong>
-                @using (Html.BeginForm("DeleteWish", "Wish", Model, FormMethod.Post))
+                @using (Html.BeginForm("DeleteWish", "Wish", FormMethod.Post))
                 {
+                    @Html.HiddenFor(x => x.Id)
                     <button style="color: black;" type="submit" title="Șterge">
                         Șterge
                     </button>

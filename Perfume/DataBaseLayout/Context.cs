@@ -52,6 +52,14 @@ public class Context : IdentityDbContext<User, Role, Guid>, IContext
                 entity.ToTable(name: "UserLogins");
         });
 
+        modelBuilder.Entity<Wish>().HasOne(e => e.User).WithMany(e => e.Wishes).HasForeignKey(e => e.UserId);
+        modelBuilder.Entity<Wish>().HasOne(e => e.Perfume).WithMany(e => e.Wishes).HasForeignKey(e => e.PerfumeId);
+
+        modelBuilder.Entity<ShoppingCartPerfume>().HasOne(u => u.User).WithMany(u => u.ShoppingCartPerfumes)
+            .HasForeignKey(u => u.UserId);
+        modelBuilder.Entity<ShoppingCartPerfume>().HasOne(u => u.Perfume).WithMany(u => u.ShoppingCartPerfumes)
+            .HasForeignKey(u => u.PerfumeId);
+
         modelBuilder.Entity<User>().Navigation(u => u.Wishes).AutoInclude();
 
     }

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Perfume.Constants;
+﻿using Microsoft.AspNetCore.Mvc;
 using Perfume.Models;
 using Perfume.Repositories.Interfaces;
 using Perfume.Services.Interfaces;
@@ -11,11 +9,12 @@ public class CartController : Controller
 {
     private readonly IShoppingCartPerfumeRepository _perfumeRepository;
     private readonly IImageConvertorService _imageConvertorService;
-
-    public CartController(IShoppingCartPerfumeRepository perfumeRepository, IImageConvertorService imageConvertorService)
+    private readonly IUserRepository _userRepository;
+    public CartController(IShoppingCartPerfumeRepository perfumeRepository, IImageConvertorService imageConvertorService, IUserRepository userRepository)
     {
         _perfumeRepository = perfumeRepository;
         _imageConvertorService = imageConvertorService;
+        _userRepository = userRepository;
     }
 
     [HttpPost]
@@ -29,7 +28,8 @@ public class CartController : Controller
     [HttpGet]
     public async Task<IActionResult> CartAsync()
     {
-        var shoppingCartPerfumes = await _perfumeRepository.GetShoppingCartPerfumesAsync();
+        var user = await _userRepository.GetUserAsync(User.Identity.Name);
+        var shoppingCartPerfumes = await _perfumeRepository.GetShoppingCartPerfumesByUserIdAsync(user.Id);
 
         var shoppingCartPerfumesDto = new List<CartModel>();
         foreach (var shoppingCartPerfume in shoppingCartPerfumes)
@@ -48,7 +48,7 @@ public class CartController : Controller
                 Price = shoppingCartPerfume.Perfume?.Price ?? 0,
                 PerfumeTitle = shoppingCartPerfume.Perfume?.Name,
                 ImageSource = await _imageConvertorService.ConvertFormFileToImageAsync(img),
-                Quantity = shoppingCartPerfume.Perfume?.Stock ?? 0,
+                Quantity = shoppingCartPerfume.Quantity,
                 Id = shoppingCartPerfume.Id
             });
         }

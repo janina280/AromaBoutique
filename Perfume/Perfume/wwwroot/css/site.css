@@ -230,3 +230,28 @@ h6 {
 .rating-color {
     color: #fbc634 !important;
 }
+
+.button-custom-hover {
+    color: grey;
+    background-color: transparent;
+    z-index: 2;
+    position: relative;
+}
+
+.button-custom-hover:hover {
+    color: orangered;
+}
+
+.action_links ul li {
+    display: inline;
+}
+
+.container img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

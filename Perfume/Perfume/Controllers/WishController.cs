@@ -1,6 +1,4 @@
-﻿using System.Net.Security;
-using DataBaseLayout.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Perfume.Models;
 using Perfume.Repositories.Interfaces;
 using Perfume.Services.Interfaces;
@@ -17,7 +15,7 @@ public class WishController: Controller
         _imageConvertorService = imageConvertorService;
     }
     [HttpPost]
-    public async Task<IActionResult> DeleteWishAsync(CartModel model)
+    public async Task<IActionResult> DeleteWishAsync(WishModel model)
     {
         await _wishRepository.DeleteWishAsync(model.Id);
 
@@ -43,7 +41,7 @@ public class WishController: Controller
                 Currency = wish.Perfume?.Currency,
                 Price = wish.Perfume?.Price ?? 0,
                 PerfumeTitle = wish.Perfume?.Name,
-                Id = wish.Perfume.Id,
+                Id = wish.Id,
                 ImageSource = await _imageConvertorService.ConvertFormFileToImageAsync(img)
             });
         }
