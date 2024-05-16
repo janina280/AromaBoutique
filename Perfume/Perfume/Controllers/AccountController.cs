@@ -40,6 +40,7 @@ public class AccountController : Controller
         var result = await _userRepository.SignInAsync(login.Email, login.Password);
         if (result)
         {
+            TempData["SuccessMessage"] = "Login successful!";
             return RedirectToAction("Index", "Home");
         }
         ModelState.AddModelError("", "The password or email are incorrect!");

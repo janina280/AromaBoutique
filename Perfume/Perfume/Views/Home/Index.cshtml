@@ -8,14 +8,20 @@
             @foreach (var promotionModel in Model)
             {
                 <div class="position-relative ml-0 index-up" style="height: 400px; width: 70vw;">
-                    <img src="@Url.Content(promotionModel.Image)" class="rounded" style="height: 400px; width: 70vw;" alt="Image" />
+                    <img src="@Url.Content(promotionModel.Image)" class="rounded" style="height: 400px; width: 70vw;" alt="Image"/>
                     <div class="pl-5 ml-3 pr-5 mr-3">@promotionModel.Description</div>
                 </div>
             }
         </div>
     </div>
 </div>
-
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show position-absolute" style="right: 90px" role="alert">
+        <strong>@TempData["SuccessMessage"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 @if (User.IsInRole(Roles.Administrator))
 {
     <div class="position-absolute add-button">

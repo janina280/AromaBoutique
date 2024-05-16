@@ -30,6 +30,24 @@ public class WishRepository: IWishRepository
         return wish;
     }
 
+    public async  Task<List<Wish>> GetWishListByUserIdAsync(Guid userId)
+    {
+        var wish = await _context.WishList
+            .Include(x => x.Perfume)
+            .Include(x => x.User)
+            .Include(x => x.Perfume.Brand)
+            .Include(x => x.Perfume.PerfumeCategory)
+            .Include(x => x.Perfume.Wishes)
+            .Include(x => x.Perfume.Reviews)
+            .Include(x => x.Perfume.ShoppingCartPerfumes)
+            .Include(x => x.Perfume.PerfumeImages)
+            .Include(x => x.Perfume.Deliveries)
+            .Where(scp => scp.UserId == userId)
+            .ToListAsync();
+
+        return wish;
+    }
+
     public async Task<Wish> GetWishAsync(Guid id)
     {
         var wish = await _context.WishList
