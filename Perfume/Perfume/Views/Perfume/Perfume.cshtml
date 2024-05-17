@@ -1,13 +1,11 @@
 ﻿@model PerfumeModel
 
 <div class="d-flex flex-row justify-content-between mt-4">
-    <div class="d-flex flex-column w-50" style="height: 300px; width: 200px;">
+    <div class="card border-0 d-flex w-50">
         <img src="@Model.DisplayImage" class="rounded mx-auto d-block" style="height: 300px; width: 200px;" alt="img">
         <div>
-            <h5>Descriere @Model.BrandTitle @Model.PerfumeTitle</h5><br />
-            <div class="d-flex flex-column position-relative">
-                @Model.Description
-            </div>
+            <h5>Descriere</h5>  <h3>@Model.BrandTitle @Model.PerfumeTitle</h3><br />
+            <span class="p-5 gap-3">@Model.Description</span>
         </div>
     </div>
     <div class="card border-0 d-flex w-50">
@@ -84,6 +82,7 @@
             <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Scrie evaluare
             </button>
+           
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -107,7 +106,7 @@
             </div>
             <div>
 
-                @*@await Html.PartialAsync("Components/Review")*@
+                @await Html.PartialAsync("Components/Review")
             </div>
         </div>
     </div>

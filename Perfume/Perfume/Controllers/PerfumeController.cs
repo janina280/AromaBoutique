@@ -45,10 +45,18 @@ public class PerfumeController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> PerfumesAsync(){
+    public async Task<IActionResult> PerfumesAsync(int pg=1){
         var perfumes = await _perfumeService.GetPerfumesAsync();
-       
-        return View(perfumes);
+        const int pageSize = 8;
+        if (pg < 1)
+            pg = 1;
+        int recsCount = perfumes.Count();
+        var pager = new Pager(recsCount, pg, pageSize);
+        int recSkip = (pg - 1) * pageSize;
+        var data = perfumes.Skip(recSkip).Take(pager.PageSize).ToList();
+        this.ViewBag.Pager = pager;
+
+        return View(data);
     }
 
 
@@ -106,13 +114,14 @@ public class PerfumeController : Controller
     public async Task<IActionResult> Perfumes(string searchString)
     {
         var perfumes =await _perfumeService.GetPerfumesAsync();
+        //Search functionality
         if (!String.IsNullOrEmpty(searchString))
         {
             perfumes = perfumes.Where(p => p.PerfumeTitle.Contains(searchString) || p.BrandTitle.Contains(searchString))
                 .ToList();
         }
-
         return View(perfumes);
+       
     }
 
     [HttpPost]
