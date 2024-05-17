@@ -45,12 +45,12 @@ public class PerfumeController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> PerfumesAsync()
-    {
+    public async Task<IActionResult> PerfumesAsync(){
         var perfumes = await _perfumeService.GetPerfumesAsync();
-
+       
         return View(perfumes);
     }
+
 
     [HttpGet]
     public async Task<IActionResult> AddPerfumeAsync()
@@ -103,9 +103,14 @@ public class PerfumeController : Controller
         
         return RedirectToAction("Perfumes", "Perfume");
     }
-    public async Task<IActionResult> Perfumes()
+    public async Task<IActionResult> Perfumes(string searchString)
     {
         var perfumes =await _perfumeService.GetPerfumesAsync();
+        if (!String.IsNullOrEmpty(searchString))
+        {
+            perfumes = perfumes.Where(p => p.PerfumeTitle.Contains(searchString) || p.BrandTitle.Contains(searchString))
+                .ToList();
+        }
 
         return View(perfumes);
     }
