@@ -68,12 +68,12 @@
                                     <a href="javascript:void(0)">
                                         <i class="fa fa-search"></i>
                                     </a>
-                                        <div class="search_widget">
-                                            <form asp-action="Perfumes" asp-controller="Perfume">
-                                                <input name="searchString" class="form-control me-1" type="search" placeholder="Caută parfum">
-                                                <button type="submit"><i class="fa fa-search"></i></button>
-                                            </form>
-                                        </div>
+                                    <div class="search_widget">
+                                        <form asp-action="Perfumes" asp-controller="Perfume">
+                                            <input name="searchString" class="form-control me-1" type="search" placeholder="Caută parfum">
+                                            <button type="submit"><i class="fa fa-search"></i></button>
+                                        </form>
+                                    </div>
                                 </li>
                                 @if (User.Identity.IsAuthenticated)
                                 {
@@ -92,7 +92,7 @@
                                             <div class="cart_gallery">
                                                 @if (!wishes.Any())
                                                 {
-                                                    <p>Lista este goala!!</p>
+                                                    <b>Nu aveți încă produse preferate</b>
                                                 }
                                                 @foreach (var wish in wishes)
                                                 {
@@ -114,7 +114,7 @@
                                                             <a asp-area="" asp-controller="Brands" asp-action="Brand" asp-route-name="@wish.Perfume.Brand.Name" class="text-decoration-none text-black">
                                                                 @wish.Perfume.Brand.Name
                                                             </a>
-                                                            <br/>
+                                                            <br />
                                                             <a asp-area="" asp-controller="Perfume" asp-action="Perfume" asp-route-id="@wish.PerfumeId" class="text-decoration-none text-black">
                                                                 @wish.Perfume.Name
                                                             </a>
@@ -144,7 +144,7 @@
                                             <div class="cart_gallery">
                                                 @if (!carts.Any())
                                                 {
-                                                    <p>Coșul este gol!</p>
+                                                    <b>Nu aveți încă produse in cos</b>
                                                 }
                                                 @foreach (var cart in carts)
                                                 {
@@ -166,7 +166,7 @@
                                                             <a asp-area="" asp-controller="Brands" asp-action="Brand" asp-route-name="@cart.Perfume.Brand.Name" class="text-decoration-none text-black">
                                                                 @cart.Perfume.Brand.Name
                                                             </a>
-                                                            <p><span>@(cart.Quantity * cart.Perfume.Price) @cart.Perfume.Currency</span> X 1</p>
+                                                            <h4><span>@(cart.Quantity * cart.Perfume.Price) @cart.Perfume.Currency</span><h5>X @cart.Quantity</h5></h4>
                                                         </div>
                                                     </div>
                                                 }
@@ -183,10 +183,9 @@
 
                                                     <div class="cart_total mt-10">
                                                         <span>Total :</span>
-                                                        @*todo: replace '10' with the cost for the transport*@
                                                         @if (subtotal > 0)
                                                         {
-                                                            <span class="price">@(subtotal + 10) @(carts.FirstOrDefault()?.Perfume.Currency ?? "RON")</span>
+                                                            <span class="price">@(subtotal + 26 + 5 + 4) @(carts.FirstOrDefault()?.Perfume.Currency ?? "RON")</span>
                                                         }
                                                         else
                                                         {
