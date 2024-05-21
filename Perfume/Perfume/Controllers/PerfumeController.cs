@@ -114,7 +114,7 @@ public class PerfumeController : Controller
             UserId = user.Id,
             PerfumeId = model.Id,
         });
-        return RedirectToAction("Wish", "Wish");
+        return RedirectToAction("Perfumes", "Perfume");
     }
 
     [HttpPost]

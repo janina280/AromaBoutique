@@ -114,6 +114,10 @@
                                                             <a asp-area="" asp-controller="Brands" asp-action="Brand" asp-route-name="@wish.Perfume.Brand.Name" class="text-decoration-none text-black">
                                                                 @wish.Perfume.Brand.Name
                                                             </a>
+                                                            <br/>
+                                                            <a asp-area="" asp-controller="Perfume" asp-action="Perfume" asp-route-id="@wish.PerfumeId" class="text-decoration-none text-black">
+                                                                @wish.Perfume.Name
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 }
