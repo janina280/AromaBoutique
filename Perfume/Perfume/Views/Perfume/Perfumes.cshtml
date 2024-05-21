@@ -17,6 +17,26 @@
     <p>Nu s-au găsit parfumuri!</p>
 }
 
+<div class="row p-2 g-2" style="position: absolute; left: 40px; background: aliceblue; margin-top: 20px; align-content: center; align-items: center">
+    <div class="col-md-1">
+        <table class="">
+            <thead>
+                <tr>Sort</tr>
+            <tr>
+                <td>Alphabetic</td>
+                <th><a asp-action="Perfumes" asp-controller="Perfume" asp-route-pg="1" asp-route-sortOrder="name_asc" class="text-black"><i class="fa fa-sort-asc"></i></a></th>
+                <th><a asp-action="Perfumes" asp-controller="Perfume" asp-route-pg="1" asp-route-sortOrder="name_desc" class="text-black"><i class="fa fa-sort-desc"></i></a></th>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <th><a asp-action="Perfumes" asp-controller="Perfume" asp-route-pg="1" asp-route-sortOrder="price_asc" class="text-black"><i class="fa fa-sort-asc"></i></a></th>
+                <th><a asp-action="Perfumes" asp-controller="Perfume" asp-route-pg="1" asp-route-sortOrder="price_desc" class="text-black"><i class="fa fa-sort-desc"></i></a></th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
 <div class="row p-2 g-2">
     @foreach (var perfume in Model)
     {

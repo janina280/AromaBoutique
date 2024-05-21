@@ -45,13 +45,33 @@ public class PerfumeController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> PerfumesAsync(int pg=1){
+    public async Task<IActionResult> PerfumesAsync(int pg = 1, string sortOrder = null)
+    {
         var perfumes = await _perfumeService.GetPerfumesAsync();
-        const int pageSize = 8;
+
+        //Sort functionality
+        switch (sortOrder)
+        {
+            case "price_desc":
+                perfumes = perfumes.OrderByDescending(p => p.Price).ToList();
+                break;
+            case "price_asc":
+                perfumes = perfumes.OrderBy(p => p.Price).ToList(); //Ascendent
+                break;
+            case "name_desc":
+                perfumes = perfumes.OrderByDescending(p => p.PerfumeTitle).ToList();
+                break;
+            case "name_asc":
+                perfumes = perfumes.OrderBy(p => p.PerfumeTitle).ToList(); //Ascendent
+                break;
+        }
+    
+
+    const int pageSize = 8;
         if (pg < 1)
             pg = 1;
         int recsCount = perfumes.Count();
-        var pager = new Pager(recsCount, pg, pageSize);
+        var pager = new Pager(recsCount, pg,sortOrder, pageSize );
         int recSkip = (pg - 1) * pageSize;
         var data = perfumes.Skip(recSkip).Take(pager.PageSize).ToList();
         this.ViewBag.Pager = pager;
@@ -120,8 +140,8 @@ public class PerfumeController : Controller
             perfumes = perfumes.Where(p => p.PerfumeTitle.Contains(searchString) || p.BrandTitle.Contains(searchString))
                 .ToList();
         }
+
         return View(perfumes);
-       
     }
 
     [HttpPost]
