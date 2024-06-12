@@ -18,8 +18,9 @@
                 {
                     htmlAttributes = new
                     {
-                        placeholder = "Introduceți adresa de email",
-                        @class = "form-control"
+                        @placeholder = "Introduceți adresa de email",
+                        @class = "form-control",
+                            @id = "login_username"
                     }
                 })
                 @Html.ValidationMessageFor(model => model.Email, "", new
@@ -27,14 +28,16 @@
                     @class = "text-danger"
                 })
             </div>
-            <div class="form-group">
+            <div class="form-group" >
                 @Html.LabelFor(model => model.Password)
                 @Html.EditorFor(model => model.Password, new
                 {
                     htmlAttributes = new
                     {
                         @placeholder = "Introduceți parola",
-                        @class = "form-control"
+                        @class = "form-control",
+                            @id = "password_login"
+
                     }
                 })
                 @Html.ValidationMessageFor(model => model.Password, "", new
@@ -42,7 +45,7 @@
                     @class = "text-danger"
                 })
             </div>
-            <button type="submit" class="btn btn-outline-dark rounded-pill" id="liveAlertBtn">Logare</button>
+            <button id="login_button"  type="submit" class="btn btn-outline-dark rounded-pill">Logare</button>
             <label>Nu ai cont? <a asp-area="" asp-controller="Account" asp-action="Register" style="color:black">Crează cont nou</a></label>
         </div>
     }

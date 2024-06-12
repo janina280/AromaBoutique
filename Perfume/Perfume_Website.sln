@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Perfume", "Perfume\Perfume.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseLayout", "DataBaseLayout\DataBaseLayout.csproj", "{21E63AAD-0CCA-4E3F-BA85-5F80EAD54C4D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{BD37AC76-04B4-4469-9B4D-F426267A4720}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{21E63AAD-0CCA-4E3F-BA85-5F80EAD54C4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21E63AAD-0CCA-4E3F-BA85-5F80EAD54C4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21E63AAD-0CCA-4E3F-BA85-5F80EAD54C4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD37AC76-04B4-4469-9B4D-F426267A4720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD37AC76-04B4-4469-9B4D-F426267A4720}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD37AC76-04B4-4469-9B4D-F426267A4720}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD37AC76-04B4-4469-9B4D-F426267A4720}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
