@@ -45,10 +45,28 @@ Executing program
 Open your browser and navigate to the local URL (usually http://localhost:5000 or http://localhost:5001).
 
 You will now be able to:
+![Screenshot 2024-06-08 222403](https://github.com/user-attachments/assets/6145f11d-b27a-4fc4-8607-163f89593ff5)
+
+![Screenshot 2024-06-08 223609](https://github.com/user-attachments/assets/fd690434-16ac-4883-8653-9c6b22cc69a3)
 
 Browse perfumes, view detailed product pages, and add items to the shopping cart or wish list.
+![Screenshot 2024-06-09 192710](https://github.com/user-attachments/assets/b44e6006-c76a-4367-b35a-fa14987611b5)
+
+![Screenshot 2024-06-08 223802](https://github.com/user-attachments/assets/75919f3c-97f1-4f27-b40f-963afa9a0e18)
+
+![Screenshot 2024-06-09 193424](https://github.com/user-attachments/assets/a42d1d55-a3b1-4505-aeab-5fdad5fe4299)
+
+![Screenshot 2024-06-09 192926](https://github.com/user-attachments/assets/db87c67f-6958-402c-92f8-ac21711c66fc)
+
+![Screenshot 2024-06-08 222633](https://github.com/user-attachments/assets/a4a32ab5-624c-4f1b-85dc-2c1a9ad9734d)
+
+![Screenshot 2024-06-08 222654](https://github.com/user-attachments/assets/b129aa21-73f7-419a-a2e5-6379895e684a)
+
+![Screenshot 2024-06-08 222616](https://github.com/user-attachments/assets/f275f1ef-a683-4cd3-b754-7bfa92b17e14)
 
 Use the advanced search feature to filter perfumes by price or name.
+
+![Screenshot 2024-06-08 223123](https://github.com/user-attachments/assets/975ee01f-b4ea-4ba2-bec5-54a225b9a7eb)
 
 View current promotions on the dedicated promotions page.
 
