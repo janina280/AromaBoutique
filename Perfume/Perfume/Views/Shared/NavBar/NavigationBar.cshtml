@@ -42,15 +42,22 @@
                                             {
                                                 var brands = perfumes.Where(p => p.PerfumeCategory.Name == perfumeCategory.Name).Select(p => p.Brand);
                                                 <li>
-                                                    <a href="#">Parfumuri pentru @perfumeCategory.Name</a>
+                                                    <a asp-controller="Perfume" asp-action="Perfumes" asp-route-category="@perfumeCategory.Name" class="text-decoration-none text-danger">
+                                                        Parfumuri pentru @perfumeCategory.Name
+                                                    </a>
                                                     <ul>
-                                                        @foreach (var brand in brands)
+                                                        @foreach (var brand in brands.Distinct())
                                                         {
-                                                            <li><a asp-area="" asp-controller="Perfume" asp-action="Perfumes" class="text-black">@brand.Name</a></li>
+                                                            <li>
+                                                                <a asp-controller="Perfume" asp-action="Perfumes" asp-route-brand="@brand.Name" class="text-decoration-underline text-black">
+                                                                    @brand.Name
+                                                                </a>
+                                                            </li>
                                                         }
                                                     </ul>
                                                 </li>
                                             }
+
                                         </ul>
                                     </div>
                                 </li>

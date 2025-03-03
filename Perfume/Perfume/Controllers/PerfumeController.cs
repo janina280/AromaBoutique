@@ -45,33 +45,44 @@ public class PerfumeController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> PerfumesAsync(int pg = 1, string sortOrder = null)
+    public async Task<IActionResult> PerfumesAsync(int pg = 1, string sortOrder = null, string category = null, string brand = null)
     {
         var perfumes = await _perfumeService.GetPerfumesAsync();
+        Console.WriteLine($"{category}");
 
-        //Sort functionality
+        // Filtrare după brand
+        if (!string.IsNullOrEmpty(brand))
+        {
+            perfumes = perfumes.Where(p => p.BrandTitle == brand).ToList();
+        }
+
+        if (!string.IsNullOrEmpty(category))
+        {
+            perfumes = perfumes.Where(p => p.PerfumeCategory.Name == category).ToList();
+
+        }
+
+        // Sortare
         switch (sortOrder)
         {
             case "price_desc":
                 perfumes = perfumes.OrderByDescending(p => p.Price).ToList();
                 break;
             case "price_asc":
-                perfumes = perfumes.OrderBy(p => p.Price).ToList(); //Ascendent
+                perfumes = perfumes.OrderBy(p => p.Price).ToList();
                 break;
             case "name_desc":
                 perfumes = perfumes.OrderByDescending(p => p.PerfumeTitle).ToList();
                 break;
             case "name_asc":
-                perfumes = perfumes.OrderBy(p => p.PerfumeTitle).ToList(); //Ascendent
+                perfumes = perfumes.OrderBy(p => p.PerfumeTitle).ToList();
                 break;
         }
-    
 
-    const int pageSize = 8;
-        if (pg < 1)
-            pg = 1;
+        const int pageSize = 8;
+        if (pg < 1) pg = 1;
         int recsCount = perfumes.Count();
-        var pager = new Pager(recsCount, pg,sortOrder, pageSize );
+        var pager = new Pager(recsCount, pg, sortOrder, pageSize);
         int recSkip = (pg - 1) * pageSize;
         var data = perfumes.Skip(recSkip).Take(pager.PageSize).ToList();
         this.ViewBag.Pager = pager;

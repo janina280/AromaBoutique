@@ -1,3 +1,5 @@
+using DataBaseLayout.Models;
+
 namespace Perfume.Models;
 
 public class PerfumeModel
@@ -15,5 +17,8 @@ public class PerfumeModel
     public double Rating { get; set; }
     public string DisplayImage { get; set; }
     public string Description { get; set; }
+
+    public PerfumeCategory PerfumeCategory { get; set; }
+
 
 }
