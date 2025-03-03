@@ -215,7 +215,25 @@ public class PerfumeController : Controller
         document.Close();
 
         // Returnează fișierul PDF
-        //ms.Seek(0, SeekOrigin.Begin);
         return File(ms.ToArray(), "application/pdf", $"{perfume.PerfumeTitle}_Description.pdf");
     }
+
+    [HttpGet]
+    public async Task<IActionResult> FilterPerfumes(string term)
+    {
+        var perfumes = await _perfumeService.GetPerfumesAsync();
+
+        // Filtrare parfumuri după nume sau brand
+        if (!string.IsNullOrEmpty(term))
+        {
+            perfumes = perfumes
+                .Where(p => p.PerfumeTitle.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                            p.BrandTitle.Contains(term, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+
+        return PartialView("Components/PerfumeList", perfumes); // Returnează doar lista de parfumuri
+    }
+
+
 }
