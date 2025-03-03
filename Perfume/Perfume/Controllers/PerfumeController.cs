@@ -1,4 +1,7 @@
 ﻿using DataBaseLayout.Models;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -6,6 +9,7 @@ using Perfume.Constants;
 using Perfume.Models;
 using Perfume.Repositories.Interfaces;
 using Perfume.Services.Interfaces;
+using System.IO;
 
 namespace Perfume.Controllers;
 
@@ -17,14 +21,14 @@ public class PerfumeController : Controller
     private readonly IPerfumeService _perfumeService;
     private readonly IPerfumeCategoryRepository _perfumeCategoryRepository;
     private readonly IWishRepository _wishRepository;
-  private readonly IUserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
 
     public PerfumeController(
-        IShoppingCartPerfumeRepository shoppingCartPerfumeRepository, 
-        IBrandRepository brandRepository, 
-        IPerfumeService perfumeService, 
+        IShoppingCartPerfumeRepository shoppingCartPerfumeRepository,
+        IBrandRepository brandRepository,
+        IPerfumeService perfumeService,
         IPerfumeRepository perfumeRepository,
-        IPerfumeCategoryRepository perfumeCategoryRepository, 
+        IPerfumeCategoryRepository perfumeCategoryRepository,
         IWishRepository wishRepository, IUserRepository userRepository)
     {
         _shoppingCartPerfumeRepository = shoppingCartPerfumeRepository;
@@ -40,7 +44,7 @@ public class PerfumeController : Controller
     public async Task<IActionResult> PerfumeAsync(string id)
     {
         var perfume = await _perfumeService.GetPerfumeAsync(Guid.Parse(id));
-     
+
         return View(perfume);
     }
 
@@ -100,7 +104,7 @@ public class PerfumeController : Controller
         return View();
     }
 
-    
+
     [HttpPost]
     [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> AddPerfumeAsync(AddPerfumeModel model)
@@ -112,7 +116,7 @@ public class PerfumeController : Controller
         await _perfumeService.AddPerfumeAsync(model);
         return RedirectToAction("Perfumes", "Perfume");
     }
-    
+
 
 
     [HttpPost]
@@ -133,18 +137,18 @@ public class PerfumeController : Controller
     {
         var user = await _userRepository.GetUserAsync(User.Identity.Name);
         await _shoppingCartPerfumeRepository.CreateShoppingCartPerfumeAsync(new ShoppingCartPerfume()
-            {
-                PerfumeId = model.Id,
-                UserId = user.Id,
-                Id = Guid.NewGuid()
-            }
+        {
+            PerfumeId = model.Id,
+            UserId = user.Id,
+            Id = Guid.NewGuid()
+        }
         );
-        
+
         return RedirectToAction("Perfumes", "Perfume");
     }
     public async Task<IActionResult> Perfumes(string searchString)
     {
-        var perfumes =await _perfumeService.GetPerfumesAsync();
+        var perfumes = await _perfumeService.GetPerfumesAsync();
         //Search functionality
         if (!String.IsNullOrEmpty(searchString))
         {
@@ -181,5 +185,37 @@ public class PerfumeController : Controller
             Text = c.Name,
             Value = c.Name,
         });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> DownloadPdfAsync(Guid id)
+    {
+        var perfume = await _perfumeService.GetPerfumeAsync(id);
+
+        // Creare PDF
+        using MemoryStream ms = new MemoryStream();
+        // Crearea unui obiect PdfWriter și asocierea cu MemoryStream
+        var writer = new PdfWriter(ms);
+        var pdf = new PdfDocument(writer);
+        var document = new Document(pdf);
+
+        // Adăugarea titlului și descrierii parfumului în PDF
+        document.Add(new Paragraph($"Perfume: {perfume.PerfumeTitle}")
+            .SetFontSize(20));
+        document.Add(new Paragraph($"Brand: {perfume.BrandTitle}")
+            .SetFontSize(18));
+        document.Add(new Paragraph($"Category: {perfume.PerfumeCategory.Name}")
+            .SetFontSize(18));
+        document.Add(new Paragraph($"Price: {perfume.Price}")
+            .SetFontSize(18));
+        document.Add(new Paragraph($"Description: {perfume.Description}")
+            .SetFontSize(12));
+
+        // Închide documentul PDF
+        document.Close();
+
+        // Returnează fișierul PDF
+        //ms.Seek(0, SeekOrigin.Begin);
+        return File(ms.ToArray(), "application/pdf", $"{perfume.PerfumeTitle}_Description.pdf");
     }
 }

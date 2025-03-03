@@ -6,6 +6,9 @@
         <div>
             <h5>Descriere</h5>  <h3>@Model.BrandTitle @Model.PerfumeTitle</h3><br />
             <span class="p-5 gap-3">@Model.Description</span>
+            <a asp-area="" asp-controller="Perfume" asp-action="DownloadPdf" asp-route-id="@Model.Id" class="btn btn-dark" target="_blank">
+                Descarcă PDF cu detalii
+            </a>
         </div>
     </div>
     <div class="card border-0 d-flex w-50">
@@ -60,18 +63,6 @@
                         </button>
                     }
                 </div>
-                <div class="container ">
-                    <div class="d-flex flex-row justify-content-between">
-                        <div class="d-flex flex-row align-items-baseline gap-2">
-                            <input type="checkbox" id="demoCheckbox" name="checkbox" value="1">
-                            <div class="d-flex flex-column">
-                                <label for="demoCheckbox"><b>Gravură personalizată</b></label>
-                                <a class="text-muted" href="#"> Doresc să aflu despre gravură mai multe.</a>
-                            </div>
-                        </div>
-                        <label> 20 RON</label>
-                    </div>
-                </div>
             </div>
             <br/>
             <div class="d-flex flex-row gap-3" style="font-size: 1rem;">
@@ -79,33 +70,10 @@
                 <div class="text-muted"> Începând de mâine.</div>
             </div>
             <br/>
-            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Scrie evaluare
-            </button>
-           
-
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Rating general</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Inchide"></button>
-                        </div>
-                        <div class="modal-body">
-                            <span class="badge bg-dark">Pentru a putea verifica recenzia autentificați-vă mai întâi.</span>
-                        </div>
-
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Inchide</button>
-                            <button type="button" class="btn btn-dark">Trimite</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
             <div>
-
+              
                 @await Html.PartialAsync("Components/Review")
             </div>
         </div>

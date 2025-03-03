@@ -55,4 +55,25 @@ public class CartController : Controller
 
         return View(shoppingCartPerfumesDto);
     }
+
+
+    [HttpPost]
+    public async Task<IActionResult> CheckoutAsync()
+    {
+        // Obținem utilizatorul curent
+        var user = await _userRepository.GetUserAsync(User.Identity.Name);
+
+        // Găsim toate produsele din coș pentru acest utilizator
+        var shoppingCartPerfumes = await _perfumeRepository.GetShoppingCartPerfumesByUserIdAsync(user.Id);
+
+        // Ștergem toate produsele din coșul utilizatorului
+        foreach (var item in shoppingCartPerfumes)
+        {
+            await _perfumeRepository.DeleteShoppingCartPerfumeAsync(item.Id);
+        }
+
+        // După ștergerea produselor din coș, putem să reîncarcăm din nou lista cu produse goale (sau actualizată)
+        return RedirectToAction("Cart");  // Aceasta va reîncărca pagina de coș
+    }
+
 }
