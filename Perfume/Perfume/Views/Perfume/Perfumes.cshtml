@@ -18,34 +18,10 @@
 }
 
 
-<!-- Input pentru căutare -->
-<div class="mb-3">
-    <input type="text" id="searchPerfume" class="form-control" placeholder="Caută parfumuri...">
+<div class="mb-3 position-relative">
+    <input type="text" id="searchPerfume" class="form-control" placeholder="Caută parfumuri..." autocomplete="off">
+    <div id="suggestions" class="list-group" style="display: none; position: absolute; width: 100%; z-index: 9999; background-color: white;"></div>
 </div>
-
-<!-- Script pentru Autocomplete -->
-@section Scripts {
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#searchPerfume").on("input", function () {
-                var searchTerm = $(this).val();
-
-                $.ajax({
-                    url: '@Url.Action("FilterPerfumes", "Perfume")',
-                    type: 'GET',
-                    data: { term: searchTerm },
-                    success: function (data) {
-                        $("#perfumeListContainer").html(data); // Înlocuiește lista de parfumuri
-                    }
-                });
-            });
-        });
-
-    </script>
-}
-
-
 
 <div class="row p-2 g-2" style="position: absolute; left: 40px; background: aliceblue; margin-top: 20px; align-content: center; align-items: center">
     <div class="col-md-1">
@@ -81,3 +57,39 @@
 }
 
 <partial name="Components/Pager" model="@pager"/>
+
+
+<script>
+    $(document).ready(function () {
+        $('#searchPerfume').on('input', function () {
+            var query = $(this).val();
+
+            if (query.length >= 1) {
+                $.ajax({
+                    url: '/Perfume/SearchPerfumes',
+                    data: { searchTerm: query },
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $('#suggestions').empty().show();
+                            data.forEach(function (item) {
+                                $('#suggestions').append('<a href="/Perfume/Perfume/' + item.id + '" class="list-group-item list-group-item-action">' + item.name + '</a>');
+                            });
+                        } else {
+                            $('#suggestions').hide();
+                        }
+                    }
+                });
+            } else {
+                $('#suggestions').hide();
+            }
+        });
+
+        $(document).click(function (e) {
+            if (!$(e.target).closest('#searchPerfume').length) {
+                $('#suggestions').hide();
+            }
+        });
+    });
+
+
+</script>

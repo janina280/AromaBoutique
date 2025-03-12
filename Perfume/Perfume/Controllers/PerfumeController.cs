@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Perfume.Constants;
 using Perfume.Models;
 using Perfume.Repositories.Interfaces;
+using Perfume.Services;
 using Perfume.Services.Interfaces;
 using System.IO;
 
@@ -22,7 +23,6 @@ public class PerfumeController : Controller
     private readonly IPerfumeCategoryRepository _perfumeCategoryRepository;
     private readonly IWishRepository _wishRepository;
     private readonly IUserRepository _userRepository;
-
     public PerfumeController(
         IShoppingCartPerfumeRepository shoppingCartPerfumeRepository,
         IBrandRepository brandRepository,
@@ -38,6 +38,7 @@ public class PerfumeController : Controller
         _perfumeCategoryRepository = perfumeCategoryRepository;
         _wishRepository = wishRepository;
         _userRepository = userRepository;
+
     }
 
     [HttpGet]
@@ -219,21 +220,33 @@ public class PerfumeController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> FilterPerfumes(string term)
+    public async Task<IActionResult> SearchPerfumes(string searchTerm)
     {
-        var perfumes = await _perfumeService.GetPerfumesAsync();
-
-        // Filtrare parfumuri după nume sau brand
-        if (!string.IsNullOrEmpty(term))
+        if (string.IsNullOrEmpty(searchTerm))
         {
-            perfumes = perfumes
-                .Where(p => p.PerfumeTitle.Contains(term, StringComparison.OrdinalIgnoreCase) ||
-                            p.BrandTitle.Contains(term, StringComparison.OrdinalIgnoreCase))
-                .ToList();
+            return Json(new List<object>());
         }
 
-        return PartialView("Components/PerfumeList", perfumes); // Returnează doar lista de parfumuri
+        var perfumes = await _perfumeRepository.GetPerfumesAsync();
+
+        // Creăm un Trie și adăugăm numele parfumurilor
+        var trie = new Trie();
+        foreach (var perfume in perfumes)
+        {
+            trie.Insert(perfume.Name); // Adăugăm fiecare nume de parfum în Trie
+        }
+
+        // Căutăm prefixurile care se potrivesc cu termenul de căutare
+        var matchingPerfumes = trie.StartsWith(searchTerm)
+            .Select(name => perfumes.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase)))
+            .Where(p => p != null)
+            .Take(5) 
+            .Select(p => new { p.Id, p.Name }) 
+            .ToList();
+
+        return Json(matchingPerfumes);
     }
+
 
 
 }

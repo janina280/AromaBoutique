@@ -40,7 +40,8 @@ public class PerfumeService : IPerfumeService
                 Price = perfume.Price,
                 Rating = perfume.Rating,
                 DisplayImage = await _imageConvertorService.ConvertFormFileToImageAsync(img),
-                PerfumeCategory = perfume.PerfumeCategory
+                PerfumeCategory = perfume.PerfumeCategory,
+                Description = perfume.Description
             });
         }
         return perfumesDto;
