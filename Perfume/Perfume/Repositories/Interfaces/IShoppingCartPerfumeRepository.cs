@@ -9,4 +9,6 @@ public interface IShoppingCartPerfumeRepository
     Task<ShoppingCartPerfume> GetShoppingCartPerfumeAsync(Guid id);
      Task CreateShoppingCartPerfumeAsync(ShoppingCartPerfume model);
      Task DeleteShoppingCartPerfumeAsync(Guid id);
+     Task UpdateShoppingCartPerfumeAsync(ShoppingCartPerfume cartItem);
+
 }

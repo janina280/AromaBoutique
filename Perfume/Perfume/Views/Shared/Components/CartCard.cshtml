@@ -19,18 +19,35 @@
                     <h4><strong>@Model.Currency</strong></h4>
                     <h5> <div class="font-accent">X @Model.Quantity</div></h5>
                 </span>
-                
+
             </div>
             <div class="d-flex flex-row gap-5 align-items-center p-2">
                 <strong>@(Model.Price * Model.Quantity) @Model.Currency</strong>
+
+                <form method="post" action="@Url.Action("UpdateQuantity", "Cart")">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <input type="hidden" name="change" value="-1" /> 
+                    <button class="btn btn-outline-dark" style="color: red" type="submit" title="Scade cantitatea">
+                        -
+                    </button>
+                </form>
+
+                <form method="post" action="@Url.Action("UpdateQuantity", "Cart")">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <input type="hidden" name="change" value="1" /> 
+                    <button class="btn btn-outline-dark" style="color: green" type="submit" title="Crește cantitatea">
+                        +
+                    </button>
+                </form>
+
                 @using (Html.BeginForm("DeleteCart", "Cart", FormMethod.Post))
                 {
-                    @Html.HiddenFor(m=>m.Id)
+                    @Html.HiddenFor(m => m.Id)
                     <button class="btn btn-outline-dark" style="color: orangered" type="submit" title="Șterge">
                         Șterge
                     </button>
                 }
             </div>
         </div>
-      </div>
+    </div>
 </div>

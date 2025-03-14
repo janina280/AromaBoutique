@@ -1,5 +1,6 @@
 ﻿using DataBaseLayout;
 using DataBaseLayout.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Perfume.Repositories.Interfaces;
 
@@ -84,5 +85,19 @@ public class ShoppingCartPerfumeRepository : IShoppingCartPerfumeRepository
         _context.ShoppingCartPerfumes.Remove(shoppingCartPerfume);
 
         await _context.SaveChangesAsync();
+    }
+
+    [HttpPost]
+    public async Task UpdateShoppingCartPerfumeAsync(ShoppingCartPerfume cartItem)
+    {
+        
+        var existingItem = await _context.ShoppingCartPerfumes.FindAsync(cartItem.Id);
+        if (existingItem != null)
+        {
+            
+            existingItem.Quantity = cartItem.Quantity;
+            _context.ShoppingCartPerfumes.Update(existingItem);
+            await _context.SaveChangesAsync();
+        }
     }
 }
