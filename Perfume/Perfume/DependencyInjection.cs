@@ -29,6 +29,8 @@ public static class DependencyInjection
         services.AddScoped<IPerfumeService, PerfumeService>();
         services.AddScoped<IPromotionService, PromotionService>();
 
+        services.AddScoped<ISearchEngine, SearchEngine>();
+
         services.AddScoped<IImageConvertorService, ImageConvertorService>();
 
         return services;

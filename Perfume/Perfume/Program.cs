@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Perfume;
 using Perfume.Constants;
 using Perfume.Repositories.Interfaces;
+using Perfume.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,10 +24,11 @@ builder.Services.AddIdentity<User, Role>(options =>
         options.User.RequireUniqueEmail = true;
 
         options.Password.RequiredLength = 8;
-
     }).AddEntityFrameworkStores<Context>()
     .AddDefaultTokenProviders();
 await DefaultDataAsync();
+await LuceneIndexAsync();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -50,6 +52,15 @@ app.MapControllerRoute(
 
 app.Run();
 
+
+async Task LuceneIndexAsync()
+{
+    var searchEngine = builder.Services.BuildServiceProvider().GetService<ISearchEngine>();
+
+    await searchEngine.GetDataAsync();
+    searchEngine.Index();
+}
+
 async Task DefaultDataAsync()
 {
     var roleManager = builder.Services.BuildServiceProvider().GetService<RoleManager<Role>>();
@@ -67,6 +78,7 @@ async Task DefaultDataAsync()
         {
             throw new Exception(result.Errors.FirstOrDefault()?.Description);
         }
+
         result = await roleManager.CreateAsync(new Role()
         {
             Id = Guid.NewGuid(),
@@ -123,6 +135,7 @@ async Task DefaultDataAsync()
             Name = "bărbați"
         });
     }
+
     category = await categoryRepository.GetPerfumeCategoryAsync("femei");
     if (category == null)
     {

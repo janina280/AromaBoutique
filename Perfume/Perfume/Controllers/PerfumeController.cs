@@ -11,6 +11,7 @@ using Perfume.Repositories.Interfaces;
 using Perfume.Services;
 using Perfume.Services.Interfaces;
 using System.IO;
+using System.Text;
 
 namespace Perfume.Controllers;
 
@@ -23,13 +24,16 @@ public class PerfumeController : Controller
     private readonly IPerfumeCategoryRepository _perfumeCategoryRepository;
     private readonly IWishRepository _wishRepository;
     private readonly IUserRepository _userRepository;
+
+    private readonly ISearchEngine _searchEngine;
+
     public PerfumeController(
         IShoppingCartPerfumeRepository shoppingCartPerfumeRepository,
         IBrandRepository brandRepository,
         IPerfumeService perfumeService,
         IPerfumeRepository perfumeRepository,
         IPerfumeCategoryRepository perfumeCategoryRepository,
-        IWishRepository wishRepository, IUserRepository userRepository)
+        IWishRepository wishRepository, IUserRepository userRepository, ISearchEngine searchEngine)
     {
         _shoppingCartPerfumeRepository = shoppingCartPerfumeRepository;
         _brandRepository = brandRepository;
@@ -38,7 +42,7 @@ public class PerfumeController : Controller
         _perfumeCategoryRepository = perfumeCategoryRepository;
         _wishRepository = wishRepository;
         _userRepository = userRepository;
-
+        _searchEngine = searchEngine;
     }
 
     [HttpGet]
@@ -50,9 +54,89 @@ public class PerfumeController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> PerfumesAsync(int pg = 1, string sortOrder = null, string category = null, string brand = null)
+    public async Task<IActionResult> AddPerfumeAsync()
     {
-        var perfumes = await _perfumeService.GetPerfumesAsync();
+        await SetViewBagForBrandsAsync();
+        await SetViewBagForCategoriesAsync();
+
+        return View();
+    }
+
+
+    [HttpPost]
+    [Authorize(Roles = Roles.Administrator)]
+    public async Task<IActionResult> AddPerfumeAsync(AddPerfumeModel model)
+    {
+        await SetViewBagForBrandsAsync();
+        await SetViewBagForCategoriesAsync();
+
+
+        var id = await _perfumeService.AddPerfumeAsync(model);
+
+        _searchEngine.AddToIndex(id, model.Description);
+        return RedirectToAction("Perfumes", "Perfume");
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> AddToWishListAsync(PerfumeModel model)
+    {
+        var user = await _userRepository.GetUserAsync(User.Identity.Name);
+        await _wishRepository.CreateWishAsync(new Wish()
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            PerfumeId = model.Id,
+        });
+        return RedirectToAction("Perfumes", "Perfume");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddToShoppingCartAsync(PerfumeModel model)
+    {
+        var user = await _userRepository.GetUserAsync(User.Identity.Name);
+        await _shoppingCartPerfumeRepository.CreateShoppingCartPerfumeAsync(new ShoppingCartPerfume()
+            {
+                PerfumeId = model.Id,
+                UserId = user.Id,
+                Id = Guid.NewGuid()
+            }
+        );
+
+        return RedirectToAction("Perfumes", "Perfume");
+    }
+
+    public async Task<IActionResult> Perfumes(string searchString, int pg = 1, string sortOrder = null,
+        string category = null,
+        string brand = null)
+    {
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            //HttpContext.Session.Set("SearchString", Encoding.UTF8.GetBytes(searchString));
+        }
+        else
+        {
+            //searchString = HttpContext.Session.GetString("SearchString")!;
+        }
+
+        var perfumes = new List<PerfumeModel>();
+
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            await _searchEngine.GetDataAsync();
+            _searchEngine.Index();
+            var perfumeIds = _searchEngine.Search(searchString);
+
+            foreach (var perfumeId in perfumeIds)
+            {
+                perfumes.Add(await _perfumeService.GetPerfumeAsync(Guid.Parse(perfumeId)));
+            }
+        }
+        else
+        {
+            perfumes = await _perfumeService.GetPerfumesAsync();
+        }
+
         Console.WriteLine($"{category}");
 
         // Filtrare după brand
@@ -64,7 +148,6 @@ public class PerfumeController : Controller
         if (!string.IsNullOrEmpty(category))
         {
             perfumes = perfumes.Where(p => p.PerfumeCategory.Name == category).ToList();
-
         }
 
         // Sortare
@@ -93,69 +176,6 @@ public class PerfumeController : Controller
         this.ViewBag.Pager = pager;
 
         return View(data);
-    }
-
-
-    [HttpGet]
-    public async Task<IActionResult> AddPerfumeAsync()
-    {
-        await SetViewBagForBrandsAsync();
-        await SetViewBagForCategoriesAsync();
-
-        return View();
-    }
-
-
-    [HttpPost]
-    [Authorize(Roles = Roles.Administrator)]
-    public async Task<IActionResult> AddPerfumeAsync(AddPerfumeModel model)
-    {
-        await SetViewBagForBrandsAsync();
-        await SetViewBagForCategoriesAsync();
-
-
-        await _perfumeService.AddPerfumeAsync(model);
-        return RedirectToAction("Perfumes", "Perfume");
-    }
-
-
-
-    [HttpPost]
-    public async Task<IActionResult> AddToWishListAsync(PerfumeModel model)
-    {
-        var user = await _userRepository.GetUserAsync(User.Identity.Name);
-        await _wishRepository.CreateWishAsync(new Wish()
-        {
-            Id = Guid.NewGuid(),
-            UserId = user.Id,
-            PerfumeId = model.Id,
-        });
-        return RedirectToAction("Perfumes", "Perfume");
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> AddToShoppingCartAsync(PerfumeModel model)
-    {
-        var user = await _userRepository.GetUserAsync(User.Identity.Name);
-        await _shoppingCartPerfumeRepository.CreateShoppingCartPerfumeAsync(new ShoppingCartPerfume()
-        {
-            PerfumeId = model.Id,
-            UserId = user.Id,
-            Id = Guid.NewGuid()
-        }
-        );
-
-        return RedirectToAction("Perfumes", "Perfume");
-    }
-    public async Task<IActionResult> Perfumes(string searchString)
-    {
-        var perfumes = await _perfumeService.GetPerfumesAsync();
-        //Search functionality
-        if (!String.IsNullOrEmpty(searchString))
-        {
-            perfumes = perfumes.Where(p => p.PerfumeTitle.Contains(searchString) || p.BrandTitle.Contains(searchString))
-                .ToList();
-        }
 
         return View(perfumes);
     }
@@ -165,6 +185,8 @@ public class PerfumeController : Controller
     public async Task<IActionResult> DeletePerfumeAsync(PerfumeModel model)
     {
         await _perfumeRepository.DeletePerfumeAsync(model.Id);
+
+        _searchEngine.DeleteFromIndex(model.Id.ToString());
 
         return RedirectToAction("Perfumes", "Perfume");
     }
@@ -178,6 +200,7 @@ public class PerfumeController : Controller
             Value = b.Name,
         });
     }
+
     private async Task SetViewBagForCategoriesAsync()
     {
         var categories = await _perfumeCategoryRepository.GetPerfumeCategoriesAsync();
@@ -194,7 +217,7 @@ public class PerfumeController : Controller
         var perfume = await _perfumeService.GetPerfumeAsync(id);
 
         using MemoryStream ms = new MemoryStream();
-        
+
         var writer = new PdfWriter(ms);
         var pdf = new PdfDocument(writer);
         var document = new Document(pdf);
@@ -211,7 +234,6 @@ public class PerfumeController : Controller
             .SetFontSize(12));
 
         document.Close();
-
         return File(ms.ToArray(), "application/pdf", $"{perfume.PerfumeTitle}_Description.pdf");
     }
 
@@ -228,18 +250,16 @@ public class PerfumeController : Controller
         var trie = new Trie();
         foreach (var perfume in perfumes)
         {
-            trie.Insert(perfume.Name); 
+            trie.Insert(perfume.Name);
         }
+
         var matchingPerfumes = trie.StartsWith(searchTerm)
             .Select(name => perfumes.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase)))
             .Where(p => p != null)
-            .Take(5) 
-            .Select(p => new { p.Id, p.Name }) 
+            .Take(5)
+            .Select(p => new { p.Id, p.Name })
             .ToList();
 
         return Json(matchingPerfumes);
     }
-
-
-
 }

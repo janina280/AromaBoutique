@@ -11,7 +11,8 @@ public class PerfumeService : IPerfumeService
     private readonly IPerfumeCategoryRepository _perfumeCategoryRepository;
     private readonly IImageConvertorService _imageConvertorService;
 
-    public PerfumeService(IPerfumeRepository perfumeRepository, IPerfumeCategoryRepository perfumeCategoryRepository, IBrandRepository brandRepository, IImageConvertorService imageConvertorService)
+    public PerfumeService(IPerfumeRepository perfumeRepository, IPerfumeCategoryRepository perfumeCategoryRepository,
+        IBrandRepository brandRepository, IImageConvertorService imageConvertorService)
     {
         _perfumeRepository = perfumeRepository;
         _perfumeCategoryRepository = perfumeCategoryRepository;
@@ -44,8 +45,8 @@ public class PerfumeService : IPerfumeService
                 Description = perfume.Description
             });
         }
-        return perfumesDto;
 
+        return perfumesDto;
     }
 
     public async Task<PerfumeModel> GetPerfumeAsync(Guid id)
@@ -66,20 +67,20 @@ public class PerfumeService : IPerfumeService
             PerfumeTitle = perfume.Name,
             Rating = perfume.Rating,
             Id = perfume.Id,
-            DisplayImage = await _imageConvertorService.ConvertFormFileToImageAsync(img), 
+            DisplayImage = await _imageConvertorService.ConvertFormFileToImageAsync(img),
             PerfumeCategory = perfume.PerfumeCategory
         };
         return perfumeDto;
     }
 
-    public async Task AddPerfumeAsync(AddPerfumeModel model)
+    public async Task<string> AddPerfumeAsync(AddPerfumeModel model)
     {
         var brand = await _brandRepository.GetBrandAsync(model.Brand);
         var category = await _perfumeCategoryRepository.GetPerfumeCategoryAsync(model.Category);
-
+        var id = Guid.NewGuid();
         var perfume = new DataBaseLayout.Models.Perfume()
         {
-            Id = Guid.NewGuid(),
+            Id = id,
             Currency = model.Currency,
             Description = model.Description,
             Price = model.Price,
@@ -96,6 +97,8 @@ public class PerfumeService : IPerfumeService
             ImageName = model.Image.Name
         };
         await _perfumeRepository.CreatePerfumeAsync(perfume);
+
+        return id.ToString();
     }
 
     public async Task DeletePerfumeAsync(Guid id)

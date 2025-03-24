@@ -8,7 +8,7 @@ public interface IPerfumeService
 
     Task<PerfumeModel> GetPerfumeAsync(Guid id);
 
-    Task AddPerfumeAsync(AddPerfumeModel model);
+    Task<string> AddPerfumeAsync(AddPerfumeModel model);
 
     Task DeletePerfumeAsync(Guid id);
 }
