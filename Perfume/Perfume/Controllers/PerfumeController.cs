@@ -193,14 +193,12 @@ public class PerfumeController : Controller
     {
         var perfume = await _perfumeService.GetPerfumeAsync(id);
 
-        // Creare PDF
         using MemoryStream ms = new MemoryStream();
-        // Crearea unui obiect PdfWriter și asocierea cu MemoryStream
+        
         var writer = new PdfWriter(ms);
         var pdf = new PdfDocument(writer);
         var document = new Document(pdf);
 
-        // Adăugarea titlului și descrierii parfumului în PDF
         document.Add(new Paragraph($"Perfume: {perfume.PerfumeTitle}")
             .SetFontSize(20));
         document.Add(new Paragraph($"Brand: {perfume.BrandTitle}")
@@ -212,10 +210,8 @@ public class PerfumeController : Controller
         document.Add(new Paragraph($"Description: {perfume.Description}")
             .SetFontSize(12));
 
-        // Închide documentul PDF
         document.Close();
 
-        // Returnează fișierul PDF
         return File(ms.ToArray(), "application/pdf", $"{perfume.PerfumeTitle}_Description.pdf");
     }
 
@@ -229,14 +225,11 @@ public class PerfumeController : Controller
 
         var perfumes = await _perfumeRepository.GetPerfumesAsync();
 
-        // Creăm un Trie și adăugăm numele parfumurilor
         var trie = new Trie();
         foreach (var perfume in perfumes)
         {
-            trie.Insert(perfume.Name); // Adăugăm fiecare nume de parfum în Trie
+            trie.Insert(perfume.Name); 
         }
-
-        // Căutăm prefixurile care se potrivesc cu termenul de căutare
         var matchingPerfumes = trie.StartsWith(searchTerm)
             .Select(name => perfumes.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase)))
             .Where(p => p != null)

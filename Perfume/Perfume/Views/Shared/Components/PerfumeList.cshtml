@@ -1,0 +1,15 @@
+﻿@model List<PerfumeModel>
+
+@if (!Model.Any())
+{
+    <p>Nu s-au găsit parfumuri!</p>
+}
+
+<div class="row p-2 g-2">
+    @foreach (var perfume in Model)
+    {
+        <div class="col col-3">
+            @await Html.PartialAsync("Components/PerfumeCard", perfume)
+        </div>
+    }
+</div>
