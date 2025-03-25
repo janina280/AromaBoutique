@@ -49,7 +49,7 @@ public class PerfumeController : Controller
     public async Task<IActionResult> PerfumeAsync(string id)
     {
         var perfume = await _perfumeService.GetPerfumeAsync(Guid.Parse(id));
-
+        ViewBag.SearchString = "";
         return View(perfume);
     }
 
@@ -112,11 +112,7 @@ public class PerfumeController : Controller
     {
         if (!string.IsNullOrEmpty(searchString))
         {
-            //HttpContext.Session.Set("SearchString", Encoding.UTF8.GetBytes(searchString));
-        }
-        else
-        {
-            //searchString = HttpContext.Session.GetString("SearchString")!;
+            ViewBag.SearchString = searchString;
         }
 
         var perfumes = new List<PerfumeModel>();
@@ -176,8 +172,6 @@ public class PerfumeController : Controller
         this.ViewBag.Pager = pager;
 
         return View(data);
-
-        return View(perfumes);
     }
 
     [HttpPost]
